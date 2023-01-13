@@ -10,8 +10,4 @@ jobs:
       - run: npm install
       - run: npm run lint-check
       - run: npm run format-check
-      - run: npm run register
-        env:
-          DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
-          DISCORD_APPLICATION_ID: ${{secrets.DISCORD_APPLICATION_ID}}
-          DISCORD_TEST_GUILD_ID: ${{secrets.DISCORD_TEST_GUILD_ID}}
+      - run: npm test
