@@ -2,7 +2,7 @@
 
 This is a discord bot for RealDevSquad discord server capable of using slash commands.
 
-This bot is written ibn TypeScript and will be hosted on cloudflare workers. Cloudflare workers provide us with a serverless environment to run our code.
+The bot is written in TypeScript and will be hosted on cloudflare workers. Cloudflare workers provide us with a serverless environment to run our code.
 
 In case you are thinking of using any NPM package on it please check if it is compatible with the Cloudflare workers.
 You can do so by visiting the following link: https://workers.cloudflare.com/works
