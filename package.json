@@ -40,7 +40,8 @@
   },
   "pre-commit": [
     "lint-check",
-    "format-check"
+    "format-check",
+    "test"
   ],
   "volta": {
     "node": "18.12.1"
