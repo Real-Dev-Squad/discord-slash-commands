@@ -9,6 +9,13 @@ import { registerCommands } from "./utils/registerCommands";
 
 config();
 
+/**
+ *
+ * @param discordBotToken { String }: Token for your Discord Bot
+ * @param discordApplicationId { String }: Application Id of your discord bot
+ * @param discordGuildId { String }: Guild id in which commands are to be installed.
+ */
+
 async function registerGuildCommands(
   discordBotToken?: string,
   discordApplicationId?: string,
