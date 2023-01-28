@@ -43,3 +43,9 @@ To fix the formatting issue use
 ```
 npm run format-fix
 ```
+
+We are using `itty-router` over here which is a light weight router designed for cloudflare workers.
+In case you are interested in it you could read more about it here:
+
+- https://github.com/kwhitley/itty-router
+- https://developers.cloudflare.com/pages/tutorials/build-an-api-with-workers/

@@ -4,12 +4,12 @@
   "description": "",
   "scripts": {
     "start": "wrangler dev",
-    "test": "jest --coverage",
+    "test": "echo 'running tests 🧪' && jest --coverage && echo '✅ All tests passed'",
     "test-watch": "jest --watch",
     "deploy": "wrangler publish",
-    "lint-check": "echo 'checking your code for linting issues 🤔' && eslint .",
+    "lint-check": "echo 'checking your code for linting issues 🤔' && eslint . && echo '✅ Your code passes lint check'",
     "lint-fix": "eslint --fix .",
-    "format-check": "echo 'Checking the formatting of your code 👨‍💻' && prettier --check .",
+    "format-check": "echo 'Checking the formatting of your code 👨‍💻' && prettier --check . && echo '✅ code matches prettier formatting'",
     "format-fix": "prettier --write .",
     "ngrok": "ngrok http 8787",
     "register": "ts-node-esm src/register.ts"

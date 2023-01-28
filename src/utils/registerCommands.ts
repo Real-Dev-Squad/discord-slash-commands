@@ -1,3 +1,9 @@
+/**
+ *
+ * @param url { String }: DISCORD HTTP end point for command registration
+ * @param discordBotToken { String }: Token of your bot to send as authorization header
+ * @param commands { Array }: Array of commands to be registered
+ */
 import { fetch } from "./fetch";
 import { commandTypes } from "../typeDefinitions/register.types";
 

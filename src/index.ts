@@ -1,19 +1,22 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `wrangler dev src/index.ts` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `wrangler publish src/index.ts --name my-worker` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { Router } from "itty-router";
+import { Env } from "./typeDefinitions/default.types";
 
-export interface Env {
-  [key: string]: string;
-}
+const router = Router();
+
+router.get("/", async () => {
+  return new Response(`{message: "Welcome to our discord Bot Server 👋"}`, {
+    status: 200,
+  });
+});
+
+router.all("*", async () => {
+  return new Response(`{message: "🥹 oops! No fish 🐟 caught 🎣"}`, {
+    status: 404,
+  });
+});
 
 export default {
-  async fetch(): Promise<Response> {
-    return new Response("Hello World!");
+  async fetch(request: Request, env: Env): Promise<Response> {
+    return router.handle(request, env);
   },
 };
