@@ -12,15 +12,19 @@ export async function registerCommands(
   discordBotToken: string,
   commands: Array<commandTypes>
 ) {
-  const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bot ${discordBotToken}`,
-    },
-    method: "PUT",
-    body: JSON.stringify(commands),
-  });
+  try {
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${discordBotToken}`,
+      },
+      method: "PUT",
+      body: JSON.stringify(commands),
+    });
 
-  if (response.ok) console.log("Registered all commands");
-  else console.error("Error Registering Commands");
+    if (response.ok) console.log("Registered all commands");
+    else console.error("Error Registering Commands");
+  } catch (error) {
+    console.error(error);
+  }
 }

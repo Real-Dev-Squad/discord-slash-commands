@@ -37,7 +37,7 @@ async function registerGuildCommands(
 }
 
 registerGuildCommands(
-  process.env.BOT_TOKEN,
+  process.env.DISCORD_TOKEN,
   process.env.DISCORD_APPLICATION_ID,
   process.env.DISCORD_GUILD_ID
 );
