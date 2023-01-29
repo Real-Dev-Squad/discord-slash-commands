@@ -1,6 +1,13 @@
 import { verifyKey } from "discord-interactions";
 import { Env } from "../typeDefinitions/default.types";
 
+/**
+ *
+ * @param request { Request } : request that the worker receives
+ * @param env { Env }: the ctx (contest) which contains the secrets put in as wrangler secrets.
+ * @returns {Boolean}: Returns if the request received is a valid discord request.
+ */
+
 export async function verifyBot(request: Request, env: Env) {
   if (request.method === "POST") {
     const signature = request.headers.get("x-signature-ed25519");

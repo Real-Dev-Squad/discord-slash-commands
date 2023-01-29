@@ -49,3 +49,20 @@ In case you are interested in it you could read more about it here:
 
 - https://github.com/kwhitley/itty-router
 - https://developers.cloudflare.com/pages/tutorials/build-an-api-with-workers/
+
+We need few environment variables for this project to work, they are as follows:
+
+```
+DISCORD_TOKEN: The token generated for your bot while creating a discord application
+DISCORD_PUBLIC_KEY: Public key of your Discord bot helps to verify the bot and apply interaction url
+DISCORD_APPLICATION_ID: The application id of your bot.
+DISCORD_GUILD_ID: Id of the guild where you want to install the slash commands.
+```
+
+To add more commands you need to modify following files:
+
+```
+- src/constants/commands.ts (Export your commands a constant)
+- src/register.ts (import the newly added command here and ass it to the commands array)
+- now run `npm run register`
+```
