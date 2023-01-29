@@ -31,6 +31,7 @@ router.all("*", async () => {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+    console.log(request);
     const isVerifiedRequest = await verifyBot(request, env);
     if (!isVerifiedRequest) {
       console.error("Invalid Request");
