@@ -62,7 +62,7 @@ DISCORD_GUILD_ID: Id of the guild where you want to install the slash commands.
 To add more commands you need to modify following files:
 
 ```
-- src/constants/commands.ts (Export your commands a constant)
-- src/register.ts (import the newly added command here and ass it to the commands array)
+- src/constants/commands.ts (Export your commands as a constant)
+- src/register.ts (import the newly added command here and assign it to the commands array)
 - now run `npm run register`
 ```
