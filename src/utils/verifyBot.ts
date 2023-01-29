@@ -1,7 +1,12 @@
 import { verifyKey } from "discord-interactions";
 import { Env } from "../typeDefinitions/default.types";
-import JSONResponse from "./JsonResponse";
-import * as error from "../constants/errors";
+
+/**
+ *
+ * @param request { Request } : request the worker receives
+ * @param env { Env }: the ctx (context) which contains the secrets put in as wrangler secrets.
+ * @returns {Boolean}: Returns if the request received is a valid discord request.
+ */
 
 export async function verifyBot(request: Request, env: Env) {
   const signature = request.headers.get("x-signature-ed25519");
@@ -9,7 +14,7 @@ export async function verifyBot(request: Request, env: Env) {
   const body = await request.clone().arrayBuffer();
 
   if (signature === null || timestamp === null) {
-    return new JSONResponse(error.BAD_SIGNATURE, { status: 401 });
+    return false;
   }
 
   const isValidRequest = verifyKey(
