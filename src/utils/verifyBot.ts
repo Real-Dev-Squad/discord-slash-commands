@@ -1,5 +1,7 @@
 import { verifyKey } from "discord-interactions";
 import { Env } from "../typeDefinitions/default.types";
+import JSONResponse from "./JsonResponse";
+import * as error from "../constants/errors";
 
 export async function verifyBot(request: Request, env: Env) {
   const signature = request.headers.get("x-signature-ed25519");
@@ -7,7 +9,7 @@ export async function verifyBot(request: Request, env: Env) {
   const body = await request.clone().arrayBuffer();
 
   if (signature === null || timestamp === null) {
-    return new Response("Bad Request signature.", { status: 401 });
+    return new JSONResponse(error.BAD_SIGNATURE, { status: 401 });
   }
 
   const isValidRequest = verifyKey(
