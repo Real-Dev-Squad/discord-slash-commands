@@ -1,6 +1,7 @@
 import { InteractionResponseType, InteractionType } from "discord-interactions";
 import { Router } from "itty-router";
 import * as response from "./constants/responses";
+import { baseHandler } from "./controllers/baseHandler";
 import { Env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
@@ -20,6 +21,9 @@ router.post("/", async (request) => {
     return new JSONResponse({
       type: InteractionResponseType.PONG,
     });
+  }
+  if (message.type === InteractionType.APPLICATION_COMMAND) {
+    return baseHandler(message);
   }
   return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
 });

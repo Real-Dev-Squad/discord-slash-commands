@@ -17,6 +17,10 @@ export interface messageRequestDataOptions {
 }
 
 export interface messageRequestMember {
+  user: memberUser;
+}
+
+export interface memberUser {
   id: number;
   username: string;
 }
