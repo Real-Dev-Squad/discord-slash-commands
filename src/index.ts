@@ -2,7 +2,7 @@ import { Router } from "itty-router";
 import { InteractionResponseType, InteractionType } from "discord-interactions";
 import * as response from "./constants/responses";
 import { baseHandler } from "./controllers/baseHandler";
-import { Env } from "./typeDefinitions/default.types";
+import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
@@ -35,7 +35,7 @@ router.all("*", async () => {
 });
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: env): Promise<Response> {
     if (request.method === "POST") {
       const isVerifiedRequest = await verifyBot(request, env);
       if (!isVerifiedRequest) {

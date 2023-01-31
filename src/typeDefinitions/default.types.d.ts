@@ -1,4 +1,4 @@
-export interface Env {
+export interface env {
   [key: string]: string;
 }
 
