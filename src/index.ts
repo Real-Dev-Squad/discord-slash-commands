@@ -1,7 +1,8 @@
-import { InteractionResponseType, InteractionType } from "discord-interactions";
 import { Router } from "itty-router";
+import { InteractionResponseType, InteractionType } from "discord-interactions";
 import * as response from "./constants/responses";
-import { Env } from "./typeDefinitions/default.types";
+import { baseHandler } from "./controllers/baseHandler";
+import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
@@ -21,6 +22,9 @@ router.post("/", async (request) => {
       type: InteractionResponseType.PONG,
     });
   }
+  if (message.type === InteractionType.APPLICATION_COMMAND) {
+    return baseHandler(message);
+  }
   return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
 });
 
@@ -31,7 +35,7 @@ router.all("*", async () => {
 });
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: env): Promise<Response> {
     if (request.method === "POST") {
       const isVerifiedRequest = await verifyBot(request, env);
       if (!isVerifiedRequest) {

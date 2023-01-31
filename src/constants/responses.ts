@@ -13,3 +13,5 @@ export const BAD_SIGNATURE = {
 export const STATUS_CHECK = {
   message: "Welcome to our discord Bot Server 👋",
 };
+
+export const COMMAND_NOT_FOUND = "Command Not Found";
