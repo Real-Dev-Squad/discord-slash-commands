@@ -1,5 +1,5 @@
-import { InteractionResponseType, InteractionType } from "discord-interactions";
 import { Router } from "itty-router";
+import { InteractionResponseType, InteractionType } from "discord-interactions";
 import * as response from "./constants/responses";
 import { baseHandler } from "./controllers/baseHandler";
 import { Env } from "./typeDefinitions/default.types";
