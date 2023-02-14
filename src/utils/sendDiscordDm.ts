@@ -25,7 +25,6 @@ export const sendDiscordDm = async (userId: number, env: env) => {
           Authorization: `Bot ${env.DISCORD_TOKEN}`,
         },
         body: JSON.stringify({
-          content: discordTextResponse("Hello"),
           recipient_id: userId,
         }),
       }
