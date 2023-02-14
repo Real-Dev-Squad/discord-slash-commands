@@ -26,6 +26,8 @@ jobs:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
           secrets: |
             DISCORD_PUBLIC_KEY
+            DISCORD_TOKEN
         env:
           CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
           DISCORD_PUBLIC_KEY: ${{secrets.DISCORD_PUBLIC_KEY}}
+          DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
