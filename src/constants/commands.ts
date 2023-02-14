@@ -1,4 +1,4 @@
-export const HELLO_COMMAND = {
+export const HELLO = {
   name: "hello",
   description: "Replies with hello in the channel",
 };

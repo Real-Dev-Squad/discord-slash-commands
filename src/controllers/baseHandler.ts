@@ -1,4 +1,4 @@
-import { HELLO_COMMAND, VERIFY } from "../constants/commands";
+import { HELLO, VERIFY } from "../constants/commands";
 import { env } from "../typeDefinitions/default.types";
 import { discordMessageRequest } from "../typeDefinitions/discordMessage.types";
 import { getCommandName } from "../utils/getCommandName";
@@ -14,7 +14,7 @@ export async function baseHandler(
 ): Promise<JSONResponse> {
   const command = lowerCaseMessageCommands(message);
   switch (command) {
-    case getCommandName(HELLO_COMMAND): {
+    case getCommandName(HELLO): {
       return helloCommand(message.member.user.id);
     }
     case getCommandName(VERIFY): {
