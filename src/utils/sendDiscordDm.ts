@@ -5,7 +5,6 @@
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 import { createDmChannel } from "../typeDefinitions/discordMessage.types";
-import { discordTextResponse } from "./discordResponse";
 
 /**
  *
