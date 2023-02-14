@@ -12,7 +12,11 @@ import { createDmChannel } from "../typeDefinitions/discordMessage.types";
  * @param env {env}: contains environment variables
  */
 
-export const sendDiscordDm = async (userId: number, env: env) => {
+export const sendDiscordDm = async (
+  userId: number,
+  env: env,
+  token: string
+) => {
   // "/users/@me/channels" is an endpoint provided by discord to create a dm channel
   try {
     const createDmChannel: createDmChannel = await fetch(
@@ -41,7 +45,7 @@ export const sendDiscordDm = async (userId: number, env: env) => {
         Authorization: `Bot ${env.DISCORD_TOKEN}`,
       },
       body: JSON.stringify({
-        content: "Hello",
+        content: token,
       }),
     });
   } catch (e) {
