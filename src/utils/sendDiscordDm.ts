@@ -8,14 +8,15 @@ import { createDmChannel } from "../typeDefinitions/discordMessage.types";
 
 /**
  *
- * @param userId {number}: user id of the person using the slash command received from the interaction
- * @param env {env}: contains environment variables
+ * @param userId {number}: user id of the person using the slash command received from the interaction.
+ * @param env {env}: contains environment variables.
+ * @param message {string}: the string you want to send in the dm.
  */
 
 export const sendDiscordDm = async (
   userId: number,
   env: env,
-  token: string
+  message: string
 ) => {
   // "/users/@me/channels" is an endpoint provided by discord to create a dm channel
   try {
@@ -45,7 +46,7 @@ export const sendDiscordDm = async (
         Authorization: `Bot ${env.DISCORD_TOKEN}`,
       },
       body: JSON.stringify({
-        content: token,
+        content: message,
       }),
     });
   } catch (e) {
