@@ -24,3 +24,7 @@ export interface messageMember {
   id: number;
   username: string;
 }
+
+export interface createDmChannel {
+  id: number;
+}

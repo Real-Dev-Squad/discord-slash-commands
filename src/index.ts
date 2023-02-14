@@ -15,7 +15,7 @@ router.get("/", async () => {
   });
 });
 
-router.post("/", async (request) => {
+router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
   if (message.type === InteractionType.PING) {
     return new JSONResponse({
@@ -23,7 +23,7 @@ router.post("/", async (request) => {
     });
   }
   if (message.type === InteractionType.APPLICATION_COMMAND) {
-    return baseHandler(message);
+    return baseHandler(message, env);
   }
   return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
 });
