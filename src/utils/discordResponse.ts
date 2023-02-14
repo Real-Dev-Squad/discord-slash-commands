@@ -1,8 +1,9 @@
+import { InteractionResponseType } from "discord-interactions";
 import JSONResponse from "./JsonResponse";
 
-export const DISCORD_RESPONSE = (reply: string): JSONResponse => {
+export const discordTextResponse = (reply: string): JSONResponse => {
   return new JSONResponse({
-    type: 4,
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: reply,
     },

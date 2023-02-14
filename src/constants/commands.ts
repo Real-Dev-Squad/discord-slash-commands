@@ -3,14 +3,8 @@ export const HELLO_COMMAND = {
   description: "Replies with hello in the channel",
 };
 
-export const GENERATE_LINK = {
-  name: "link",
+export const VERIFY = {
+  name: "verify",
   description:
     "Generate a link with user specific token to link with RDS backend.",
-};
-
-export const APPLY_CHANGE = {
-  name: "change",
-  description:
-    "command to be run after /link to change discord details of user.",
 };
