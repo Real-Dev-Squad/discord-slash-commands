@@ -6,7 +6,7 @@ import { sendDiscordDm } from "../utils/sendDiscordDm";
 
 export async function verifyCommand(userId: number, env: env) {
   const token = await generateUniqueToken();
-  const url = `${VERIFICATION_SITE_URL}/?token=${token}`;
-  await sendDiscordDm(userId, env, url);
+  const message = `${VERIFICATION_SITE_URL}/?token=${token}`;
+  await sendDiscordDm(userId, env, message);
   return discordTextResponse("Please check the DM");
 }
