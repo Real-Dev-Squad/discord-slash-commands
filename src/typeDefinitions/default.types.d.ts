@@ -6,3 +6,10 @@ export interface discordCommand {
   name: string;
   description: string;
 }
+
+export interface responseJson {
+  type: number;
+  data: {
+    content: string;
+  };
+}

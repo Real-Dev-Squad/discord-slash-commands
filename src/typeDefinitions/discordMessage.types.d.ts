@@ -7,7 +7,7 @@ export interface discordMessageRequest {
 
 export interface messageRequestData {
   name: string;
-  options: Array<messageRequestDataOptions>;
+  options?: Array<messageRequestDataOptions>;
 }
 
 export interface messageRequestDataOptions {
