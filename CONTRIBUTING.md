@@ -65,4 +65,9 @@ Now let's link our local development server to our bot.
   - In general information panel you will find a space for `INTERACTIONS ENDPOINT URL`
   - Enter the copied link here and hit save.
 
+To verify if your bot is working:
+
+- Go to the server where your bot was invited
+- run a /hello command and the bot should reply with `Hello <Your_username>`
+
 Now you are ready to contribute to the Repository.
