@@ -1,6 +1,6 @@
 import { env } from "../typeDefinitions/default.types";
 import jwt from "@tsndr/cloudflare-worker-jwt";
-import { RDS_STAGING_API_URL } from "../constants/urls";
+import { BASE_URL } from "../constants/urls";
 
 export const sendUserDiscordData = async (
   token: string,
@@ -8,7 +8,7 @@ export const sendUserDiscordData = async (
   env: env
 ) => {
   const authToken = await jwt.sign(
-    { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 15 },
+    { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 2 },
     env.DISCORD_PRIVATE_KEY,
     { algorithm: "RS256" }
   );
@@ -22,7 +22,7 @@ export const sendUserDiscordData = async (
   };
 
   try {
-    const response = await fetch(`${RDS_STAGING_API_URL}`, {
+    const response = await fetch(`${BASE_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,6 +32,6 @@ export const sendUserDiscordData = async (
     });
     return response.json();
   } catch (err) {
-    console.log("Could not store the token in RDS Backend. Error: ", err);
+    console.log("Error in sending the discord user data. Error: ", err);
   }
 };
