@@ -1,3 +1,4 @@
+import { INTERNAL_SERVER_ERROR } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 
@@ -20,8 +21,8 @@ export async function updateNickName(
     if (nameChangeResponse.ok) {
       return await nameChangeResponse.json();
     }
-    return "Some internal Server error occurred";
   } catch (error) {
     console.log(error);
+    return INTERNAL_SERVER_ERROR;
   }
 }

@@ -15,3 +15,6 @@ export const STATUS_CHECK = {
 };
 
 export const COMMAND_NOT_FOUND = "Command Not Found";
+
+export const INTERNAL_SERVER_ERROR =
+  "Oops! We have encountered an internal Server Error";
