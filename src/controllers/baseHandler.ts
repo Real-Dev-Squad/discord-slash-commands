@@ -18,7 +18,12 @@ export async function baseHandler(
       return helloCommand(message.member.user.id);
     }
     case getCommandName(VERIFY): {
-      return await verifyCommand(message.member.user.id, env);
+      return await verifyCommand(
+        message.member.user.id,
+        message.member.user.avatar,
+        message.member.user.username,
+        env
+      );
     }
     default: {
       return commandNotFound();

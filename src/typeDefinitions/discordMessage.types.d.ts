@@ -23,6 +23,7 @@ export interface messageRequestMember {
 export interface messageMember {
   id: number;
   username: string;
+  avatar: string;
 }
 
 export interface createDmChannel {

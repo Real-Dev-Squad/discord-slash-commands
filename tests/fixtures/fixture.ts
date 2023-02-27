@@ -10,6 +10,7 @@ export const dummyHelloMessage: discordMessageRequest = {
     user: {
       id: 123456,
       username: "ritik",
+      avatar: "d1eaa8f8ab5e8235e08e659aef5dfeac",
     },
   },
   guild_id: 123456,
@@ -24,6 +25,7 @@ export const dummyVerifyMessage: discordMessageRequest = {
     user: {
       id: 123456,
       username: "ritik",
+      avatar: "d1eaa8f8ab5e8235e08e659aef5dfeac",
     },
   },
   guild_id: 123456,

@@ -1,10 +1,15 @@
 import { env } from "../typeDefinitions/default.types";
 import jwt from "@tsndr/cloudflare-worker-jwt";
-import { BASE_URL } from "../constants/urls";
+import {
+  DISCORD_AVATAR_BASE_URL,
+  STAGING_API_BASE_URL,
+} from "../constants/urls";
 
 export const sendUserDiscordData = async (
   token: string,
   discordId: number,
+  userAvatarHash: string,
+  userName: string,
   env: env
 ) => {
   const authToken = await jwt.sign(
@@ -17,16 +22,17 @@ export const sendUserDiscordData = async (
     token: token,
     attributes: {
       discordId: discordId,
+      userAvatar: `${DISCORD_AVATAR_BASE_URL}/${discordId}/${userAvatarHash}.jpg`,
+      userName: userName,
       expiry: Date.now() + 1000 * 60 * 2,
     },
   };
-
   try {
-    const response = await fetch(`${BASE_URL}/external-accounts`, {
+    const response = await fetch(`${STAGING_API_BASE_URL}/external-accounts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bot ${authToken}`,
+        Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify(data),
     });
