@@ -22,11 +22,11 @@ export const sendUserDiscordData = async (
   };
 
   try {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(`${BASE_URL}/external-accounts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bot ${authToken}`,
       },
       body: JSON.stringify(data),
     });
