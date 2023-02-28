@@ -36,7 +36,7 @@ export const sendUserDiscordData = async (
       },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return response;
   } catch (err) {
     console.log("Error in sending the discord user data. Error: ", err);
   }
