@@ -1,4 +1,4 @@
-import { env } from "../src/typeDefinitions/default.types";
+import { env, environment } from "../src/typeDefinitions/default.types";
 import {
   RDS_BASE_API_URL,
   RDS_BASE_STAGING_API_URL,
@@ -6,22 +6,19 @@ import {
 } from "../src/constants/urls";
 
 const config = (env: env) => {
-  const environment = { RDS_BASE_API_URL: "" };
+  const environment: environment = {
+    production: {
+      RDS_BASE_API_URL: RDS_BASE_API_URL,
+    },
+    staging: {
+      RDS_BASE_API_URL: RDS_BASE_STAGING_API_URL,
+    },
+    default: {
+      RDS_BASE_API_URL: RDS_BASE_DEVELOPMENT_API_URL,
+    },
+  };
 
-  switch (env.CURRENT_ENVIRONMENT) {
-    case "production":
-      environment.RDS_BASE_API_URL = RDS_BASE_API_URL;
-      break;
-
-    case "staging":
-      environment.RDS_BASE_API_URL = RDS_BASE_STAGING_API_URL;
-      break;
-
-    default:
-      environment.RDS_BASE_API_URL = RDS_BASE_DEVELOPMENT_API_URL;
-  }
-
-  return environment;
+  return environment[env.CURRENT_ENVIRONMENT] || environment.default;
 };
 
 export default config;
