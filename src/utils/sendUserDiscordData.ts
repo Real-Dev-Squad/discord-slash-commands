@@ -14,7 +14,7 @@ export const sendUserDiscordData = async (
 ) => {
   const authToken = await jwt.sign(
     { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 2 },
-    env.DISCORD_PRIVATE_KEY,
+    env.BOT_PRIVATE_KEY,
     { algorithm: "RS256" }
   );
   const data = {
