@@ -4,3 +4,5 @@ export const RDS_BASE_DEVELOPMENT_API_URL = "http://localhost:3000"; // If neede
 
 export const DISCORD_BASE_URL = "https://discord.com/api/v10";
 export const VERIFICATION_SITE_URL = "https://my.realdevsquad.com";
+export const STAGING_API_BASE_URL = "https://staging-api.realdevsquad.com";
+export const DISCORD_AVATAR_BASE_URL = "https://cdn.discordapp.com/avatars";

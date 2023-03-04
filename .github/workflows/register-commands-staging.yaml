@@ -29,9 +29,11 @@ jobs:
             DISCORD_TOKEN
             DISCORD_GUILD_ID
             CURRENT_ENVIRONMENT
+            BOT_PRIVATE_KEY
         env:
           CURRENT_ENVIRONMENT: staging
           CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
           DISCORD_PUBLIC_KEY: ${{secrets.DISCORD_PUBLIC_KEY}}
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
+          BOT_PRIVATE_KEY: ${{secrets.BOT_PRIVATE_KEY}}
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
