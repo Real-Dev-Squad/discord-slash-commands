@@ -27,7 +27,6 @@ export const sendUserDiscordData = async (
       expiry: Date.now() + 1000 * 60 * 2,
     },
   };
-  console.log(data);
   const base_url = config(env).RDS_BASE_API_URL;
   try {
     const response = await fetch(`${base_url}/external-accounts`, {
