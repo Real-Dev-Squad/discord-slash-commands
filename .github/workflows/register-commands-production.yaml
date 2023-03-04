@@ -27,6 +27,7 @@ jobs:
           secrets: |
             DISCORD_PUBLIC_KEY
             DISCORD_TOKEN
+            DISCORD_GUILD_ID
             CURRENT_ENVIRONMENT
             BOT_PRIVATE_KEY
         env:
@@ -35,3 +36,4 @@ jobs:
           DISCORD_PUBLIC_KEY: ${{secrets.DISCORD_PUBLIC_KEY}}
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
           BOT_PRIVATE_KEY: ${{secrets.BOT_PRIVATE_KEY}}
+          DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
