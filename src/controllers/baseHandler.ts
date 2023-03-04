@@ -18,10 +18,12 @@ export async function baseHandler(
       return helloCommand(message.member.user.id);
     }
     case getCommandName(VERIFY): {
+      console.log("inside verify command case");
       return await verifyCommand(
         message.member.user.id,
         message.member.user.avatar,
         message.member.user.username,
+        message.member.user.discriminator,
         env
       );
     }

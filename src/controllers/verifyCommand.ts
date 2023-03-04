@@ -9,6 +9,7 @@ export async function verifyCommand(
   userId: number,
   userAvatarHash: string,
   userName: string,
+  discriminator: string,
   env: env
 ) {
   const token = await generateUniqueToken();
@@ -18,6 +19,7 @@ export async function verifyCommand(
     userId,
     userAvatarHash,
     userName,
+    discriminator,
     env
   );
   if (response?.status === 201) {
