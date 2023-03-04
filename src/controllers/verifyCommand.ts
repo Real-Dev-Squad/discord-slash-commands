@@ -23,7 +23,7 @@ export async function verifyCommand(
     env
   );
   if (response?.status === 201) {
-    const message = `${VERIFICATION_SITE_URL}/?token=${token}`;
+    const message = `${VERIFICATION_SITE_URL}/discord?token=${token}`;
     await sendDiscordDm(userId, env, message);
     return discordTextResponse("Please check the DM");
   } else {
