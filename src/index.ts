@@ -6,6 +6,7 @@ import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
+import { updateNickName } from "./utils/updateNickname";
 
 const router = Router();
 
@@ -13,6 +14,14 @@ router.get("/", async () => {
   return new JSONResponse(response.STATUS_CHECK, {
     status: 200,
   });
+});
+
+router.patch("/", async (request, env) => {
+  const req = await request.json();
+  const discord_id = req.discordId;
+  const nickname = req.username;
+  const res = await updateNickName(discord_id, nickname, env);
+  return new JSONResponse(res);
 });
 
 router.post("/", async (request, env) => {
