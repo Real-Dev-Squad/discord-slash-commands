@@ -8,6 +8,7 @@ export interface environment {
 
 export interface variables {
   RDS_BASE_API_URL: string;
+  VERIFICATION_SITE_URL: string;
 }
 
 export interface discordCommand {

@@ -1,4 +1,4 @@
-import { VERIFICATION_SITE_URL } from "../constants/urls";
+import config from "../../config/config";
 import { env } from "../typeDefinitions/default.types";
 import { discordTextResponse } from "../utils/discordResponse";
 import { generateUniqueToken } from "../utils/generateUniqueToken";
@@ -23,7 +23,8 @@ export async function verifyCommand(
     env
   );
   if (response?.status === 201) {
-    const message = `${VERIFICATION_SITE_URL}/discord?token=${token}`;
+    const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
+    const message = `${verificationSiteURL}/discord?token=${token}`;
     await sendDiscordDm(userId, env, message);
     return discordTextResponse("Please check the DM");
   } else {
