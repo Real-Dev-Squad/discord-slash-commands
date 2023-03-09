@@ -15,6 +15,12 @@ router.get("/", async () => {
   });
 });
 
+router.patch("/", async () => {
+  return new JSONResponse(response.UNKNOWN_INTERACTION, {
+    status: 200,
+  });
+});
+
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
   if (message.type === InteractionType.PING) {
