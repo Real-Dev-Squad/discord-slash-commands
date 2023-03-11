@@ -24,6 +24,7 @@ jobs:
       - uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
+          accountId: ${{secrets.CLOUDFLARE_ACCOUNT_ID}}
           secrets: |
             DISCORD_PUBLIC_KEY
             DISCORD_TOKEN
