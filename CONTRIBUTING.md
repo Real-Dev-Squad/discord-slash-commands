@@ -58,7 +58,7 @@ This will register all the commands to your discord bot.
 
 Now let's link our local development server to our bot.
 
-run the command `npx wrangler publish`
+Run the command `npx wrangler publish`
 
 - After all the commands are installed
 - Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
@@ -85,7 +85,7 @@ To verify if your bot is working:
 Now add the public key in `rds-backend`
 
 - Go to `local.js` in config
-- create following there
+- Create following there
 
 ```
 botToken:{
@@ -94,10 +94,10 @@ botToken:{
 ```
 
 - Start the rds backend
-- open a new terminal in backend and run the following command `npx ngrok http <backend-port>`
+- Open a new terminal and run the following command `npx ngrok http <backend-port>`
 
-- come to `constants.js` in discord-slash-commands
-- go to `src/constants/urls.ts`
-- change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` url generated for rds backend
+- Go to `constants.js` in discord-slash-commands
+- Go to `src/constants/urls.ts`
+- Change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` url generated for rds backend
 
 Now you are ready to contribute to the Repository.
