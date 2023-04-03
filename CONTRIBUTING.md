@@ -60,14 +60,14 @@ Now let's link our local development server to our bot.
 
 run the command `npx wrangler publish`
 
-- After all the commands are installed we need to save few secrets to do that go to:
+- After all the commands are installed
+- Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
+- Now add following variables to your environment:
 
-  - Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
-  - Now add following variables to your environment:
-    - `BOT_PRIVATE_KEY`
-    - `DISCORD_GUILD_ID`
-    - `DISCORD_PUBLIC_KEY`
-    - `DISCORD_TOKEN`
+  - `BOT_PRIVATE_KEY`
+  - `DISCORD_GUILD_ID`
+  - `DISCORD_PUBLIC_KEY`
+  - `DISCORD_TOKEN`
 
 - Now, start the local server with the command `npm start`
 - Once the wrangler starts make sure it is running on port `8787`
