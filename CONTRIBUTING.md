@@ -73,8 +73,8 @@ Next you will have to set up the wranler cli, so that you can connect to your cl
 
 - Now, start the local server with the command `npm start`- make sure it is running on port `8787`
 - Open another terminal and type in the command `npm run ngrok`.
-- `ngrok` creates a secure tunnel that allows a local server to connect to external clients. It provides a url that can be used to connect to a local server, just like if it were a public server hosted somewhere. For eg: Say you're running your app on `http://127.0.0.1:5501/` i.e localhost port 5501. Any external applications cannot connect to this server by default, but `ngrok` will give you a `http(s)` url that any other client can use to connect to this server.
-- You will see 2 urls generated, copy the `https` url (eg: https://765m-321-132-44-44-44.ngrok.io)
+- `ngrok` creates a secure tunnel that allows a local server to connect to external clients. It provides a URL that can be used to connect to a local server, just like if it were a public server hosted somewhere. For eg: Say you're running your app on `http://127.0.0.1:5501/` i.e localhost port 5501. Any external applications cannot connect to this server by default, but `ngrok` will give you a `http(s)` URL that any other client can use to connect to this server.
+- You will see 2 URLs generated, copy the `https` URL (eg: https://765m-321-132-44-44-44.ngrok.io)
 - Now, go to [Discord Developer Portal](https://discord.com/developers/applications) and select your bot
   - In the General Information, paste the link in the `INTERACTIONS ENDPOINT URL` field.
 
@@ -99,6 +99,6 @@ botToken:{
 
 - Go to `constants.js` in discord-slash-commands
 - Go to `src/constants/urls.ts`
-- Change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` url generated for rds backend
+- Change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` URL generated for rds backend
 
 Now you are ready to contribute to the Repository.
