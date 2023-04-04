@@ -10,6 +10,7 @@ To contribute to this project, you have to set up few things first.
 - Create an account on Cloudfare Workers and Discord if you don't already have one
 - Create a personal discord server
 - Fork and clone this repo
+- Install volta - this will check if you have the right node version or not
 - Create a .env file
 
 Next, you need to gather few details that will be crucial for setting up your local environment. The IDs that you will gather in the next steps, will be stored as secret keys on the Cloudfare workers platform, where the application will be hosted.
