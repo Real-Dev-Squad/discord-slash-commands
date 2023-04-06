@@ -1,7 +1,7 @@
 import { InteractionResponseType } from "discord-interactions";
 import JSONResponse from "./JsonResponse";
 
-export const discordEpheremalResponse = async (
+export const discordephemeralResponse = async (
   reply: string,
   discordToken: string
 ): Promise<JSONResponse> => {
