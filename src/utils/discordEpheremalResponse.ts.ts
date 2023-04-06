@@ -1,6 +1,5 @@
 import { InteractionResponseType } from "discord-interactions";
 import JSONResponse from "./JsonResponse";
-import { env } from "../typeDefinitions/default.types";
 
 export const discordEpheremalResponse = async (
   reply: string,
