@@ -2,8 +2,7 @@ import JSONResponse from "../../src/utils/JsonResponse";
 import { discordephemeralResponse } from "../../src/utils/discordEphemeralResponse.ts";
 
 describe("Test discordResponse function", () => {
-  const DISCORD_TOKEN =
-    "MTA3NzQ0MTM5ODE5NTg5NjM1MQ.GaGwMo.tizsDQ4fIbiqUFY9tWcBKjDERknar-bHnowaOY";
+  const DISCORD_TOKEN = "DUMMY TOKEN";
   it("should return a JSONResponse", () => {
     const response = discordephemeralResponse(
       "Dummy token message",
