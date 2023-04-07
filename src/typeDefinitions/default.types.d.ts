@@ -20,5 +20,6 @@ export interface responseJson {
   type: number;
   data: {
     content: string;
+    flags?: number;
   };
 }
