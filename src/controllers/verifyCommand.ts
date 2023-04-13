@@ -1,8 +1,8 @@
 import config from "../../config/config";
+import { RETRY_COMMAND } from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
-import { discordTextResponse } from "../utils/discordResponse";
+import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { generateUniqueToken } from "../utils/generateUniqueToken";
-import { sendDiscordDm } from "../utils/sendDiscordDm";
 import { sendUserDiscordData } from "../utils/sendUserDiscordData";
 
 export async function verifyCommand(
@@ -22,12 +22,11 @@ export async function verifyCommand(
     discriminator,
     env
   );
-  if (response?.status === 201) {
+  if (response?.status === 201 || response?.status === 200) {
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
     const message = `${verificationSiteURL}/discord?token=${token}`;
-    await sendDiscordDm(userId, env, message);
-    return discordTextResponse("Please check the DM");
+    return discordEphemeralResponse(message);
   } else {
-    return discordTextResponse("Error, please use the verify command again. ");
+    return discordEphemeralResponse(RETRY_COMMAND);
   }
 }
