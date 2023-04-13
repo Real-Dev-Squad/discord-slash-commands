@@ -31,7 +31,11 @@ Next, you need to create your own bot. The idea here is that you will have your 
 
 - To create a bot, go to the Bot panel and click on 'Add Bot'
 - Next, copy the token from the dashboard there and save it in the .env file as `DISCORD_TOKEN `.
-- Generate a set of RSA keys 2048 bit in size. We will use them as `BOT_PRIVATE_KEY` and `BOT_PUBLIC_KEY`
+- Next, you have to generate a set of RSA keys 2048 bit in size. We will use them as `BOT_PRIVATE_KEY` and `BOT_PUBLIC_KEY`.
+
+  - You can read more about RSA keys [here](https://www.namecheap.com/support/knowledgebase/article.aspx/798/69/what-is-an-rsa-key-used-for/)
+  - All you need to know for now is that the private and public keys are used when authenticating using JWT.
+  - You can generate your own keys for local development [here](https://cryptotools.net/rsagen)
 
 - Navigate to OAuth2 > URL Generator
   - In scopes select `bot` and `applications.commands`
