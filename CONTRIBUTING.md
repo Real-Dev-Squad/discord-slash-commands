@@ -62,7 +62,7 @@ After providing all the permissions, a URL will be generated below.
 - run `npm install`
 - Now, run the command `npm run register` - this will register all the commands to your discord bot.
 
-Next you will have to set up the wranler cli, so that you can connect to your cloudflare workers account.
+Next you will have to set up the wrangler cli, so that you can connect to your cloudflare workers account.
 
 - run `npx wrangler login` -> You will be prompted to authenticate your account, after which you will see a 'successfully logged in' message in your terminal
 - For a sanity check, run `npx wrangler whoami` -> You will then see your account name and account id in the terminal
