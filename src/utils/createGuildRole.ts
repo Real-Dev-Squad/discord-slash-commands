@@ -1,16 +1,13 @@
 import { INTERNAL_SERVER_ERROR } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
+import { createNewRole } from "../typeDefinitions/discordMessage.types";
 
-export async function createGuildRole(
-  roleName: string,
-  permissions: number,
-  env: env
-) {
+export async function createGuildRole(body: createNewRole, env: env) {
   const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles`;
   const data = {
-    name: roleName,
-    permissions,
+    ...body,
+    name: body.rolename,
   };
   try {
     const response = await fetch(createGuildRoleUrl, {
@@ -21,14 +18,11 @@ export async function createGuildRole(
       },
       body: JSON.stringify(data),
     });
-
-    if (!response.ok) {
-      console.log(response.json());
+    if (response.ok) {
+      return await response.json();
+    } else {
       return INTERNAL_SERVER_ERROR;
     }
-
-    const roleData = await response.json();
-    return roleData;
   } catch (err) {
     console.log(err);
     return INTERNAL_SERVER_ERROR;

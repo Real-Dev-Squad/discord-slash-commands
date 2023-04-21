@@ -30,3 +30,7 @@ export interface messageMember {
 export interface createDmChannel {
   id: number;
 }
+export interface createNewRole {
+  rolename: string;
+  mentionable: boolean;
+}

@@ -4,13 +4,22 @@ import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { IRequest } from "itty-router";
 import { createGuildRole } from "../utils/createGuildRole";
+import { createNewRole } from "../typeDefinitions/discordMessage.types";
 
 export async function createGuildRoleHandler(request: IRequest, env: env) {
-  const req = await request.json();
-  const authorization = request.headers.get("Authorization")?.split(" ")[1];
-  if (await jwt.verify(authorization, env.BOT_PRIVATE_KEY)) {
-    const { roleName, permissions } = req;
-    const res = await createGuildRole(roleName, permissions, env);
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader) {
+    return new JSONResponse(response.BAD_SIGNATURE);
+  }
+  const authToken = authHeader.split(" ")[1];
+  try {
+    await jwt.verify(authToken, env.BOT_PUBLIC_KEY, { algorithm: "RS256" });
+    const body: createNewRole = await request.json();
+
+    const res = await createGuildRole(body, env);
     return new JSONResponse(res);
-  } else return new JSONResponse(response.BAD_SIGNATURE);
+  } catch (err) {
+    console.error(err);
+    return new JSONResponse(response.BAD_SIGNATURE);
+  }
 }

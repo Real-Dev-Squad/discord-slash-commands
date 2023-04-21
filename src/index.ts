@@ -15,6 +15,7 @@ router.get("/", async () => {
     status: 200,
   });
 });
+router.put("/create-guild-role", createGuildRoleHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
@@ -40,8 +41,6 @@ router.post("/", async (request, env) => {
   }
   return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
 });
-
-router.post("/create-guild-role", createGuildRoleHandler);
 
 router.all("*", async () => {
   return new JSONResponse(response.NOT_FOUND, {
