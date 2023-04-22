@@ -6,7 +6,10 @@ import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
-import { createGuildRoleHandler } from "./controllers/createGuildRoleHandler";
+import {
+  addGroupRoleHandler,
+  createGuildRoleHandler,
+} from "./controllers/createGuildRoleHandler";
 
 const router = Router();
 
@@ -15,7 +18,10 @@ router.get("/", async () => {
     status: 200,
   });
 });
+
 router.put("/create-guild-role", createGuildRoleHandler);
+
+router.put("/add-member-role", addGroupRoleHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
