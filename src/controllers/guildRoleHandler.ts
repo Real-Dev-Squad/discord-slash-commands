@@ -3,7 +3,7 @@ import * as response from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { IRequest } from "itty-router";
-import { addGroupRole, createGuildRole } from "../utils/createGuildRole";
+import { addGroupRole, createGuildRole } from "../utils/guildRole";
 import {
   createNewRole,
   memberGroupRole,

@@ -1,7 +1,7 @@
 import { createNewRole } from "../../src/typeDefinitions/discordMessage.types";
 import JSONResponse from "../../src/utils/JsonResponse";
 import * as response from "../../src/constants/responses";
-import { createGuildRole, addGroupRole } from "../../src/utils/createGuildRole";
+import { createGuildRole, addGroupRole } from "../../src/utils/guildRole";
 
 describe("createGuildRole", () => {
   test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
