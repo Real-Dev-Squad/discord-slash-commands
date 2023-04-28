@@ -19,9 +19,9 @@ router.get("/", async () => {
   });
 });
 
-router.put("/create-guild-role", createGuildRoleHandler);
+router.put("/roles/create", createGuildRoleHandler);
 
-router.put("/add-member-role", addGroupRoleHandler);
+router.put("/roles/add", addGroupRoleHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
