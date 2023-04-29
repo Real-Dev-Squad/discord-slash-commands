@@ -9,7 +9,7 @@ import { verifyBot } from "./utils/verifyBot";
 import {
   addGroupRoleHandler,
   createGuildRoleHandler,
-} from "./controllers/createGuildRoleHandler";
+} from "./controllers/guildRoleHandler";
 
 const router = Router();
 
