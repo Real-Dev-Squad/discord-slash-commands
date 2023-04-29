@@ -27,7 +27,6 @@ export async function createGuildRole(body: createNewRole, env: env) {
       return INTERNAL_SERVER_ERROR;
     }
   } catch (err) {
-    console.log(err);
     return INTERNAL_SERVER_ERROR;
   }
 }
@@ -49,7 +48,6 @@ export async function addGroupRole(body: memberGroupRole, env: env) {
       return INTERNAL_SERVER_ERROR;
     }
   } catch (err) {
-    console.log(err);
     return INTERNAL_SERVER_ERROR;
   }
 }
