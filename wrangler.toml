@@ -1,4 +1,4 @@
-name = "discord-slash-commands"
+name = "hello-bot"
 main = "src/index.ts"
 compatibility_date = "2023-01-13"
 node_compat = true
