@@ -5,25 +5,37 @@
 
 ## Getting Started
 
-To work on this project please create an account on Cloudflare and Discord.
-Also, create a personal discord server.
-Copy the guild id of your server and save it in a .env file as `DISCORD_GUILD_ID`
+To contribute to this project, you have to set up few things first.
 
-To get the server ID for the first parameter, open Discord, go to Settings > Advanced and enable developer mode.
-Then, right-click on the server title and select "Copy ID" to get the guild ID.
+- Create an account on Cloudfare Workers and Discord if you don't already have one
+- Create a personal discord server
+- Fork and clone this repo (this is optional; if you are a member of RDS community, you don't have to fork)
+- Install volta - this will check if you have the right node version or not
+- Create a .env file in the root directory of the project
 
+Next, you need to gather few details that will be crucial for setting up your local environment. The IDs that you will gather in the next steps, will be stored as secret keys on the Cloudfare workers platform, where the application will be hosted.
+
+- To get the guild ID of your server :
+  - Open your discord server
+  - Click on the server name in the top-left corner
+  - Click on Server Settings
+  - Click on the Widget tab in the side panel
+  - Copy/paste the Server ID in the .env file as `DISCORD_GUILD_ID`
 - Visit [Discord Developer Portal](https://discord.com/developers/applications)
 - Click on new application.
+- Under the General Information panel
+  - copy/paste the Application ID in the .env file as `DISCORD_APPLICATION_ID`
+  - copy/paste the Public Key in the .env file as `DISCORD_PUBLIC_KEY`
 
-Gather the following details from the Developer portal and save it in a .env file.
+Next, you need to create your own bot. The idea here is that you will have your own bot that can be used to run all commands in your private server. You can add new features and test it there to make sure everything works as expected, before deploying the code on production.
 
-```
-DISCORD_TOKEN: Available in bot panel of your discord bot after clicking reset token button.
-DISCORD_APPLICATION_ID: Available in general panel of your discord bot.
-DISCORD_PUBLIC_KEY: Available in general panel of your discord bot.
-```
+- To create a bot, go to the Bot panel and click on 'Add Bot'
+- Next, copy the token from the dashboard there and save it in the .env file as `DISCORD_TOKEN `.
+- Next, you have to generate a set of RSA keys 2048 bit in size. We will use them as `BOT_PRIVATE_KEY` and `BOT_PUBLIC_KEY`.
 
-Please set Following permissions for your bot:
+  - You can read more about RSA keys [here](https://www.namecheap.com/support/knowledgebase/article.aspx/798/69/what-is-an-rsa-key-used-for/)
+  - All you need to know for now is that the private and public keys are used when authenticating using JWT.
+  - You can generate your own keys for local development [here](https://cryptotools.net/rsagen)
 
 - Navigate to OAuth2 > URL Generator
   - In scopes select `bot` and `applications.commands`
@@ -39,35 +51,59 @@ Please set Following permissions for your bot:
     - Mention Everyone
     - Use slash commands
 
-After providing all the permissions you will get an url at the bottom of the page use that to invite the bot to your server.
+After providing all the permissions, a URL will be generated below.
 
-Open the Url you get and invite the bot to your test server.
+- Copy/paste this URL in a new browser window
+- Select your private server from the dropdown and authorize
+- This will invite the bot to your private discord server
 
 ## Setting Up Local Development
 
-- Clone the Repository to your machine
-- Now, get the .env file created above in the project folder
 - run `npm install`
-- Now, run the command `npm run register`
+- Now, run the command `npm run register` - this will register all the commands to your discord bot.
 
-This will register all the commands to your discord bot.
+Next you will have to set up the wrangler cli, so that you can connect to your cloudflare workers account.
 
-Now let's link our local development server to our bot.
+- run `npx wrangler login` -> You will be prompted to authenticate your account, after which you will see a 'successfully logged in' message in your terminal
+- For a sanity check, run `npx wrangler whoami` -> You will then see your account name and account id in the terminal
 
-- After all the commands are installed we need to save few secrets in wrangler cli.
-  - run command `wrangler secret put DISCORD_TOKEN` and then enter the value of your token.
-  - run command `wrangler secret put DISCORD_PUBLIC_KEY` and enter the public key.
-- Now, start the local server with the command `npm start`
-- Once the wrangler starts make sure it is running on port `8787`
-- Once the server starts on desired port open another terminal and type in the command `npm run ngrok`
-- The above command will give you a `https` link copy that.
+- Run the command `npx wrangler publish`
+- Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
+- Now add following variables to your environment:
+
+  - `BOT_PRIVATE_KEY`
+  - `DISCORD_GUILD_ID`
+  - `DISCORD_PUBLIC_KEY`
+  - `DISCORD_TOKEN`
+
+- Now, start the local server with the command `npm start`- make sure it is running on port `8787`
+- Open another terminal and type in the command `npm run ngrok`.
+- `ngrok` creates a secure tunnel that allows a local server to connect to external clients. It provides a URL that can be used to connect to a local server, just like if it were a public server hosted somewhere. For eg: Say you're running your app on `http://127.0.0.1:5501/` i.e localhost port 5501. Any external applications cannot connect to this server by default, but `ngrok` will give you a `http(s)` URL that any other client can use to connect to this server.
+- You will see 2 URLs generated, copy the `https` URL (eg: https://765m-321-132-44-44-44.ngrok.io)
 - Now, go to [Discord Developer Portal](https://discord.com/developers/applications) and select your bot
-  - In general information panel you will find a space for `INTERACTIONS ENDPOINT URL`
-  - Enter the copied link here and hit save.
+  - In the General Information, paste the link in the `INTERACTIONS ENDPOINT URL` field.
 
 To verify if your bot is working:
 
 - Go to the server where your bot was invited
 - run a /hello command and the bot should reply with `Hello <Your_username>`
+
+Now add the public key in `rds-backend`
+
+- Go to `local.js` in config
+- Create following there
+
+```
+botToken:{
+  botPublicKey:<Public key generated in the format similar to development.js>
+}
+```
+
+- Start the rds backend
+- Open a new terminal and run the following command `npx ngrok http <backend-port>`
+
+- Go to `constants.js` in discord-slash-commands
+- Go to `src/constants/urls.ts`
+- Change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` URL generated for rds backend
 
 Now you are ready to contribute to the Repository.
