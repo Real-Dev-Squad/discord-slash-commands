@@ -6,7 +6,7 @@ import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
-import { getMembersInServer } from "./controllers/getMembersInServer";
+import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.get("/", async () => {
   });
 });
 
-router.get("/discord-members", getMembersInServer);
+router.get("/discord-members", getMembersInServerHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
