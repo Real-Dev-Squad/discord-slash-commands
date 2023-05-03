@@ -38,3 +38,17 @@ export interface memberGroupRole {
   userid: string;
   roleid: string;
 }
+
+export interface guildRoleResponse {
+  id: string;
+  name: string;
+  color: number;
+  hoist: boolean;
+  icon?: string;
+  unicode_emoji?: string;
+  position: number;
+  permissions: string;
+  managed: boolean;
+  mentionable: boolean;
+  tags?: object;
+}

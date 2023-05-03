@@ -1,12 +1,16 @@
-import { INTERNAL_SERVER_ERROR } from "../constants/responses";
+import { INTERNAL_SERVER_ERROR, ROLE_ADDED } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 import {
   createNewRole,
+  guildRoleResponse,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
 
-export async function createGuildRole(body: createNewRole, env: env) {
+export async function createGuildRole(
+  body: createNewRole,
+  env: env
+): Promise<guildRoleResponse | string> {
   const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles`;
   const data = {
     ...body,
@@ -43,7 +47,7 @@ export async function addGroupRole(body: memberGroupRole, env: env) {
       },
     });
     if (response.ok) {
-      return { message: "Role added successfully" };
+      return { message: ROLE_ADDED };
     } else {
       return INTERNAL_SERVER_ERROR;
     }

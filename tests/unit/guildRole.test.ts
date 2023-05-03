@@ -45,7 +45,7 @@ describe("createGuildRole", () => {
 
     const result = await createGuildRole(dummyCreateBody, guildEnv);
 
-    expect(result).toEqual({});
+    expect(result).toEqual(mockResponse);
     expect(global.fetch).toHaveBeenCalledWith(
       `https://discord.com/api/v10/guilds/${guildEnv.DISCORD_GUILD_ID}/roles`,
       {

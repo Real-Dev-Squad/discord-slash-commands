@@ -22,6 +22,7 @@ export async function createGuildRoleHandler(request: IRequest, env: env) {
     const body: createNewRole = await request.json();
 
     const res = await createGuildRole(body, env);
+    console.log(res);
     return new JSONResponse(res);
   } catch (err) {
     return new JSONResponse(response.BAD_SIGNATURE);
