@@ -16,7 +16,9 @@ export async function createGuildRoleHandler(request: IRequest, env: env) {
   }
   const authToken = authHeader.split(" ")[1];
   try {
-    await jwt.verify(authToken, env.BOT_PUBLIC_KEY, { algorithm: "RS256" });
+    await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, {
+      algorithm: "RS256",
+    });
     const body: createNewRole = await request.json();
 
     const res = await createGuildRole(body, env);
@@ -32,7 +34,9 @@ export async function addGroupRoleHandler(request: IRequest, env: env) {
   }
   const authToken = authHeader.split(" ")[1];
   try {
-    await jwt.verify(authToken, env.BOT_PUBLIC_KEY, { algorithm: "RS256" });
+    await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, {
+      algorithm: "RS256",
+    });
     const body: memberGroupRole = await request.json();
 
     const res = await addGroupRole(body, env);
