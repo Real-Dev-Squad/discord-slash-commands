@@ -11,7 +11,7 @@ export const getMembersInServerHandler = async (
   env: env
 ) => {
   const authHeader = request.headers.get("Authorization");
-  console.log(authHeader);
+
   if (!authHeader) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
