@@ -17,7 +17,9 @@ export const getMembersInServerHandler = async (
   }
   try {
     const authToken = authHeader.split(" ")[1];
-    await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, { algorithm: "RS256" });
+    await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, {
+      algorithm: "RS256",
+    });
 
     const users = (await getMembersInServer(env)) as User[];
 
