@@ -17,11 +17,9 @@ export const getMembersInServerHandler = async (
   }
   try {
     const authToken = authHeader.split(" ")[1];
-    console.log(authToken);
-    await jwt.verify(authToken, env.BOT_PUBLIC_KEY, { algorithm: "RS256" });
+    await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, { algorithm: "RS256" });
 
     const users = (await getMembersInServer(env)) as User[];
-    console.log(users);
 
     return new JSONResponse(users);
   } catch (err) {
