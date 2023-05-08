@@ -14,7 +14,6 @@ export const getMembersInServer = async (env: env) => {
     });
     return response.json();
   } catch (err) {
-    console.error(err);
     return response.BAD_SIGNATURE;
   }
 };

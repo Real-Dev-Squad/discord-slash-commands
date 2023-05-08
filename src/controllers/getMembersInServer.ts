@@ -25,7 +25,6 @@ export const getMembersInServerHandler = async (
 
     return new JSONResponse(users);
   } catch (err) {
-    console.error(err);
     return new JSONResponse(response.BAD_SIGNATURE);
   }
 };
