@@ -6,6 +6,7 @@ import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
+import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 
 const router = Router();
 
@@ -14,6 +15,8 @@ router.get("/", async () => {
     status: 200,
   });
 });
+
+router.get("/discord-members", getMembersInServerHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
