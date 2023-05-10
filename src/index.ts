@@ -10,6 +10,7 @@ import {
   addGroupRoleHandler,
   createGuildRoleHandler,
 } from "./controllers/guildRoleHandler";
+import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 
 const router = Router();
 
@@ -35,6 +36,8 @@ router.post("/", async (request, env) => {
   }
   return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
 });
+router.get("/discord-members", getMembersInServerHandler);
+
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
   if (message.type === InteractionType.PING) {
