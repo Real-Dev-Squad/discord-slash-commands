@@ -24,18 +24,6 @@ router.put("/roles/create", createGuildRoleHandler);
 
 router.put("/roles/add", addGroupRoleHandler);
 
-router.post("/", async (request, env) => {
-  const message: discordMessageRequest = await request.json();
-  if (message.type === InteractionType.PING) {
-    return new JSONResponse({
-      type: InteractionResponseType.PONG,
-    });
-  }
-  if (message.type === InteractionType.APPLICATION_COMMAND) {
-    return baseHandler(message, env);
-  }
-  return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
-});
 router.get("/discord-members", getMembersInServerHandler);
 
 router.post("/", async (request, env) => {
