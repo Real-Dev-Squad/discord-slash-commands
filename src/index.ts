@@ -1,18 +1,17 @@
 import { Router } from "itty-router";
 import { InteractionResponseType, InteractionType } from "discord-interactions";
-import jwt from "@tsndr/cloudflare-worker-jwt";
 import * as response from "./constants/responses";
 import { baseHandler } from "./controllers/baseHandler";
 import { env } from "./typeDefinitions/default.types";
 import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
-import { updateNickName } from "./utils/updateNickname";
 import {
   addGroupRoleHandler,
   createGuildRoleHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
+import { changeNickname } from "./controllers/changeNickname";
 
 const router = Router();
 
@@ -22,18 +21,8 @@ router.get("/", async () => {
   });
 });
 
-router.patch("/", async (request, env) => {
-  const req = await request.json();
-  const authorization = await request.headers
-    .get("Authorization")
-    .split(" ")[1];
-  if (await jwt.verify(authorization, env.BOT_PRIVATE_KEY)) {
-    const discord_id = req.discordId;
-    const nickname = req.username;
-    const res = await updateNickName(discord_id, nickname, env);
-    return new JSONResponse(res);
-  } else return new JSONResponse(response.BAD_SIGNATURE);
-});
+router.patch("/change-nickname", changeNickname);
+
 router.put("/roles/create", createGuildRoleHandler);
 
 router.put("/roles/add", addGroupRoleHandler);
