@@ -1,6 +1,5 @@
 import { verifyKey } from "discord-interactions";
 import { env } from "../typeDefinitions/default.types";
-
 /**
  *
  * @param request { Request } : request the worker receives
@@ -23,6 +22,5 @@ export async function verifyBot(request: Request, env: env) {
     timestamp,
     env.DISCORD_PUBLIC_KEY
   );
-
   return isValidRequest;
 }

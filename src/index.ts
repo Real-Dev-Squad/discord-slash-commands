@@ -8,6 +8,11 @@ import { discordMessageRequest } from "./typeDefinitions/discordMessage.types";
 import JSONResponse from "./utils/JsonResponse";
 import { verifyBot } from "./utils/verifyBot";
 import { updateNickName } from "./utils/updateNickname";
+import {
+  addGroupRoleHandler,
+  createGuildRoleHandler,
+} from "./controllers/guildRoleHandler";
+import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 
 const router = Router();
 
@@ -29,6 +34,11 @@ router.patch("/", async (request, env) => {
     return new JSONResponse(res);
   } else return new JSONResponse(response.BAD_SIGNATURE);
 });
+router.put("/roles/create", createGuildRoleHandler);
+
+router.put("/roles/add", addGroupRoleHandler);
+
+router.get("/discord-members", getMembersInServerHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();

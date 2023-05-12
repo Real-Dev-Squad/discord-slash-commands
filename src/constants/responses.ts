@@ -18,3 +18,8 @@ export const COMMAND_NOT_FOUND = "Command Not Found";
 
 export const INTERNAL_SERVER_ERROR =
   "Oops! We have encountered an internal Server Error";
+
+export const RETRY_COMMAND =
+  "Oops, we didn't catch that! Please use the command again.";
+
+export const ROLE_ADDED = "Role added successfully";
