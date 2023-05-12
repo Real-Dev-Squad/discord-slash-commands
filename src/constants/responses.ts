@@ -21,3 +21,5 @@ export const INTERNAL_SERVER_ERROR =
 
 export const RETRY_COMMAND =
   "Oops, we didn't catch that! Please use the command again.";
+
+export const ROLE_ADDED = "Role added successfully";

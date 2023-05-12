@@ -1,4 +1,8 @@
-import { discordMessageRequest } from "../../src/typeDefinitions/discordMessage.types";
+import {
+  createNewRole,
+  discordMessageRequest,
+  memberGroupRole,
+} from "../../src/typeDefinitions/discordMessage.types";
 import { InteractionType } from "discord-interactions";
 
 export const dummyHelloMessage: discordMessageRequest = {
@@ -31,4 +35,19 @@ export const dummyVerifyMessage: discordMessageRequest = {
     },
   },
   guild_id: 123456,
+};
+
+export const dummyCreateBody: createNewRole = {
+  rolename: "test role",
+  mentionable: true,
+};
+
+export const dummyAddRoleBody: memberGroupRole = {
+  userid: "abcd1234",
+  roleid: "defg5678",
+};
+
+export const guildEnv = {
+  DISCORD_GUILD_ID: "1234",
+  DISCORD_TOKEN: "abcd",
 };
