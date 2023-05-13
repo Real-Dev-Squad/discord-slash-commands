@@ -1,6 +1,6 @@
-import { DISCORD_BASE_URL } from "../../src/constants/urls";
-import JSONResponse from "../../src/utils/JsonResponse";
-import { getMembersInServer } from "../../src/utils/getMembersInServer";
+import { DISCORD_BASE_URL } from "../../../src/constants/urls";
+import JSONResponse from "../../../src/utils/JsonResponse";
+import { getMembersInServer } from "../../../src/utils/getMembersInServer";
 
 describe("getMembersInServer", () => {
   const mockEnv = {

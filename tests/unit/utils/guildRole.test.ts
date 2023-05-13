@@ -1,11 +1,11 @@
-import JSONResponse from "../../src/utils/JsonResponse";
-import * as response from "../../src/constants/responses";
-import { createGuildRole, addGroupRole } from "../../src/utils/guildRole";
+import JSONResponse from "../../../src/utils/JsonResponse";
+import * as response from "../../../src/constants/responses";
+import { createGuildRole, addGroupRole } from "../../../src/utils/guildRole";
 import {
   dummyAddRoleBody,
   dummyCreateBody,
   guildEnv,
-} from "../fixtures/fixture";
+} from "../../fixtures/fixture";
 
 describe("createGuildRole", () => {
   test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
