@@ -20,8 +20,6 @@ export async function updateNickName(
     });
     if (nameChangeResponse.ok) {
       return NAME_CHANGED;
-    } else {
-      return INTERNAL_SERVER_ERROR;
     }
   } catch (error) {
     console.log(error);
