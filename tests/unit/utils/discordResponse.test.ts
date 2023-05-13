@@ -1,7 +1,7 @@
 import { InteractionResponseType } from "discord-interactions";
-import { responseJson } from "../../src/typeDefinitions/default.types";
-import { discordTextResponse } from "../../src/utils/discordResponse";
-import JSONResponse from "../../src/utils/JsonResponse";
+import { responseJson } from "../../../src/typeDefinitions/default.types";
+import { discordTextResponse } from "../../../src/utils/discordResponse";
+import JSONResponse from "../../../src/utils/JsonResponse";
 
 describe("Test discordResponse function", () => {
   it("should return a JSONResponse", () => {

@@ -1,5 +1,5 @@
-import { lowerCaseMessageCommands } from "../../src/utils/lowerCaseMessageCommand";
-import { dummyHelloMessage, dummyVerifyMessage } from "../fixtures/fixture";
+import { lowerCaseMessageCommands } from "../../../src/utils/lowerCaseMessageCommand";
+import { dummyHelloMessage, dummyVerifyMessage } from "../../fixtures/fixture";
 
 describe("Test LowerCaseMessageCommand function", () => {
   it("Should return the `HELLO` message in lower case", () => {
