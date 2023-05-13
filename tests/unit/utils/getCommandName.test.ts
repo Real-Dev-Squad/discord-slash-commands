@@ -1,5 +1,5 @@
-import { HELLO, VERIFY } from "../../src/constants/commands";
-import { getCommandName } from "../../src/utils/getCommandName";
+import { HELLO, VERIFY } from "../../../src/constants/commands";
+import { getCommandName } from "../../../src/utils/getCommandName";
 
 describe("Test getCommandName function", () => {
   it("Returns hello command name in lower case", () => {

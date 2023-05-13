@@ -11,6 +11,7 @@ import {
   createGuildRoleHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
+import { changeNickname } from "./controllers/changeNickname";
 
 const router = Router();
 
@@ -19,6 +20,8 @@ router.get("/", async () => {
     status: 200,
   });
 });
+
+router.patch("/guild/member", changeNickname);
 
 router.put("/roles/create", createGuildRoleHandler);
 
