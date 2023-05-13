@@ -22,7 +22,6 @@ export async function updateNickName(
       return NAME_CHANGED;
     }
   } catch (error) {
-    console.log(error);
     return INTERNAL_SERVER_ERROR;
   }
 }
