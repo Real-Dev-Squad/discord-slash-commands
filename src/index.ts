@@ -21,7 +21,7 @@ router.get("/", async () => {
   });
 });
 
-router.patch("/change-nickname", changeNickname);
+router.patch("/name/update", changeNickname);
 
 router.put("/roles/create", createGuildRoleHandler);
 
