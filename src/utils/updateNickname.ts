@@ -1,4 +1,4 @@
-import { INTERNAL_SERVER_ERROR } from "../constants/responses";
+import { INTERNAL_SERVER_ERROR, NAME_CHANGED } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 
@@ -19,13 +19,9 @@ export async function updateNickName(
       body: JSON.stringify(data),
     });
     if (nameChangeResponse.ok) {
-      return await nameChangeResponse.json();
-    } else {
-      console.log(nameChangeResponse.json());
-      return INTERNAL_SERVER_ERROR;
+      return NAME_CHANGED;
     }
   } catch (error) {
-    console.log(error);
     return INTERNAL_SERVER_ERROR;
   }
 }
