@@ -23,3 +23,5 @@ export const RETRY_COMMAND =
   "Oops, we didn't catch that! Please use the command again.";
 
 export const ROLE_ADDED = "Role added successfully";
+
+export const NAME_CHANGED = "User nickname change successful";
