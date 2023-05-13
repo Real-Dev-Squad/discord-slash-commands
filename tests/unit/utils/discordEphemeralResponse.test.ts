@@ -1,7 +1,7 @@
 import { InteractionResponseType } from "discord-interactions";
-import { responseJson } from "../../src/typeDefinitions/default.types";
-import JSONResponse from "../../src/utils/JsonResponse";
-import { discordEphemeralResponse } from "../../src/utils/discordEphemeralResponse";
+import { responseJson } from "../../../src/typeDefinitions/default.types";
+import JSONResponse from "../../../src/utils/JsonResponse";
+import { discordEphemeralResponse } from "../../../src/utils/discordEphemeralResponse";
 
 describe("Test discordEphemeralResponse function", () => {
   it("should return a JSONResponse", () => {
