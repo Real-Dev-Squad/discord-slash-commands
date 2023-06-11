@@ -92,11 +92,11 @@ describe("Test mention each function", () => {
     const response = checkDisplayType({
       displayType: "series",
       msgToBeSent,
-      usersWithMatchingRole:  ["<@282859044593598464>", "<@725745030706364447>"],
+      usersWithMatchingRole: ["<@282859044593598464>", "<@725745030706364447>"],
     });
-    const expectedResponse = "hello <@282859044593598464>,<@725745030706364447>";
+    const expectedResponse =
+      "hello <@282859044593598464>,<@725745030706364447>";
 
     expect(response).toBe(expectedResponse);
   });
-
 });
