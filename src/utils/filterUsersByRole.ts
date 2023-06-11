@@ -1,19 +1,23 @@
-import { UserArray } from "../typeDefinitions/filterUsersByRole.types";
+import { UserArray } from "../typeDefinitions/filterUsersByRole";
 
-export function filterUserByRoles(userArray: UserArray[], roleId:string){
-const filteredUser = userArray.reduce(
-        (acc: string[], current: UserArray) => {
-          // role present in user ?
-          if (current.roles.includes(roleId)) {
-            // if yes ? then mod the user id & push in array
-            const modedTag = `<@${current.user.id}>`;
-            acc.push(modedTag);
-          }
-          return acc;
-        },
-        []
-      );
+export function filterUserByRoles(userArray: UserArray[], roleId: string) {
+  
+  let filteredUser: string[]|[] = []
 
-      return filteredUser;
+  if (userArray?.length > 0 && Array.isArray(userArray)) {
+     filteredUser = userArray?.reduce(
+      (acc: string[], current: UserArray) => {
+        // role present in user ?
+        if (current.roles.includes(roleId)) {
+          // if yes ? then mod the user id & push in array
+          const modedTag = `<@${current.user.id}>`;
+          acc.push(modedTag);
+        }
+        return acc;
+      },
+      []
+    );
+  }
+
+  return filteredUser;
 }
-
