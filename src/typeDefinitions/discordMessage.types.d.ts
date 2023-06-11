@@ -14,7 +14,7 @@ export interface messageRequestDataOptions {
   name: string;
   type: number;
   value: string;
-  options:Array<messageRequestDataOptions>
+  options: Array<messageRequestDataOptions>;
 }
 
 export interface messageRequestMember {

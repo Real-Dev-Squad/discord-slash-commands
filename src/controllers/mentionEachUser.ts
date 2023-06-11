@@ -3,7 +3,10 @@ import { filterUserByRoles } from "../utils/filterUsersByRole";
 import { getMembersInServer } from "../utils/getMembersInServer";
 
 import { env } from "../typeDefinitions/default.types";
-import { UserArray, MentionEachUserOptions } from "../typeDefinitions/filterUsersByRole";
+import {
+  UserArray,
+  MentionEachUserOptions,
+} from "../typeDefinitions/filterUsersByRole";
 import { checkDisplayType } from "../utils/checkDisplayType";
 
 export async function mentionEachUser(
