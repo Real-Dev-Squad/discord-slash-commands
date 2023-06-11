@@ -31,7 +31,7 @@ export async function baseHandler(
     case getCommandName(MENTION_EACH): {
       return await mentionEachUser({
         displayType: message.data?.options[0]?.name,
-        options: message.data?.options[0]?.options,
+        options: message.data?.options[0]?.options[0]?.options,
       },env)
     }
     default: {
