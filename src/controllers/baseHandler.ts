@@ -30,8 +30,11 @@ export async function baseHandler(
     }
     case getCommandName(MENTION_EACH): {
       return await mentionEachUser({
-        displayType: message.data?.options[0]?.name,
-        options: message.data?.options[0]?.options[0]?.options,
+        //  assertion was added because the options type is optional also eslint had hard rules set so had to cross the border :) 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        displayType: message.data?.options![0]?.name,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        options: message.data?.options![0]?.options![0]?.options,
       },env)
     }
     default: {
