@@ -51,3 +51,30 @@ export const guildEnv = {
   DISCORD_GUILD_ID: "1234",
   DISCORD_TOKEN: "abcd",
 };
+
+export const dummyGuildMemberDetails = {
+  avatar: null,
+  communication_disabled_until: null,
+  flags: 0,
+  joined_at: "2023-04-01T01:00:09.204000+00:00",
+  nick: null,
+  pending: false,
+  premium_since: null,
+  roles: [],
+  user: {
+    id: "12345678",
+    username: "John Doe",
+    avatar: "123abc123xyz",
+    discriminator: "6818",
+    public_flags: 64,
+    flags: 64,
+    banner: null,
+    accent_color: 16721920,
+    global_name: null,
+    avatar_decoration: null,
+    display_name: null,
+    banner_color: "#ff2800",
+  },
+  mute: false,
+  deaf: false,
+};

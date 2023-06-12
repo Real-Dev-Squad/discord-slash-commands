@@ -16,7 +16,7 @@ export async function getGuildMemberDetailsHandler(
   try {
     await verifyAuthToken(authHeader, env);
 
-    const userId = request.params.id;
+    const { id: userId } = request.params;
 
     const res = await getGuildMemberDetails(userId, env);
     return new JSONResponse(res);
