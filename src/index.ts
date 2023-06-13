@@ -12,6 +12,7 @@ import {
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
+import { getGuildMemberDetailsHandler } from "./controllers/getGuildMemberDetailsHandler";
 
 const router = Router();
 
@@ -28,6 +29,8 @@ router.put("/roles/create", createGuildRoleHandler);
 router.put("/roles/add", addGroupRoleHandler);
 
 router.get("/discord-members", getMembersInServerHandler);
+
+router.get("/member/:id", getGuildMemberDetailsHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();

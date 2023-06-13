@@ -53,3 +53,30 @@ export interface guildRoleResponse {
   mentionable: boolean;
   tags?: object;
 }
+
+export interface discordMemberDetails {
+  avatar: string;
+  communication_disabled_until: string;
+  flags: number;
+  joined_at: string;
+  nick: string;
+  pending: boolean;
+  premium_since: string;
+  roles: Array<string>;
+  user: {
+    id: string;
+    username: string;
+    avatar: string;
+    discriminator: string;
+    public_flags: number;
+    flags: number;
+    banner: string;
+    accent_color: string;
+    global_name: string;
+    avatar_decoration: string;
+    display_name: string;
+    banner_color: string;
+  };
+  mute: boolean;
+  deaf: boolean;
+}
