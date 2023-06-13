@@ -35,7 +35,6 @@ export async function baseHandler(
       );
     }
     case getCommandName(MENTION_EACH): {
-      // thanks to ritik :)
       const data = message.data?.options as Array<messageRequestDataOptions>;
 
       return await mentionEachUser(
