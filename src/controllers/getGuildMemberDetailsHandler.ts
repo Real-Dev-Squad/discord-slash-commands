@@ -16,9 +16,9 @@ export async function getGuildMemberDetailsHandler(
   try {
     await verifyAuthToken(authHeader, env);
 
-    const { id: userId } = request.params;
+    const { id: discordId } = request.params;
 
-    const res = await getGuildMemberDetails(userId, env);
+    const res = await getGuildMemberDetails(discordId, env);
     return new JSONResponse(res);
   } catch (err) {
     return new JSONResponse(response.BAD_SIGNATURE);

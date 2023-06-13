@@ -4,10 +4,10 @@ import { env } from "../typeDefinitions/default.types";
 import { discordMemberDetails } from "../typeDefinitions/discordMessage.types";
 
 export async function getGuildMemberDetails(
-  userId: string,
+  discordId: string,
   env: env
 ): Promise<discordMemberDetails | string> {
-  const getGuildMemberDetailsUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userId}`;
+  const getGuildMemberDetailsUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${discordId}`;
   try {
     const response = await fetch(getGuildMemberDetailsUrl, {
       method: "GET",
