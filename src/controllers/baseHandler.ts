@@ -35,11 +35,11 @@ export async function baseHandler(
       );
     }
     case getCommandName(MENTION_EACH): {
+      // thanks to ritik :)
       const data = message.data?.options as Array<messageRequestDataOptions>;
 
       return await mentionEachUser(
         {
-          //  assertion was added because the options type is optional also eslint had hard rules set so had to cross the border :)
           displayType: data[0].name,
           options: data[0].options[0].options,
         },
