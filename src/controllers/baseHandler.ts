@@ -8,7 +8,10 @@ import JSONResponse from "../utils/JsonResponse";
 import { lowerCaseMessageCommands } from "../utils/lowerCaseMessageCommand";
 
 import { env } from "../typeDefinitions/default.types";
-import { discordMessageRequest, messageRequestDataOptions } from "../typeDefinitions/discordMessage.types";
+import {
+  discordMessageRequest,
+  messageRequestDataOptions,
+} from "../typeDefinitions/discordMessage.types";
 
 import { HELLO, MENTION_EACH, VERIFY } from "../constants/commands";
 
@@ -32,7 +35,7 @@ export async function baseHandler(
       );
     }
     case getCommandName(MENTION_EACH): {
-     const data = message.data?.options as Array<messageRequestDataOptions>;
+      const data = message.data?.options as Array<messageRequestDataOptions>;
 
       return await mentionEachUser(
         {
