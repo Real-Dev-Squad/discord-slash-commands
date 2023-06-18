@@ -36,14 +36,12 @@ export async function baseHandler(
     }
     case getCommandName(MENTION_EACH): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
+      const transformedArgument = {
+        roleToBeTaggedObj: data[0],
+        displayMessageObj: data[1] ?? {},
+      };
 
-      return await mentionEachUser(
-        {
-          displayType: data[0].name,
-          options: data[0].options[0].options,
-        },
-        env
-      );
+      return await mentionEachUser(transformedArgument, env);
     }
     default: {
       return commandNotFound();
