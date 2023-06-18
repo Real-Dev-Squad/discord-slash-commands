@@ -17,13 +17,13 @@ export const MENTION_EACH = {
       name: "role",
       description: "to be tagged in the message",
       type: 8, // 2 is type SUB_COMMAND_GROUP
-      required:true,
+      required: true,
     },
     {
-      name:'message',
-      description:'any message for them?',
-      type:3,
-      require:false
-    }
+      name: "message",
+      description: "any message for them?",
+      type: 3,
+      require: false,
+    },
   ],
 };
