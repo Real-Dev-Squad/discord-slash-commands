@@ -79,8 +79,7 @@ export const dummyGuildMemberDetails = {
   deaf: false,
 };
 
-
-export  const transformedArgument = {
+export const transformedArgument = {
   roleToBeTaggedObj: {
     name: "role",
     type: 8,
@@ -94,5 +93,5 @@ export const onlyRoleToBeTagged = {
     name: "role",
     type: 8,
     value: "1118201414078976192",
-  }
+  },
 };

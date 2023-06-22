@@ -1,7 +1,10 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
 import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
-import { onlyRoleToBeTagged, transformedArgument } from "../../fixtures/fixture";
+import {
+  onlyRoleToBeTagged,
+  transformedArgument,
+} from "../../fixtures/fixture";
 
 describe("Test mention each function", () => {
   it("Should be an instance of JSONResponse", () => {
@@ -10,8 +13,6 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-
-
 
     const response = mentionEachUser(transformedArgument, env);
     expect(response).toBeInstanceOf(Promise);
