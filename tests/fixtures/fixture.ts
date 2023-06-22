@@ -78,3 +78,21 @@ export const dummyGuildMemberDetails = {
   mute: false,
   deaf: false,
 };
+
+
+export  const transformedArgument = {
+  roleToBeTaggedObj: {
+    name: "role",
+    type: 8,
+    value: "1118201414078976192",
+  },
+  displayMessageObj: { name: "message", type: 3, value: "hello" },
+};
+
+export const onlyRoleToBeTagged = {
+  roleToBeTaggedObj: {
+    name: "role",
+    type: 8,
+    value: "1118201414078976192",
+  }
+};

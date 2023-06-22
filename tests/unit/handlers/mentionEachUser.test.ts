@@ -1,6 +1,7 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
 import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
+import { onlyRoleToBeTagged, transformedArgument } from "../../fixtures/fixture";
 
 describe("Test mention each function", () => {
   it("Should be an instance of JSONResponse", () => {
@@ -10,14 +11,7 @@ describe("Test mention each function", () => {
       DISCORD_TOKEN: "abc",
     };
 
-    const transformedArgument = {
-      roleToBeTaggedObj: {
-        name: "role",
-        type: 8,
-        value: "1118201414078976192",
-      },
-      displayMessageObj: { name: "message", type: 3, value: "hello" },
-    };
+
 
     const response = mentionEachUser(transformedArgument, env);
     expect(response).toBeInstanceOf(Promise);
@@ -30,15 +24,7 @@ describe("Test mention each function", () => {
       DISCORD_TOKEN: "abc",
     };
 
-    const transformedArgument = {
-      roleToBeTaggedObj: {
-        name: "role",
-        type: 8,
-        value: "1118201414078976192",
-      },
-    };
-
-    const response = mentionEachUser(transformedArgument, env);
+    const response = mentionEachUser(onlyRoleToBeTagged, env);
     expect(response).toBeInstanceOf(Promise);
   });
 
