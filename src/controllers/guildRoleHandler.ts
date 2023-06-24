@@ -36,6 +36,7 @@ export async function addGroupRoleHandler(request: IRequest, env: env) {
   try {
     await verifyAuthToken(authHeader, env);
     const body: memberGroupRole = await request.json();
+
     const res = await addGroupRole(body, env);
     return new JSONResponse(res);
   } catch (err) {
