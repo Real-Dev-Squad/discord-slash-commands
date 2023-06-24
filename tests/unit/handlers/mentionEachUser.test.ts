@@ -1,6 +1,10 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
 import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
+import {
+  onlyRoleToBeTagged,
+  transformedArgument,
+} from "../../fixtures/fixture";
 
 describe("Test mention each function", () => {
   it("Should be an instance of JSONResponse", () => {
@@ -9,27 +13,23 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-    const optionsArray = [
-      {
-        name: "user",
-        type: 9,
-        value: "860900892193456149",
-      },
-      {
-        name: "message",
-        type: 3,
-        value: "hello",
-      },
-    ];
 
-    const response = mentionEachUser(
-      { displayType: "series", options: optionsArray },
-      env
-    );
+    const response = mentionEachUser(transformedArgument, env);
     expect(response).toBeInstanceOf(Promise);
   });
 
-  it("should filter users based on role", () => {
+  it("should run without displayMessageObj argument", () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+
+    const response = mentionEachUser(onlyRoleToBeTagged, env);
+    expect(response).toBeInstanceOf(Promise);
+  });
+
+  it("should return users with matching roles", () => {
     const roleId = "860900892193456149";
     const optionsArray = [
       {
@@ -56,47 +56,40 @@ describe("Test mention each function", () => {
       },
     ];
     const response = filterUserByRoles(optionsArray, roleId);
-    const expectedResponse = ["<@282859044593598464>", "<@725745030706364447>"];
-    expect(response).toStrictEqual(expectedResponse);
+    expect(response).toStrictEqual([
+      "<@282859044593598464>",
+      "<@725745030706364447>",
+    ]);
   });
 
-  it("should return a message if users are not found (usersWithMatchingRole array is empty)", () => {
+  it("should return message based on the input", () => {
+    const usersWithMatchingRole = [
+      "<@282859044593598464>",
+      "<@725745030706364447>",
+    ];
     const msgToBeSent = "hello";
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
+    const expectedResponse = `${msgToBeSent} ${usersWithMatchingRole} \n \`Disclaimer: Very soon all the users will be tagged individually in a separate(new) message!\``;
+    expect(response).toBe(expectedResponse);
+  });
 
-    const response = checkDisplayType({
-      displayType: "series",
-      msgToBeSent,
-      usersWithMatchingRole: [],
-    });
+  it("should return default string ", () => {
+    const usersWithMatchingRole = [] as string[];
+    const msgToBeSent = "hello";
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
     const expectedResponse = `Sorry no user found under this role.`;
-
     expect(response).toBe(expectedResponse);
   });
 
-  it("should return message if displayType is list", () => {
-    const msgToBeSent = "hello";
-
-    const response = checkDisplayType({
-      displayType: "list",
-      msgToBeSent,
-      usersWithMatchingRole: [],
-    });
-    const expectedResponse = `Coming soon. We are working on this feature. We feel sorry for not serving you what you expect this command to do for now.(T_T)`;
-
-    expect(response).toBe(expectedResponse);
-  });
-
-  it("should return a message if users are found (usersWithMatchingRole array is not empty)", () => {
-    const msgToBeSent = "hello";
-
-    const response = checkDisplayType({
-      displayType: "series",
-      msgToBeSent,
-      usersWithMatchingRole: ["<@282859044593598464>", "<@725745030706364447>"],
-    });
-    const expectedResponse =
-      "hello <@282859044593598464>,<@725745030706364447>";
-
+  it("should return default string ", () => {
+    const usersWithMatchingRole = [
+      "<@282859044593598464>",
+      "<@725745030706364447>",
+    ] as string[];
+    const msgToBeSent = undefined;
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
+    const returnString = msgToBeSent ? msgToBeSent : "";
+    const expectedResponse = `${returnString} ${usersWithMatchingRole} \n \`Disclaimer: Very soon all the users will be tagged individually in a separate(new) message!\``;
     expect(response).toBe(expectedResponse);
   });
 });

@@ -6,7 +6,9 @@
     "start": "wrangler dev",
     "test": "echo 'running tests 🧪' && jest --coverage && echo '✅ All tests passed'",
     "test-watch": "jest --watch",
-    "deploy": "wrangler publish",
+    "login": "wrangler login",
+    "check": "wrangler whoami",
+    "deploy": "wrangler deploy",
     "lint-check": "echo 'checking your code for linting issues 🤔' && eslint . && echo '✅ Your code passes lint check'",
     "lint-fix": "eslint --fix .",
     "format-check": "echo 'Checking the formatting of your code 👨‍💻' && prettier --check . && echo '✅ code matches prettier formatting'",
@@ -26,18 +28,18 @@
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.31.0",
     "jest": "^29.3.1",
-    "ngrok": "^4.3.3",
+    "ngrok": "^5.0.0-beta.2",
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.1",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4",
-    "wrangler": "^2.5.0"
+    "wrangler": "^3.1.1"
   },
   "dependencies": {
-    "dotenv": "^16.0.3",
     "@tsndr/cloudflare-worker-jwt": "^2.2.1",
     "discord-interactions": "^3.2.0",
+    "dotenv": "^16.0.3",
     "itty-router": "^3.0.11",
     "node-fetch": "^3.3.0"
   },
