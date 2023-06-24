@@ -53,8 +53,18 @@ export async function removeGuildRoleHandler(request: IRequest, env: env) {
     await verifyAuthToken(authHeader, env);
     const body: memberGroupRole = await request.json();
     const res = await removeGuildRole(body, env);
-    return new JSONResponse(res, { status: 200 });
+    return new JSONResponse(res, {
+      status: 200,
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    });
   } catch (err) {
-    return new JSONResponse(response.INTERNAL_SERVER_ERROR, { status: 500 });
+    return new JSONResponse(response.INTERNAL_SERVER_ERROR, {
+      status: 500,
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    });
   }
 }
