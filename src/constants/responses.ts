@@ -25,3 +25,5 @@ export const RETRY_COMMAND =
 export const ROLE_ADDED = "Role added successfully";
 
 export const NAME_CHANGED = "User nickname changed successfully";
+
+export const ROLE_REMOVED = "Role Removed successfully";
