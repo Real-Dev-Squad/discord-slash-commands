@@ -1,3 +1,4 @@
+import { IRequest } from "itty-router";
 import {
   createNewRole,
   discordMessageRequest,
@@ -94,4 +95,20 @@ export const onlyRoleToBeTagged = {
     type: 8,
     value: "1118201414078976192",
   },
+};
+
+export const generateDummyRequestObject = ({
+  url,
+  method,
+  params,
+  query,
+  headers, // Object of key value pair
+}: Partial<IRequest>): IRequest => {
+  return {
+    method: method ?? "GET",
+    url: url ?? "/roles",
+    params: params ?? {},
+    query: query ?? {},
+    headers: new Map(Object.entries(headers ?? {})),
+  };
 };

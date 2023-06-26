@@ -6,6 +6,7 @@ import {
   guildRoleResponse,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
+import { GuildRole } from "../typeDefinitions/role.types";
 
 export async function createGuildRole(
   body: createNewRole,
@@ -54,4 +55,18 @@ export async function addGroupRole(body: memberGroupRole, env: env) {
   } catch (err) {
     return INTERNAL_SERVER_ERROR;
   }
+}
+
+export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
+  return [];
+}
+
+export async function getGuildRoleByName(
+  roleName: string,
+  env: env
+): Promise<GuildRole> {
+  return {
+    id: "dummy-id",
+    name: "dummy-name",
+  };
 }

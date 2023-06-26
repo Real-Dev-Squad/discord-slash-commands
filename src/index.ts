@@ -9,6 +9,7 @@ import { verifyBot } from "./utils/verifyBot";
 import {
   addGroupRoleHandler,
   createGuildRoleHandler,
+  getGuildRolesHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
@@ -27,6 +28,8 @@ router.patch("/guild/member", changeNickname);
 router.put("/roles/create", createGuildRoleHandler);
 
 router.put("/roles/add", addGroupRoleHandler);
+
+router.get("/roles", getGuildRolesHandler);
 
 router.get("/discord-members", getMembersInServerHandler);
 

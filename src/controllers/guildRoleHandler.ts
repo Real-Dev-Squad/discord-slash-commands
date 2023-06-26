@@ -39,3 +39,16 @@ export async function addGroupRoleHandler(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
 }
+
+export async function getGuildRolesHandler(request: IRequest, env: env) {
+  // To be implemented
+  return new JSONResponse(response.NOT_FOUND);
+}
+
+export async function getGuildRoleByRoleNameHandler(
+  request: IRequest,
+  env: env
+) {
+  // To be implemented
+  return new JSONResponse(response.NOT_FOUND);
+}
