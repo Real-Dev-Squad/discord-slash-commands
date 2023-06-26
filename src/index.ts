@@ -10,6 +10,7 @@ import {
   addGroupRoleHandler,
   createGuildRoleHandler,
   removeGuildRoleHandler,
+  getGuildRolesHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
@@ -30,6 +31,7 @@ router.put("/roles/create", createGuildRoleHandler);
 router.put("/roles/add", addGroupRoleHandler);
 
 router.delete("/roles", removeGuildRoleHandler);
+router.get("/roles", getGuildRolesHandler);
 
 router.get("/discord-members", getMembersInServerHandler);
 

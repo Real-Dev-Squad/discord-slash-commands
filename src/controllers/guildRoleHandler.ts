@@ -68,3 +68,15 @@ export async function removeGuildRoleHandler(request: IRequest, env: env) {
     });
   }
 }
+export async function getGuildRolesHandler(request: IRequest, env: env) {
+  // To be implemented
+  return new JSONResponse(response.NOT_FOUND);
+}
+
+export async function getGuildRoleByRoleNameHandler(
+  request: IRequest,
+  env: env
+) {
+  // To be implemented
+  return new JSONResponse(response.NOT_FOUND);
+}
