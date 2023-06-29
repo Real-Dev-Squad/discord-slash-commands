@@ -27,3 +27,16 @@ export const MENTION_EACH = {
     },
   ],
 };
+
+export const HELP = {
+  name: "help",
+  description: "help command",
+  options: [
+    {
+      name: "keyword",
+      description: "keyword to search",
+      type: 3,
+      require: true,
+    },
+  ],
+};
