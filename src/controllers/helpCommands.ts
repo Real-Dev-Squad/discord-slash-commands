@@ -1,12 +1,12 @@
+import { HELP_COMMAND_RESPONSE_URL } from "../constants/urls";
 import { helpType } from "../typeDefinitions/help.types";
 import { discordTextResponse } from "../utils/discordResponse";
 import JSONResponse from "../utils/JsonResponse";
 
 export async function helpCommand(keyword: string): Promise<JSONResponse> {
-  const url = "http://localhost:3000/data";
   if (keyword === "help") {
     try {
-      const response = await fetch(url);
+      const response = await fetch(HELP_COMMAND_RESPONSE_URL);
       const data: helpType = await response.json();
 
       const keywords = data.data.map(
@@ -24,7 +24,7 @@ export async function helpCommand(keyword: string): Promise<JSONResponse> {
     }
   } else {
     try {
-      const response = await fetch(url);
+      const response = await fetch(HELP_COMMAND_RESPONSE_URL);
       const data: helpType = await response.json();
 
       const foundKeyword = data.data.find(
