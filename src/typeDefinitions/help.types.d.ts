@@ -4,3 +4,10 @@ export interface helpType {
     answer: string;
   }[];
 }
+
+export interface repoType {
+  data: {
+    name: string;
+    url: string;
+  }[];
+}

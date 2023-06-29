@@ -1,5 +1,6 @@
-import { HELP_DATA_API } from "../constants/urls";
-import { helpType } from "../typeDefinitions/help.types";
+import { RETRY_COMMAND } from "../constants/responses";
+import { GITHUB_REPOS_API, HELP_DATA_API } from "../constants/urls";
+import { helpType, repoType } from "../typeDefinitions/help.types";
 import { discordTextResponse } from "../utils/discordResponse";
 import JSONResponse from "../utils/JsonResponse";
 
@@ -18,9 +19,27 @@ export async function helpCommand(keyword: string): Promise<JSONResponse> {
       return discordTextResponse(responseMessage);
     } catch (error) {
       console.error(error);
-      return discordTextResponse(
-        "Something went wrong. Please try again later."
-      );
+      return discordTextResponse(RETRY_COMMAND);
+    }
+  } else if (keyword === "repos") {
+    try {
+      const response = await fetch(GITHUB_REPOS_API);
+      const data: repoType = await response.json();
+
+      const repoList = data.data
+        .map((item: { name: string; url: string }, index: number) => {
+          const serialNumber = index + 1;
+          return `${serialNumber}. [${item.name}](${item.url})`;
+        })
+        .join("\n");
+
+      const responseMessage = `**Available repositories:**\n${repoList}`;
+      const note =
+        "\n\n**Note:** For more repositories, please visit [REAL DEV SQUAD](https://github.com/real-dev-squad) on GitHub.";
+      return discordTextResponse(responseMessage + note);
+    } catch (error) {
+      console.error(error);
+      return discordTextResponse(RETRY_COMMAND);
     }
   } else {
     try {
@@ -40,9 +59,7 @@ export async function helpCommand(keyword: string): Promise<JSONResponse> {
       }
     } catch (error) {
       console.error(error);
-      return discordTextResponse(
-        "Something went wrong. Please try again later."
-      );
+      return discordTextResponse(RETRY_COMMAND);
     }
   }
 }
