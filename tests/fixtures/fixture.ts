@@ -112,3 +112,30 @@ export const generateDummyRequestObject = ({
     headers: new Map(Object.entries(headers ?? {})),
   };
 };
+
+export const guildDetailsMock = {
+  id: "123434232324242424",
+  name: "test server",
+  roles: [
+    {
+      id: "1234567889",
+      name: "@everyone",
+      permissions: "",
+      position: 2,
+      color: 2,
+      hoist: true,
+      managed: true,
+      mentionable: true,
+    },
+    {
+      id: "12344567",
+      name: "bot one",
+      permissions: "",
+      position: 2,
+      color: 2,
+      hoist: true,
+      managed: true,
+      mentionable: true,
+    },
+  ],
+};

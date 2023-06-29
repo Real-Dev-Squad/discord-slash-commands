@@ -27,3 +27,10 @@ export const ROLE_ADDED = "Role added successfully";
 export const NAME_CHANGED = "User nickname changed successfully";
 
 export const ROLE_REMOVED = "Role Removed successfully";
+
+export const ROLE_FETCH_FAILED_MESSAGE =
+  "Oops! We are experiencing an issue fetching roles.";
+
+export const ROLE_FETCH_FAILED_ERROR = {
+  error: ROLE_FETCH_FAILED_MESSAGE,
+};

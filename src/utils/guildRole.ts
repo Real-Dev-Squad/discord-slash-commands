@@ -2,6 +2,7 @@ import {
   INTERNAL_SERVER_ERROR,
   ROLE_ADDED,
   ROLE_REMOVED,
+  ROLE_FETCH_FAILED_MESSAGE,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
@@ -10,7 +11,7 @@ import {
   guildRoleResponse,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
-import { GuildRole } from "../typeDefinitions/role.types";
+import { GuildDetails, GuildRole } from "../typeDefinitions/role.types";
 
 export async function createGuildRole(
   body: createNewRole,
@@ -86,17 +87,33 @@ export async function removeGuildRole(details: memberGroupRole, env: env) {
   }
 }
 
-
 export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
-  return [];
+  const guildDetailsUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}`;
+
+  const response = await fetch(guildDetailsUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bot ${env.DISCORD_TOKEN}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(ROLE_FETCH_FAILED_MESSAGE);
+  }
+
+  const guildDetails: GuildDetails = await response.json();
+
+  return guildDetails.roles.map((role) => ({
+    id: role.id,
+    name: role.name,
+  }));
 }
 
 export async function getGuildRoleByName(
   roleName: string,
   env: env
-): Promise<GuildRole> {
-  return {
-    id: "dummy-id",
-    name: "dummy-name",
-  };
+): Promise<GuildRole | undefined> {
+  const roles = await getGuildRoles(env);
+  return roles.find((role) => role.name === roleName);
 }
