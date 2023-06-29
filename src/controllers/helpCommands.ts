@@ -1,4 +1,4 @@
-import { HELP_COMMAND_RESPONSE_URL } from "../constants/urls";
+import { HELP_DATA_API } from "../constants/urls";
 import { helpType } from "../typeDefinitions/help.types";
 import { discordTextResponse } from "../utils/discordResponse";
 import JSONResponse from "../utils/JsonResponse";
@@ -6,7 +6,7 @@ import JSONResponse from "../utils/JsonResponse";
 export async function helpCommand(keyword: string): Promise<JSONResponse> {
   if (keyword === "help") {
     try {
-      const response = await fetch(HELP_COMMAND_RESPONSE_URL);
+      const response = await fetch(HELP_DATA_API);
       const data: helpType = await response.json();
 
       const keywords = data.data.map(
@@ -24,7 +24,7 @@ export async function helpCommand(keyword: string): Promise<JSONResponse> {
     }
   } else {
     try {
-      const response = await fetch(HELP_COMMAND_RESPONSE_URL);
+      const response = await fetch(HELP_DATA_API);
       const data: helpType = await response.json();
 
       const foundKeyword = data.data.find(
@@ -35,7 +35,7 @@ export async function helpCommand(keyword: string): Promise<JSONResponse> {
         return discordTextResponse(foundKeyword.answer);
       } else {
         return discordTextResponse(
-          `**${keyword}** is not a valid command. Please use **!help** to see all available commands.`
+          `**${keyword}** is not a valid command. Please use **help** to see all available commands.`
         );
       }
     } catch (error) {
