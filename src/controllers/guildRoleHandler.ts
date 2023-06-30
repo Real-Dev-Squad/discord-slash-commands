@@ -86,10 +86,21 @@ export async function getGuildRolesHandler(request: IRequest, env: env) {
         { error: response.ROLE_FETCH_FAILED },
         {
           status: 500,
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+          },
         }
       );
     }
-    return new JSONResponse(response.INTERNAL_SERVER_ERROR, { status: 500 });
+    return new JSONResponse(
+      { error: response.INTERNAL_SERVER_ERROR },
+      {
+        status: 500,
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+        },
+      }
+    );
   }
 }
 
@@ -111,7 +122,12 @@ export async function getGuildRoleByRoleNameHandler(
     await verifyAuthToken(authHeader, env);
     const role = await getGuildRoleByName(roleName, env);
     if (!role) {
-      return new JSONResponse(response.NOT_FOUND, { status: 404 });
+      return new JSONResponse(response.NOT_FOUND, {
+        status: 404,
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+        },
+      });
     }
     return new JSONResponse(role);
   } catch (err: any) {
@@ -120,9 +136,20 @@ export async function getGuildRoleByRoleNameHandler(
         { error: response.ROLE_FETCH_FAILED },
         {
           status: 500,
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+          },
         }
       );
     }
-    return new JSONResponse(response.INTERNAL_SERVER_ERROR, { status: 500 });
+    return new JSONResponse(
+      { error: response.INTERNAL_SERVER_ERROR },
+      {
+        status: 500,
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+        },
+      }
+    );
   }
 }

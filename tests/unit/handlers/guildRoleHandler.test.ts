@@ -67,7 +67,9 @@ describe("get roles", () => {
     );
     const jsonResponse = await response.json();
     expect(response.status).toBe(500);
-    expect(jsonResponse).toBe(responseConstants.INTERNAL_SERVER_ERROR);
+    expect(jsonResponse).toEqual({
+      error: responseConstants.INTERNAL_SERVER_ERROR,
+    });
   });
 
   it("should return empty array if there is no roles in guild", async () => {
@@ -230,7 +232,9 @@ describe("get role by role name", () => {
     );
     const jsonResponse: { roles: Array<GuildRole> } = await response.json();
     expect(response.status).toBe(500);
-    expect(jsonResponse).toBe(responseConstants.INTERNAL_SERVER_ERROR);
+    expect(jsonResponse).toEqual({
+      error: responseConstants.INTERNAL_SERVER_ERROR,
+    });
   });
 
   it("should return object of id and name corresponding to the role name recieved", async () => {
