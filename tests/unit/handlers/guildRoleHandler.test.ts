@@ -38,7 +38,7 @@ describe("get roles", () => {
 
   it("should return role fetch failed error response if it fails to fetch roles", async () => {
     getGuildRolesSpy.mockRejectedValueOnce({
-      message: responseConstants.ROLE_FETCH_FAILED_MESSAGE,
+      message: responseConstants.ROLE_FETCH_FAILED,
     });
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
@@ -50,7 +50,9 @@ describe("get roles", () => {
     );
     const jsonResponse = await response.json();
     expect(response.status).toBe(500);
-    expect(jsonResponse).toEqual(responseConstants.ROLE_FETCH_FAILED_ERROR);
+    expect(jsonResponse).toEqual({
+      error: responseConstants.ROLE_FETCH_FAILED,
+    });
   });
 
   it("should return internal server error response if it fails for any other reason", async () => {
@@ -189,7 +191,7 @@ describe("get role by role name", () => {
 
   it("should return role fetch failed error if there was an error while fetching roles", async () => {
     getGuildRoleByNameSpy.mockRejectedValueOnce({
-      message: responseConstants.ROLE_FETCH_FAILED_MESSAGE,
+      message: responseConstants.ROLE_FETCH_FAILED,
     });
 
     const mockRequest = generateDummyRequestObject({
@@ -206,7 +208,9 @@ describe("get role by role name", () => {
     );
     const jsonResponse: { roles: Array<GuildRole> } = await response.json();
     expect(response.status).toBe(500);
-    expect(jsonResponse).toEqual(responseConstants.ROLE_FETCH_FAILED_ERROR);
+    expect(jsonResponse).toEqual({
+      error: responseConstants.ROLE_FETCH_FAILED,
+    });
   });
 
   it("should return internal server error if there was any other error", async () => {

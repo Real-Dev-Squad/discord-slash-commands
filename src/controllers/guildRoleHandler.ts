@@ -81,10 +81,13 @@ export async function getGuildRolesHandler(request: IRequest, env: env) {
     const roles = await getGuildRoles(env);
     return new JSONResponse({ roles });
   } catch (err: any) {
-    if (err.message === response.ROLE_FETCH_FAILED_MESSAGE) {
-      return new JSONResponse(response.ROLE_FETCH_FAILED_ERROR, {
-        status: 500,
-      });
+    if (err.message === response.ROLE_FETCH_FAILED) {
+      return new JSONResponse(
+        { error: response.ROLE_FETCH_FAILED },
+        {
+          status: 500,
+        }
+      );
     }
     return new JSONResponse(response.INTERNAL_SERVER_ERROR, { status: 500 });
   }
@@ -112,10 +115,13 @@ export async function getGuildRoleByRoleNameHandler(
     }
     return new JSONResponse(role);
   } catch (err: any) {
-    if (err.message === response.ROLE_FETCH_FAILED_MESSAGE) {
-      return new JSONResponse(response.ROLE_FETCH_FAILED_ERROR, {
-        status: 500,
-      });
+    if (err.message === response.ROLE_FETCH_FAILED) {
+      return new JSONResponse(
+        { error: response.ROLE_FETCH_FAILED },
+        {
+          status: 500,
+        }
+      );
     }
     return new JSONResponse(response.INTERNAL_SERVER_ERROR, { status: 500 });
   }

@@ -140,7 +140,7 @@ describe("getGuildRoles", () => {
         Promise.resolve(new JSONResponse({}, { status: 500 }))
       );
     await expect(getGuildRoles(guildEnv)).rejects.toThrow(
-      response.ROLE_FETCH_FAILED_MESSAGE
+      response.ROLE_FETCH_FAILED
     );
   });
 
@@ -173,7 +173,7 @@ describe("getGuildRolesByName", () => {
         Promise.resolve(new JSONResponse({}, { status: 500 }))
       );
     await expect(getGuildRoleByName("@everyone", guildEnv)).rejects.toThrow(
-      response.ROLE_FETCH_FAILED_MESSAGE
+      response.ROLE_FETCH_FAILED
     );
   });
 

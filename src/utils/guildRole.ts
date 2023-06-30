@@ -2,7 +2,7 @@ import {
   INTERNAL_SERVER_ERROR,
   ROLE_ADDED,
   ROLE_REMOVED,
-  ROLE_FETCH_FAILED_MESSAGE,
+  ROLE_FETCH_FAILED,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
@@ -99,7 +99,7 @@ export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
   });
 
   if (!response.ok) {
-    throw new Error(ROLE_FETCH_FAILED_MESSAGE);
+    throw new Error(ROLE_FETCH_FAILED);
   }
 
   const guildDetails: GuildDetails = await response.json();
