@@ -107,3 +107,9 @@ botToken:{
 - Change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` URL generated for rds backend
 
 Now you are ready to contribute to the Repository.
+
+## Feature Flow
+
+<img src="img/discord-slash-command.png" alt="uml-diagram">
+
+Link: [here](https://app.creately.com/d/9uEAYrdArba/view)
