@@ -13,6 +13,8 @@ export async function verifyCommand(
   env: env
 ) {
   const token = await generateUniqueToken();
+  const verificationString =
+    "Like to verify yourself? click the above link and authorize real dev squad to manage your discord data";
 
   const response = await sendUserDiscordData(
     token,
@@ -24,7 +26,8 @@ export async function verifyCommand(
   );
   if (response?.status === 201 || response?.status === 200) {
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
-    const message = `${verificationSiteURL}/discord?token=${token}`;
+    const message =
+      `${verificationSiteURL}/discord?token=${token}\n` + verificationString;
     return discordEphemeralResponse(message);
   } else {
     return discordEphemeralResponse(RETRY_COMMAND);
