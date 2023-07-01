@@ -13,7 +13,6 @@ export async function verifyCommand(
   env: env
 ) {
   const token = await generateUniqueToken();
-
   const response = await sendUserDiscordData(
     token,
     userId,
