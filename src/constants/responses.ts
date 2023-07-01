@@ -25,3 +25,6 @@ export const RETRY_COMMAND =
 export const ROLE_ADDED = "Role added successfully";
 
 export const NAME_CHANGED = "User nickname changed successfully";
+
+export const VERIFICATION_STRING =
+"Like to verify yourself? click the above link and authorize real dev squad to manage your discord data";
