@@ -5,6 +5,7 @@ import {
   RDS_BASE_DEVELOPMENT_API_URL,
   VERIFICATION_SITE_URL,
   STAGING_VERIFICATION_SITE_URL,
+  DEVELOPMENT_VERIFICATION_SITE_URL,
 } from "../src/constants/urls";
 
 const config = (env: env) => {
@@ -19,7 +20,7 @@ const config = (env: env) => {
     },
     default: {
       RDS_BASE_API_URL: RDS_BASE_DEVELOPMENT_API_URL,
-      VERIFICATION_SITE_URL: STAGING_VERIFICATION_SITE_URL,
+      VERIFICATION_SITE_URL: DEVELOPMENT_VERIFICATION_SITE_URL,
     },
   };
 
