@@ -133,15 +133,15 @@ describe("removeGuildRole", () => {
   });
 });
 describe("getGuildRoles", () => {
-  it("should throw role fetch failed message if status is not ok", async () => {
+  it("should return undefined if status is not ok", async () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementationOnce(async () =>
         Promise.resolve(new JSONResponse({}, { status: 500 }))
       );
-    await expect(getGuildRoles(guildEnv)).rejects.toThrow(
-      response.ROLE_FETCH_FAILED
-    );
+
+    const response = await getGuildRoles(guildEnv);
+    expect(response).toBeUndefined();
   });
 
   it("should return array of objects containing role_id and role_name", async () => {
@@ -172,9 +172,8 @@ describe("getGuildRolesByName", () => {
       .mockImplementationOnce(async () =>
         Promise.resolve(new JSONResponse({}, { status: 500 }))
       );
-    await expect(getGuildRoleByName("@everyone", guildEnv)).rejects.toThrow(
-      response.ROLE_FETCH_FAILED
-    );
+    const response = await getGuildRoleByName("@everyone", guildEnv);
+    expect(response).toBeUndefined();
   });
 
   it("should return array of objects containing role_id and role_name", async () => {

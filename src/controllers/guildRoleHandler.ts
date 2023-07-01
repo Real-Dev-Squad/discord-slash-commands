@@ -79,6 +79,9 @@ export async function getGuildRolesHandler(request: IRequest, env: env) {
   try {
     await verifyAuthToken(authHeader, env);
     const roles = await getGuildRoles(env);
+    if (!roles) {
+      throw new Error(response.ROLE_FETCH_FAILED);
+    }
     return new JSONResponse({ roles });
   } catch (err: any) {
     if (err.message === response.ROLE_FETCH_FAILED) {
