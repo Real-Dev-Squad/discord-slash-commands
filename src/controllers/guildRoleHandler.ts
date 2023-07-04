@@ -79,24 +79,16 @@ export async function getGuildRolesHandler(request: IRequest, env: env) {
   try {
     await verifyAuthToken(authHeader, env);
     const roles = await getGuildRoles(env);
-    if (!roles) {
-      throw new Error(response.ROLE_FETCH_FAILED);
-    }
     return new JSONResponse({ roles });
   } catch (err: any) {
-    if (err.message === response.ROLE_FETCH_FAILED) {
-      return new JSONResponse(
-        { error: response.ROLE_FETCH_FAILED },
-        {
-          status: 500,
-          headers: {
-            "content-type": "application/json;charset=UTF-8",
-          },
-        }
-      );
-    }
+    const error =
+      err?.message === response.ROLE_FETCH_FAILED
+        ? response.ROLE_FETCH_FAILED
+        : response.INTERNAL_SERVER_ERROR;
     return new JSONResponse(
-      { error: response.INTERNAL_SERVER_ERROR },
+      {
+        error,
+      },
       {
         status: 500,
         headers: {
@@ -134,19 +126,12 @@ export async function getGuildRoleByRoleNameHandler(
     }
     return new JSONResponse(role);
   } catch (err: any) {
-    if (err.message === response.ROLE_FETCH_FAILED) {
-      return new JSONResponse(
-        { error: response.ROLE_FETCH_FAILED },
-        {
-          status: 500,
-          headers: {
-            "content-type": "application/json;charset=UTF-8",
-          },
-        }
-      );
-    }
+    const error =
+      err?.message === response.ROLE_FETCH_FAILED
+        ? response.ROLE_FETCH_FAILED
+        : response.INTERNAL_SERVER_ERROR;
     return new JSONResponse(
-      { error: response.INTERNAL_SERVER_ERROR },
+      { error },
       {
         status: 500,
         headers: {

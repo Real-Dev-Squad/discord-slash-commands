@@ -132,16 +132,30 @@ describe("removeGuildRole", () => {
     expect(result).toEqual(response.INTERNAL_SERVER_ERROR);
   });
 });
+
 describe("getGuildRoles", () => {
-  it("should return undefined if status is not ok", async () => {
+  it("should throw role fetch failed error if status is not ok", async () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementationOnce(async () =>
         Promise.resolve(new JSONResponse({}, { status: 500 }))
       );
 
-    const response = await getGuildRoles(guildEnv);
-    expect(response).toBeUndefined();
+    await expect(getGuildRoles(guildEnv)).rejects.toThrow(
+      response.ROLE_FETCH_FAILED
+    );
+  });
+
+  it("should throw role fetch failed error if discord request fails", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementationOnce(async () =>
+        Promise.reject(new JSONResponse({}, { status: 500 }))
+      );
+
+    await expect(getGuildRoles(guildEnv)).rejects.toThrow(
+      response.ROLE_FETCH_FAILED
+    );
   });
 
   it("should return array of objects containing role_id and role_name", async () => {
@@ -151,16 +165,10 @@ describe("getGuildRoles", () => {
         Promise.resolve(new JSONResponse(guildDetailsMock))
       );
     const roles = await getGuildRoles(guildEnv);
-    const expectedRoles = [
-      {
-        id: "1234567889",
-        name: "@everyone",
-      },
-      {
-        id: "12344567",
-        name: "bot one",
-      },
-    ];
+    const expectedRoles = guildDetailsMock.roles.map(({ id, name }) => ({
+      id,
+      name,
+    }));
     expect(roles).toEqual(expectedRoles);
   });
 });
@@ -172,8 +180,20 @@ describe("getGuildRolesByName", () => {
       .mockImplementationOnce(async () =>
         Promise.resolve(new JSONResponse({}, { status: 500 }))
       );
-    const response = await getGuildRoleByName("@everyone", guildEnv);
-    expect(response).toBeUndefined();
+    await expect(getGuildRoles(guildEnv)).rejects.toThrow(
+      response.ROLE_FETCH_FAILED
+    );
+  });
+
+  it("should throw role fetch failed message if discord request fails", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementationOnce(async () =>
+        Promise.reject(new JSONResponse({}, { status: 500 }))
+      );
+    await expect(getGuildRoles(guildEnv)).rejects.toThrow(
+      response.ROLE_FETCH_FAILED
+    );
   });
 
   it("should return array of objects containing role_id and role_name", async () => {

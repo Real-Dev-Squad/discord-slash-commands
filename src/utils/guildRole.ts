@@ -1,6 +1,7 @@
 import {
   INTERNAL_SERVER_ERROR,
   ROLE_ADDED,
+  ROLE_FETCH_FAILED,
   ROLE_REMOVED,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
@@ -86,9 +87,7 @@ export async function removeGuildRole(details: memberGroupRole, env: env) {
   }
 }
 
-export async function getGuildRoles(
-  env: env
-): Promise<Array<GuildRole> | undefined> {
+export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
   const guildDetailsUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}`;
 
   try {
@@ -101,7 +100,7 @@ export async function getGuildRoles(
     });
 
     if (!response.ok) {
-      return undefined;
+      throw new Error(ROLE_FETCH_FAILED);
     }
 
     const guildDetails: GuildDetails = await response.json();
@@ -111,7 +110,7 @@ export async function getGuildRoles(
       name: role.name,
     }));
   } catch (err) {
-    return undefined;
+    throw new Error(ROLE_FETCH_FAILED);
   }
 }
 
