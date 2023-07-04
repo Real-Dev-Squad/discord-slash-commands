@@ -113,29 +113,31 @@ export const generateDummyRequestObject = ({
   };
 };
 
+export const rolesMock = [
+  {
+    id: "1234567889",
+    name: "@everyone",
+    permissions: "",
+    position: 2,
+    color: 2,
+    hoist: true,
+    managed: true,
+    mentionable: true,
+  },
+  {
+    id: "12344567",
+    name: "bot one",
+    permissions: "",
+    position: 2,
+    color: 2,
+    hoist: true,
+    managed: true,
+    mentionable: true,
+  },
+];
+
 export const guildDetailsMock = {
   id: "123434232324242424",
   name: "test server",
-  roles: [
-    {
-      id: "1234567889",
-      name: "@everyone",
-      permissions: "",
-      position: 2,
-      color: 2,
-      hoist: true,
-      managed: true,
-      mentionable: true,
-    },
-    {
-      id: "12344567",
-      name: "bot one",
-      permissions: "",
-      position: 2,
-      color: 2,
-      hoist: true,
-      managed: true,
-      mentionable: true,
-    },
-  ],
+  roles: rolesMock,
 };

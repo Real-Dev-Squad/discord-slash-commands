@@ -4,7 +4,11 @@ import {
 } from "../../../src/controllers/guildRoleHandler";
 import { GuildRole } from "../../../src/typeDefinitions/role.types";
 import JSONResponse from "../../../src/utils/JsonResponse";
-import { generateDummyRequestObject, guildEnv } from "../../fixtures/fixture";
+import {
+  generateDummyRequestObject,
+  guildEnv,
+  rolesMock,
+} from "../../fixtures/fixture";
 import * as responseConstants from "../../../src/constants/responses";
 import * as guildRoleUtils from "../../../src/utils/guildRole";
 
@@ -83,24 +87,14 @@ describe("get roles", () => {
       mockRequest,
       guildEnv
     );
-    const jsonResponse: { roles: Array<{ id: string; name: string }> } =
-      await response.json();
+    const jsonResponse: { roles: Array<GuildRole> } = await response.json();
     expect(response.status).toBe(200);
     expect(Array.isArray(jsonResponse.roles)).toBeTruthy();
     expect(jsonResponse.roles.length).toBe(0);
   });
 
   it("should return array of id and name of roles present in guild", async () => {
-    const expectedResponse = [
-      {
-        id: "role_id_one",
-        name: "role_name_one",
-      },
-      {
-        id: "role_id_two",
-        name: "role_name_two",
-      },
-    ];
+    const expectedResponse = rolesMock;
     getGuildRolesSpy.mockResolvedValueOnce(expectedResponse);
 
     const mockRequest = generateDummyRequestObject({
@@ -238,12 +232,7 @@ describe("get role by role name", () => {
   });
 
   it("should return object of id and name corresponding to the role name recieved", async () => {
-    const expectedResponse = {
-      id: "role_id_one",
-      name: "everyone",
-    };
-
-    getGuildRoleByNameSpy.mockResolvedValueOnce(expectedResponse);
+    getGuildRoleByNameSpy.mockResolvedValueOnce(rolesMock[0]);
 
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
@@ -259,6 +248,6 @@ describe("get role by role name", () => {
     );
     const jsonResponse: { roles: Array<GuildRole> } = await response.json();
     expect(response.status).toBe(200);
-    expect(jsonResponse).toEqual(expectedResponse);
+    expect(jsonResponse).toEqual(rolesMock[0]);
   });
 });
