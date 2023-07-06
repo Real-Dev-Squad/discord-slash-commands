@@ -20,9 +20,6 @@ const getGuildRolesSpy = jest.spyOn(guildRoleUtils, "getGuildRoles");
 const getGuildRoleByNameSpy = jest.spyOn(guildRoleUtils, "getGuildRoleByName");
 
 describe("get roles", () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
   it("should return a instance of JSONResponse", async () => {
     const mockRequest = generateDummyRequestObject({ url: "/roles" });
     const response = await getGuildRolesHandler(mockRequest, guildEnv);
@@ -148,7 +145,7 @@ describe("get role by role name", () => {
     expect(jsonResponse).toEqual(responseConstants.BAD_SIGNATURE);
   });
 
-  it("should return Not Found error if no roleName is not provided", async () => {
+  it("should return BAD REQUEST error if roleName is not provided", async () => {
     getGuildRoleByNameSpy.mockResolvedValueOnce(undefined);
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
@@ -162,7 +159,7 @@ describe("get role by role name", () => {
     );
     const jsonResponse: { error: string } = await response.json();
     expect(response.status).toBe(404);
-    expect(jsonResponse).toEqual(responseConstants.NOT_FOUND);
+    expect(jsonResponse).toEqual(responseConstants.BAD_REQUEST);
   });
 
   it("should return not found object if there is no roles with given name in guild", async () => {

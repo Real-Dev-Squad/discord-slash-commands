@@ -111,7 +111,7 @@ export async function getGuildRoleByRoleNameHandler(
   }
 
   if (!roleName) {
-    return new JSONResponse(response.NOT_FOUND, { status: 404 });
+    return new JSONResponse(response.BAD_REQUEST, { status: 404 });
   }
   try {
     await verifyAuthToken(authHeader, env);

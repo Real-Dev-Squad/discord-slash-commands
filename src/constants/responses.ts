@@ -30,3 +30,7 @@ export const ROLE_REMOVED = "Role Removed successfully";
 
 export const ROLE_FETCH_FAILED =
   "Oops! We are experiencing an issue fetching roles.";
+
+export const BAD_REQUEST = {
+  error: "Oops! This is not a proper request.",
+};
