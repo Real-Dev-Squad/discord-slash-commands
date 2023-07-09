@@ -10,8 +10,8 @@ import {
 import {
   dummyAddRoleBody,
   dummyCreateBody,
-  guildDetailsMock,
   guildEnv,
+  rolesMock,
 } from "../../fixtures/fixture";
 
 describe("createGuildRole", () => {
@@ -162,10 +162,10 @@ describe("getGuildRoles", () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementationOnce(async () =>
-        Promise.resolve(new JSONResponse(guildDetailsMock))
+        Promise.resolve(new JSONResponse(rolesMock))
       );
     const roles = await getGuildRoles(guildEnv);
-    const expectedRoles = guildDetailsMock.roles.map(({ id, name }) => ({
+    const expectedRoles = rolesMock.map(({ id, name }) => ({
       id,
       name,
     }));
@@ -200,7 +200,7 @@ describe("getGuildRolesByName", () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementationOnce(async () =>
-        Promise.resolve(new JSONResponse(guildDetailsMock))
+        Promise.resolve(new JSONResponse(rolesMock))
       );
     const role = await getGuildRoleByName("@everyone", guildEnv);
     const expectedRoles = {
@@ -214,7 +214,7 @@ describe("getGuildRolesByName", () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementationOnce(async () =>
-        Promise.resolve(new JSONResponse(guildDetailsMock))
+        Promise.resolve(new JSONResponse(rolesMock))
       );
     const role = await getGuildRoleByName("everyone", guildEnv);
     expect(role).toBeUndefined();

@@ -2,7 +2,7 @@ import {
   getGuildRoleByRoleNameHandler,
   getGuildRolesHandler,
 } from "../../../src/controllers/guildRoleHandler";
-import { GuildRole } from "../../../src/typeDefinitions/role.types";
+import { Role } from "../../../src/typeDefinitions/role.types";
 import JSONResponse from "../../../src/utils/JsonResponse";
 import {
   generateDummyRequestObject,
@@ -84,16 +84,14 @@ describe("get roles", () => {
       mockRequest,
       guildEnv
     );
-    const jsonResponse: { roles: Array<GuildRole> } = await response.json();
+    const jsonResponse: { roles: Array<Role> } = await response.json();
     expect(response.status).toBe(200);
     expect(Array.isArray(jsonResponse.roles)).toBeTruthy();
     expect(jsonResponse.roles.length).toBe(0);
   });
 
   it("should return array of id and name of roles present in guild", async () => {
-    const expectedResponse = rolesMock;
-    getGuildRolesSpy.mockResolvedValueOnce(expectedResponse);
-
+    getGuildRolesSpy.mockResolvedValueOnce(rolesMock);
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
       headers: { Authorization: "Bearer testtoken" },
@@ -103,15 +101,15 @@ describe("get roles", () => {
       mockRequest,
       guildEnv
     );
-    const jsonResponse: { roles: Array<GuildRole> } = await response.json();
+    const jsonResponse: { roles: Array<Role> } = await response.json();
     expect(response.status).toBe(200);
     expect(Array.isArray(jsonResponse.roles)).toBeTruthy();
-    expect(jsonResponse.roles).toEqual(expectedResponse);
+    expect(jsonResponse.roles).toEqual(rolesMock);
   });
 });
 
 describe("get role by role name", () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.resetAllMocks();
   });
 
@@ -199,9 +197,9 @@ describe("get role by role name", () => {
       mockRequest,
       guildEnv
     );
-    const jsonResponse: { roles: Array<GuildRole> } = await response.json();
+    const role: Role = await response.json();
     expect(response.status).toBe(500);
-    expect(jsonResponse).toEqual({
+    expect(role).toEqual({
       error: responseConstants.ROLE_FETCH_FAILED,
     });
   });
@@ -221,15 +219,16 @@ describe("get role by role name", () => {
       mockRequest,
       guildEnv
     );
-    const jsonResponse: { roles: Array<GuildRole> } = await response.json();
+    const role: Role = await response.json();
     expect(response.status).toBe(500);
-    expect(jsonResponse).toEqual({
+    expect(role).toEqual({
       error: responseConstants.INTERNAL_SERVER_ERROR,
     });
   });
 
   it("should return object of id and name corresponding to the role name recieved", async () => {
-    getGuildRoleByNameSpy.mockResolvedValueOnce(rolesMock[0]);
+    const resultMock = { id: rolesMock[0].id, name: rolesMock[0].name };
+    getGuildRoleByNameSpy.mockResolvedValueOnce(resultMock);
 
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
@@ -243,8 +242,8 @@ describe("get role by role name", () => {
       mockRequest,
       guildEnv
     );
-    const jsonResponse: { roles: Array<GuildRole> } = await response.json();
+    const role: Role = await response.json();
     expect(response.status).toBe(200);
-    expect(jsonResponse).toEqual(rolesMock[0]);
+    expect(role).toEqual(resultMock);
   });
 });

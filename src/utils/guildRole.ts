@@ -11,7 +11,7 @@ import {
   guildRoleResponse,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
-import { GuildDetails, GuildRole } from "../typeDefinitions/role.types";
+import { GuildRole, Role } from "../typeDefinitions/role.types";
 
 export async function createGuildRole(
   body: createNewRole,
@@ -87,11 +87,11 @@ export async function removeGuildRole(details: memberGroupRole, env: env) {
   }
 }
 
-export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
-  const guildDetailsUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}`;
+export async function getGuildRoles(env: env): Promise<Array<Role>> {
+  const guildRolesUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles`;
 
   try {
-    const response = await fetch(guildDetailsUrl, {
+    const response = await fetch(guildRolesUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -103,9 +103,9 @@ export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
       throw new Error(ROLE_FETCH_FAILED);
     }
 
-    const guildDetails: GuildDetails = await response.json();
+    const guildRoles: Array<GuildRole> = await response.json();
 
-    return guildDetails.roles.map((role) => ({
+    return guildRoles.map((role) => ({
       id: role.id,
       name: role.name,
     }));
@@ -117,7 +117,7 @@ export async function getGuildRoles(env: env): Promise<Array<GuildRole>> {
 export async function getGuildRoleByName(
   roleName: string,
   env: env
-): Promise<GuildRole | undefined> {
+): Promise<Role | undefined> {
   const roles = await getGuildRoles(env);
   return roles?.find((role) => role.name === roleName);
 }

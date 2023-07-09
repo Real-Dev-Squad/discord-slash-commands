@@ -135,9 +135,3 @@ export const rolesMock = [
     mentionable: true,
   },
 ];
-
-export const guildDetailsMock = {
-  id: "123434232324242424",
-  name: "test server",
-  roles: rolesMock,
-};
