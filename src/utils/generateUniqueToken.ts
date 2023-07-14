@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 export const generateUniqueToken = async () => {
   const uuidToken = crypto.randomUUID();
   const randomNumber = Math.floor(Math.random() * 1000000);
