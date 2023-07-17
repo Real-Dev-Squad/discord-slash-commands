@@ -1,5 +1,5 @@
 import config from "../../config/config";
-import { RETRY_COMMAND } from "../constants/responses";
+import { RETRY_COMMAND, VERIFICATION_STRING } from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { generateUniqueToken } from "../utils/generateUniqueToken";
@@ -24,7 +24,7 @@ export async function verifyCommand(
   );
   if (response?.status === 201 || response?.status === 200) {
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
-    const message = `${verificationSiteURL}/discord?token=${token}`;
+    const message = `${verificationSiteURL}/discord?token=${token}\n${VERIFICATION_STRING}`;;
     return discordEphemeralResponse(message);
   } else {
     return discordEphemeralResponse(RETRY_COMMAND);
