@@ -1,89 +1,105 @@
-import * as response from "../../../src/constants/responses";
-import JSONResponse from "../../../src/utils/JsonResponse";
-import { verifyCommand } from "../../../src/controllers/verifyCommand";
-import { guildEnv } from "../../fixtures/fixture";
+import {
+  RETRY_COMMAND,
+  VERIFICATION_STRING,
+} from "../../../src/constants/responses";
 import config from "../../../config/config";
 
+const mockDateNow = 1626512345678;
+const UNIQUE_TOKEN = "UNIQUE_TOKEN";
+const env = {
+  BOT_PUBLIC_KEY: "BOT_PUBLIC_KEY",
+  DISCORD_GUILD_ID: "DISCORD_GUILD_ID",
+  DISCORD_TOKEN: "SIGNED_JWT",
+};
+
 describe("verifyCommand", () => {
-  test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-    
-    jest.mock("crypto", () => {
-      return {
-        randomUUID: jest.fn(()=>'shreya'),
-        subtle: { digest: jest.fn(() => "123") },
-      };
-    });
-
+  beforeEach(() => {
+    jest.mock("@tsndr/cloudflare-worker-jwt");
+    jest.spyOn(Date, "now").mockReturnValue(mockDateNow);
     jest.mock("../../../src/utils/generateUniqueToken", () => ({
-      generateUniqueToken: () => Promise.resolve("jashdkjahskajhd"),
+      generateUniqueToken: () => Promise.resolve(UNIQUE_TOKEN),
     }));
+  });
 
-    // const mockResponse = response.INTERNAL_SERVER_ERROR;
-    // jest
-    //   .spyOn(global, "fetch")
-    //   .mockImplementation(() =>
-    //     Promise.resolve(new JSONResponse(mockResponse))
-    //   );
-
-    const env = {
-      BOT_PUBLIC_KEY: "xyz",
-      DISCORD_GUILD_ID: "123",
-      DISCORD_TOKEN: "abc",
-    };
-
-    const data = {
-      token: 1233434,
-      userId: "sjkhdkjashdksjh",
-      userAvatarHash: "test user",
-      userName: "sndbhsbgdj",
-      env: env,
-    };
-
-    const result = await verifyCommand(
-      1233434,
-      "sjkhdkjashdksjh",
-      "test user",
-      "sndbhsbgdj",
-      env
-    );
-
-    // expect(result.data.content).toEqual(response.RETRY_COMMAND);
-    expect(global.fetch).toHaveBeenCalledWith(
-      `https://api.realdevsquad.com/external-accounts`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
-        },
-        body: JSON.stringify(data),
-      }
-    );
+  afterEach(() => {
+    jest.spyOn(Date, "now").mockRestore();
   });
 
   test("should return JSON response when response is ok", async () => {
-    const mockResponse = {};
-
-    // jest
-    //   .spyOn(global, "fetch")
-    //   .mockImplementation(() =>
-    //     Promise.resolve(new JSONResponse(mockResponse))
-    //   );
-
-    const env = {
-      BOT_PUBLIC_KEY: "xyz",
-      DISCORD_GUILD_ID: "123",
-      DISCORD_TOKEN: "abc",
-    };
-
     const data = {
-      token: 1233434,
-      userId: "sjkhdkjashdksjh",
-      userAvatarHash: "test user",
-      userName: "sndbhsbgdj",
-      env: env,
+      type: "discord",
+      token: UNIQUE_TOKEN,
+      attributes: {
+        discordId: 1,
+        userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
+        userName: "userName",
+        discriminator: "discriminator",
+        expiry: mockDateNow + 1000 * 60 * 2,
+      },
     };
 
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: jest.fn().mockResolvedValueOnce(data),
+    } as unknown as Response);
+
+    const { verifyCommand } = await import(
+      "../../../src/controllers/verifyCommand"
+    );
+
+    const result = await verifyCommand(
+      1,
+      "userAvatarHash",
+      "userName",
+      "discriminator",
+      env
+    );
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      `http://localhost:3000/external-accounts`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.DISCORD_TOKEN}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const resultText = await result.text();
+    const resultData = JSON.parse(resultText);
+
+    const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
+    const message =
+      `${verificationSiteURL}/discord?token=${UNIQUE_TOKEN}\n` +
+      VERIFICATION_STRING;
+
+    expect(resultData.data.content).toEqual(message);
+  });
+
+  test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
+    const data = {
+      type: "discord",
+      token: UNIQUE_TOKEN,
+      attributes: {
+        discordId: 1,
+        userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
+        userName: "userName",
+        discriminator: "discriminator",
+        expiry: mockDateNow + 1000 * 60 * 2,
+      },
+    };
+
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 400, // ERROR STATUS
+      json: jest.fn().mockResolvedValueOnce(data),
+    } as unknown as Response);
+
+    const { verifyCommand } = await import(
+      "../../../src/controllers/verifyCommand"
+    );
     const result = await verifyCommand(
       1233434,
       "sjkhdkjashdksjh",
@@ -92,21 +108,20 @@ describe("verifyCommand", () => {
       env
     );
 
-    const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
-    const message =
-      `${verificationSiteURL}/discord?token=${guildEnv.DISCORD_TOKEN}\n` +
-      response.VERIFICATION_STRING;
-
     expect(global.fetch).toHaveBeenCalledWith(
-      `https://api.realdevsquad.com/external-accounts`,
+      `http://localhost:3000/external-accounts`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
+          Authorization: `Bearer ${env.DISCORD_TOKEN}`,
         },
         body: JSON.stringify(data),
       }
     );
+    const resultText = await result.text();
+    const resultData = JSON.parse(resultText);
+
+    expect(resultData.data.content).toEqual(RETRY_COMMAND);
   });
 });

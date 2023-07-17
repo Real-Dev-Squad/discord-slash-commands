@@ -1,14 +1,8 @@
-"use strict";
-import jsonwebtoken from "jsonwebtoken";
+// __mocks__/@tsndr/cloudflare-worker-jwt.js
+const mockJwt = {
+  sign: jest.fn().mockImplementation(() => {
+    return "SIGNED_JWT";
+  }),
+};
 
-const cloudflareWorkerJwt = jest.createMockFromModule("jsonwebtoken");
-
-function sign() {
-  console.log("ASD");
-  return "asd";
-}
-
-// @ts-ignore
-cloudflareWorkerJwt.sign = sign;
-
-module.exports = cloudflareWorkerJwt;
+export default mockJwt;

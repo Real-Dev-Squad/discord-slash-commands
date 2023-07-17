@@ -5,7 +5,7 @@
   "scripts": {
     "start": "wrangler dev",
     "test": "echo 'running tests 🧪' && jest --coverage && echo '✅ All tests passed'",
-    "test-watch": "jest --watch",
+    "test-watch": "jest . --watch",
     "login": "wrangler login",
     "check": "wrangler whoami",
     "deploy": "wrangler deploy",
