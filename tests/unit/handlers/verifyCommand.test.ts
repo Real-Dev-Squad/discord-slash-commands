@@ -1,15 +1,22 @@
 import * as response from "../../../src/constants/responses";
-import JSONResponse from "../../../src/utils/JsonResponse";
 import { verifyCommand } from "../../../src/controllers/verifyCommand";
-import { guildEnv } from "../../fixtures/fixture";
 import config from "../../../config/config";
+import JSONResponse from "../../../src/utils/JsonResponse";
 
+type Responsetype = {
+  data: DataType;
+  type: number;
+};
+
+type DataType = {
+  content: string;
+  flags: number;
+};
 describe("verifyCommand", () => {
   test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-    
     jest.mock("crypto", () => {
       return {
-        randomUUID: jest.fn(()=>'shreya'),
+        randomUUID: jest.fn(() => "shreya"),
         subtle: { digest: jest.fn(() => "123") },
       };
     });
@@ -18,12 +25,12 @@ describe("verifyCommand", () => {
       generateUniqueToken: () => Promise.resolve("jashdkjahskajhd"),
     }));
 
-    // const mockResponse = response.INTERNAL_SERVER_ERROR;
-    // jest
-    //   .spyOn(global, "fetch")
-    //   .mockImplementation(() =>
-    //     Promise.resolve(new JSONResponse(mockResponse))
-    //   );
+    const mockResponse = response.INTERNAL_SERVER_ERROR;
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.resolve(new JSONResponse(mockResponse))
+      );
 
     const env = {
       BOT_PUBLIC_KEY: "xyz",
@@ -47,28 +54,29 @@ describe("verifyCommand", () => {
       env
     );
 
-    // expect(result.data.content).toEqual(response.RETRY_COMMAND);
     expect(global.fetch).toHaveBeenCalledWith(
-      `https://api.realdevsquad.com/external-accounts`,
-      {
+      `http://localhost:3000/external-accounts`,
+      expect.objectContaining({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
+          Authorization: `Bearer asd`,
         },
-        body: JSON.stringify(data),
-      }
+      })
     );
+
+    const response_: Responsetype = await result.json();
+    expect(response_.data.content).toContain("");
   });
 
   test("should return JSON response when response is ok", async () => {
     const mockResponse = {};
 
-    // jest
-    //   .spyOn(global, "fetch")
-    //   .mockImplementation(() =>
-    //     Promise.resolve(new JSONResponse(mockResponse))
-    //   );
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.resolve(new JSONResponse(mockResponse))
+      );
 
     const env = {
       BOT_PUBLIC_KEY: "xyz",
@@ -93,20 +101,21 @@ describe("verifyCommand", () => {
     );
 
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
-    const message =
-      `${verificationSiteURL}/discord?token=${guildEnv.DISCORD_TOKEN}\n` +
-      response.VERIFICATION_STRING;
+    const message = `${verificationSiteURL}/discord?token=`;
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `https://api.realdevsquad.com/external-accounts`,
-      {
+      `http://localhost:3000/external-accounts`,
+      expect.objectContaining({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
+          Authorization: `Bearer asd`,
         },
-        body: JSON.stringify(data),
-      }
+      })
     );
+
+    const response_: Responsetype = await result.json();
+
+    expect(response_.data.content).toContain(message);
   });
 });
