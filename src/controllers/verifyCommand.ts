@@ -3,7 +3,7 @@ import { RETRY_COMMAND, VERIFICATION_STRING } from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { generateUniqueToken } from "../utils/generateUniqueToken";
-import  {sendUserDiscordData} from "../utils/sendUserDiscordData";
+import { sendUserDiscordData } from "../utils/sendUserDiscordData";
 
 export async function verifyCommand(
   userId: number,
@@ -13,7 +13,8 @@ export async function verifyCommand(
   env: env
 ) {
   const token = await generateUniqueToken();
-  const response = await sendUserDiscordData(    token,
+  const response = await sendUserDiscordData(
+    token,
     userId,
     userAvatarHash,
     userName,
