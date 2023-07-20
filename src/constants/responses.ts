@@ -29,3 +29,13 @@ export const NAME_CHANGED = "User nickname changed successfully";
 export const VERIFICATION_STRING =
   "Like to verify yourself? click the above link and authorize real dev squad to manage your discord data";
 export const ROLE_REMOVED = "Role Removed successfully";
+
+export const VERIFICATION_STRING =
+  "Please verify your identity by clicking the link above and granting authorization to the Real Dev Squad. This will allow us to manage your Discord data.";
+
+export const ROLE_FETCH_FAILED =
+  "Oops! We are experiencing an issue fetching roles.";
+
+export const BAD_REQUEST = {
+  error: "Oops! This is not a proper request.",
+};
