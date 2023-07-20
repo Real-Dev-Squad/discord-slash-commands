@@ -38,14 +38,6 @@ describe("verifyCommand", () => {
       DISCORD_TOKEN: "abc",
     };
 
-    const data = {
-      token: 1233434,
-      userId: "sjkhdkjashdksjh",
-      userAvatarHash: "test user",
-      userName: "sndbhsbgdj",
-      env: env,
-    };
-
     const result = await verifyCommand(
       1233434,
       "sjkhdkjashdksjh",
@@ -82,14 +74,6 @@ describe("verifyCommand", () => {
       BOT_PUBLIC_KEY: "xyz",
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
-    };
-
-    const data = {
-      token: 1233434,
-      userId: "sjkhdkjashdksjh",
-      userAvatarHash: "test user",
-      userName: "sndbhsbgdj",
-      env: env,
     };
 
     const result = await verifyCommand(
