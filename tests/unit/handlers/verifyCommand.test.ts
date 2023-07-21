@@ -3,9 +3,12 @@ import {
   VERIFICATION_STRING,
 } from "../../../src/constants/responses";
 import config from "../../../config/config";
-import { UNIQUE_TOKEN, discordUserData, env, mockDateNow } from "../../fixtures/fixture";
-
-
+import {
+  UNIQUE_TOKEN,
+  discordUserData,
+  env,
+  mockDateNow,
+} from "../../fixtures/fixture";
 
 describe("verifyCommand", () => {
   beforeEach(() => {
@@ -21,7 +24,6 @@ describe("verifyCommand", () => {
   });
 
   test("should return JSON response when response is ok", async () => {
-
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -63,7 +65,6 @@ describe("verifyCommand", () => {
   });
 
   test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 400, // ERROR STATUS

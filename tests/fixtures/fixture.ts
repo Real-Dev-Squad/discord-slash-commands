@@ -143,7 +143,7 @@ export const env = {
   DISCORD_TOKEN: "SIGNED_JWT",
 };
 
-export const discordUserData =      {
+export const discordUserData = {
   type: "discord",
   token: UNIQUE_TOKEN,
   attributes: {
