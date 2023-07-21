@@ -3,14 +3,9 @@ import {
   VERIFICATION_STRING,
 } from "../../../src/constants/responses";
 import config from "../../../config/config";
+import { UNIQUE_TOKEN, discordUserData, env, mockDateNow } from "../../fixtures/fixture";
 
-const mockDateNow = 1626512345678;
-const UNIQUE_TOKEN = "UNIQUE_TOKEN";
-const env = {
-  BOT_PUBLIC_KEY: "BOT_PUBLIC_KEY",
-  DISCORD_GUILD_ID: "DISCORD_GUILD_ID",
-  DISCORD_TOKEN: "SIGNED_JWT",
-};
+
 
 describe("verifyCommand", () => {
   beforeEach(() => {
@@ -26,22 +21,11 @@ describe("verifyCommand", () => {
   });
 
   test("should return JSON response when response is ok", async () => {
-    const data = {
-      type: "discord",
-      token: UNIQUE_TOKEN,
-      attributes: {
-        discordId: 1,
-        userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
-        userName: "userName",
-        discriminator: "discriminator",
-        expiry: mockDateNow + 1000 * 60 * 2,
-      },
-    };
 
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: jest.fn().mockResolvedValueOnce(data),
+      json: jest.fn().mockResolvedValueOnce(discordUserData),
     } as unknown as Response);
 
     const { verifyCommand } = await import(
@@ -64,7 +48,7 @@ describe("verifyCommand", () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${env.DISCORD_TOKEN}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(discordUserData),
       }
     );
     const resultText = await result.text();
@@ -79,22 +63,11 @@ describe("verifyCommand", () => {
   });
 
   test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-    const data = {
-      type: "discord",
-      token: UNIQUE_TOKEN,
-      attributes: {
-        discordId: 1,
-        userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
-        userName: "userName",
-        discriminator: "discriminator",
-        expiry: mockDateNow + 1000 * 60 * 2,
-      },
-    };
 
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 400, // ERROR STATUS
-      json: jest.fn().mockResolvedValueOnce(data),
+      json: jest.fn().mockResolvedValueOnce(discordUserData),
     } as unknown as Response);
 
     const { verifyCommand } = await import(
@@ -116,7 +89,7 @@ describe("verifyCommand", () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${env.DISCORD_TOKEN}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(discordUserData),
       }
     );
     const resultText = await result.text();
