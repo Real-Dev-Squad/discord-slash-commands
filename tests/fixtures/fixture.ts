@@ -135,3 +135,22 @@ export const rolesMock = [
     mentionable: true,
   },
 ];
+export const mockDateNow = 1626512345678;
+export const UNIQUE_TOKEN = "UNIQUE_TOKEN";
+export const env = {
+  BOT_PUBLIC_KEY: "BOT_PUBLIC_KEY",
+  DISCORD_GUILD_ID: "DISCORD_GUILD_ID",
+  DISCORD_TOKEN: "SIGNED_JWT",
+};
+
+export const discordUserData = {
+  type: "discord",
+  token: UNIQUE_TOKEN,
+  attributes: {
+    discordId: 1,
+    userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
+    userName: "userName",
+    discriminator: "discriminator",
+    expiry: mockDateNow + 1000 * 60 * 2,
+  },
+};
