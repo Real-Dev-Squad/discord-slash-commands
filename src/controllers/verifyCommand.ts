@@ -1,5 +1,9 @@
 import config from "../../config/config";
-import { RETRY_COMMAND, VERIFICATION_STRING, VERIFICATION_SUBSTRING } from "../constants/responses";
+import {
+  RETRY_COMMAND,
+  VERIFICATION_STRING,
+  VERIFICATION_SUBSTRING,
+} from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { generateUniqueToken } from "../utils/generateUniqueToken";
