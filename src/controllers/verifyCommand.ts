@@ -24,7 +24,7 @@ export async function verifyCommand(
   );
   if (response?.status === 201 || response?.status === 200) {
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
-    const message = `${verificationSiteURL}/discord?token=${token}\n${VERIFICATION_STRING}`;
+    const message = `${VERIFICATION_STRING}\n${verificationSiteURL}/discord?token=${token}`;
     return discordEphemeralResponse(message);
   } else {
     return discordEphemeralResponse(RETRY_COMMAND);

@@ -29,7 +29,7 @@ export const NAME_CHANGED = "User nickname changed successfully";
 export const ROLE_REMOVED = "Role Removed successfully";
 
 export const VERIFICATION_STRING =
-  "Please verify your identity by clicking the link above and granting authorization to the Real Dev Squad. This will allow us to manage your Discord data.";
+  "Please verify your identity by clicking the link below 👇 and granting authorization to the Real Dev Squad. This will allow us to manage your Discord data.";
 
 export const ROLE_FETCH_FAILED =
   "Oops! We are experiencing an issue fetching roles.";
