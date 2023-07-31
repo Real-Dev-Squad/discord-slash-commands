@@ -60,7 +60,6 @@ describe("verifyCommand", () => {
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
     const message =
     `${VERIFICATION_STRING}\n${verificationSiteURL}/discord?token=${UNIQUE_TOKEN}\n${VERIFICATION_SUBSTRING}`
-
     expect(resultData.data.content).toEqual(message);
   });
 
