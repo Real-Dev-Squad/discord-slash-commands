@@ -29,7 +29,10 @@ export const NAME_CHANGED = "User nickname changed successfully";
 export const ROLE_REMOVED = "Role Removed successfully";
 
 export const VERIFICATION_STRING =
-  "Please verify your identity by clicking the link below 👇 and granting authorization to the Real Dev Squad. This will allow us to manage your Discord data.";
+  "Please verify your identity by clicking the link below 👇";
+
+export const VERIFICATION_SUBSTRING =
+  "By granting authorization, you agree to permit us to manage your server nickname displayed ONLY in the Real Dev Squad server and to sync your joining data with your user account on our platform.";
 
 export const ROLE_FETCH_FAILED =
   "Oops! We are experiencing an issue fetching roles.";
