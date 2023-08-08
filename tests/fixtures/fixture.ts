@@ -1,3 +1,4 @@
+import { IRequest } from "itty-router";
 import {
   createNewRole,
   discordMessageRequest,
@@ -93,5 +94,63 @@ export const onlyRoleToBeTagged = {
     name: "role",
     type: 8,
     value: "1118201414078976192",
+  },
+};
+
+export const generateDummyRequestObject = ({
+  url,
+  method,
+  params,
+  query,
+  headers, // Object of key value pair
+}: Partial<IRequest>): IRequest => {
+  return {
+    method: method ?? "GET",
+    url: url ?? "/roles",
+    params: params ?? {},
+    query: query ?? {},
+    headers: new Map(Object.entries(headers ?? {})),
+  };
+};
+
+export const rolesMock = [
+  {
+    id: "1234567889",
+    name: "@everyone",
+    permissions: "",
+    position: 2,
+    color: 2,
+    hoist: true,
+    managed: true,
+    mentionable: true,
+  },
+  {
+    id: "12344567",
+    name: "bot one",
+    permissions: "",
+    position: 2,
+    color: 2,
+    hoist: true,
+    managed: true,
+    mentionable: true,
+  },
+];
+export const mockDateNow = 1626512345678;
+export const UNIQUE_TOKEN = "UNIQUE_TOKEN";
+export const env = {
+  BOT_PUBLIC_KEY: "BOT_PUBLIC_KEY",
+  DISCORD_GUILD_ID: "DISCORD_GUILD_ID",
+  DISCORD_TOKEN: "SIGNED_JWT",
+};
+
+export const discordUserData = {
+  type: "discord",
+  token: UNIQUE_TOKEN,
+  attributes: {
+    discordId: 1,
+    userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
+    userName: "userName",
+    discriminator: "discriminator",
+    expiry: mockDateNow + 1000 * 60 * 2,
   },
 };

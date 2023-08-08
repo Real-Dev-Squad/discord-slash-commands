@@ -27,5 +27,16 @@ export const ROLE_ADDED = "Role added successfully";
 export const NAME_CHANGED = "User nickname changed successfully";
 
 export const ROLE_REMOVED = "Role Removed successfully";
+
 export const VERIFICATION_STRING =
-  "Like to verify yourself? click the above link and authorize real dev squad to manage your discord data";
+  "Please verify your discord account by clicking the link below 👇";
+
+export const VERIFICATION_SUBSTRING =
+  "By granting authorization, you agree to permit us to manage your server nickname displayed ONLY in the Real Dev Squad server and to sync your joining data with your user account on our platform.";
+
+export const ROLE_FETCH_FAILED =
+  "Oops! We are experiencing an issue fetching roles.";
+
+export const BAD_REQUEST = {
+  error: "Oops! This is not a proper request.",
+};
