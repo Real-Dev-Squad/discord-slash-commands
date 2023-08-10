@@ -116,7 +116,7 @@ Now to setup discord in `rds-backend`
 ```
 
 - Start the rds backend
-- Open another terminal and type in the command `npm http <port backend running on>`.
+- Open another terminal and type in the command `npx ngrok http <port backend running on>`.
 - `ngrok` creates a secure tunnel that allows a local server to connect to external clients. It provides a URL that can be used to connect to a local server, just like if it were a public server hosted somewhere. For eg: Say you're running your app on `http://127.0.0.1:5501/` i.e localhost port 5501. Any external applications cannot connect to this server by default, but `ngrok` will give you a `http(s)` URL that any other client can use to connect to this server.
 - copy the `https` URL
 
@@ -129,7 +129,7 @@ Now to setup discord in `rds-backend`
 
 (!Warning: `ngrok update its url in every 2 hr or less so keep it updated`)
 
-Now, go to `discord developer portal` > `Bot` > `under the heading of Privileged Gateway Intents , toggle to on server member intent`
+Now, go to [Discord Developer Portal](https://discord.com/developers/applications) > `Bot` > `under the heading of Privileged Gateway Intents ,turn on server member intent`
 
 To check this, try running '/verify' command in your discord
 
