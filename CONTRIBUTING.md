@@ -129,6 +129,8 @@ Now to setup discord in `rds-backend`
 
 (!Warning: `ngrok update its url in every 2 hr or less so keep it updated`)
 
+Now, go to `discord developer portal` > `Bot` > `under the heading of Privileged Gateway Intents , toggle to on server member intent`
+
 To check this, try running '/verify' command in your discord
 
 (Note:`if it doesn't run , try running the command it almost three to four times.`)
