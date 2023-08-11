@@ -93,7 +93,7 @@ Now to setup discord in `rds-backend`
 - Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
 - Now add one more variables to your environment:
 
-  - `RDS_SERVERLESS_PUBLIC_KEY`  ([generate here](https://cryptotools.net/rsagen))
+  - `RDS_SERVERLESS_PUBLIC_KEY` ([generate here](https://cryptotools.net/rsagen))
 
 - Go to config/local.js, add
 
