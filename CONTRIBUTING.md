@@ -93,7 +93,7 @@ Now to setup discord in `rds-backend`
 - Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
 - Now add one more variables to your environment:
 
-  - `RDS_SEVERLESS_PUBLIC_KEY` (`generate key from the link given above`)
+  - `RDS_SERVERLESS_PUBLIC_KEY`  ([generate here](https://cryptotools.net/rsagen))
 
 - Go to config/local.js, add
 
@@ -105,12 +105,12 @@ Now to setup discord in `rds-backend`
  }
 
  botToken: {
-   botPublicKey: "<Public key generated in the format similar to development.js>",
+   botPublicKey: "<Public key generated in the format similar to development.js in config>",
  },
 
 
  rdsServerlessBot: {
-   rdsServerLessPrivateKey: "<RDS_SERVERLESS_PRIVATE_KEY in the format similar to development.js>",
+   rdsServerLessPrivateKey: "<RDS_SERVERLESS_PRIVATE_KEY in the format similar to development.js in config>",
    ttl: 60,
  },
 ```
@@ -133,6 +133,6 @@ Now, go to [Discord Developer Portal](https://discord.com/developers/application
 
 To check this, try running '/verify' command in your discord
 
-(Note:`if it doesn't run , try running the command it almost three to four times.`)
+(Note:`if it doesn't run , try running the command almost three to four times.`)
 
 Now you are ready to contribute to the Repository.
