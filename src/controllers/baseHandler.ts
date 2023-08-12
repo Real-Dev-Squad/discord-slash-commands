@@ -13,7 +13,8 @@ import {
   messageRequestDataOptions,
 } from "../typeDefinitions/discordMessage.types";
 
-import { HELLO, MENTION_EACH, VERIFY } from "../constants/commands";
+import { HELLO, MENTION_EACH, OOO, VERIFY } from "../constants/commands";
+import { oooCommand } from "./oooCommand";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -44,6 +45,9 @@ export async function baseHandler(
       };
 
       return await mentionEachUser(transformedArgument, env);
+    }
+    case getCommandName(OOO): {
+      return oooCommand(message.member.user.id);
     }
     default: {
       return commandNotFound();

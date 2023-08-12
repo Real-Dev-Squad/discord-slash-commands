@@ -27,3 +27,8 @@ export const MENTION_EACH = {
     },
   ],
 };
+
+export const OOO = {
+  name: "ooo",
+  description: "out-of-office data of the mentioned user",
+};
