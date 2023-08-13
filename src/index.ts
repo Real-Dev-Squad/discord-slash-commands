@@ -40,6 +40,14 @@ router.get("/roles/:roleName", getGuildRoleByRoleNameHandler);
 router.get("/discord-members", getMembersInServerHandler);
 
 router.get("/member/:id", getGuildMemberDetailsHandler);
+router.patch("/guild/member", changeNickname);
+
+router.put("/roles/create", createGuildRoleHandler);
+
+router.put("/roles/add", addGroupRoleHandler);
+
+router.delete("/roles", removeGuildRoleHandler);
+
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();

@@ -13,7 +13,9 @@ import {
   messageRequestDataOptions,
 } from "../typeDefinitions/discordMessage.types";
 
-import { HELLO, MENTION_EACH, VERIFY } from "../constants/commands";
+import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "../constants/commands";
+import { updateNickName } from "../utils/updateNickname";
+import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -42,8 +44,28 @@ export async function baseHandler(
         roleToBeTaggedObj: data[0],
         displayMessageObj: data[1] ?? {},
       };
-
       return await mentionEachUser(transformedArgument, env);
+    }
+
+    case getCommandName(LISTENING): {
+      const data = message.data?.options;
+      const setter = data ? data[0].value :false;
+      console.log('mmmmm',message)
+      if(setter){
+        await updateNickName(
+          `${message.member.user.id}`,
+          message.member.user.username + "-listening",
+          env
+        );
+      }else{
+        await updateNickName(
+          `${message.member.user.id}`,
+          message.member.user.username,
+          env
+        );
+      }
+  
+      return discordEphemeralResponse("Your nickname changed successfully");
     }
     default: {
       return commandNotFound();
