@@ -1,6 +1,8 @@
+import { env } from "../typeDefinitions/default.types";
 import { discordTextResponse } from "../utils/discordResponse";
-import JSONResponse from "../utils/JsonResponse";
+import { getUserOOODetails } from "../utils/getUserOOODetails";
 
-export function oooCommand(userId: number): JSONResponse {
-  return discordTextResponse(`OOO data of <@${userId}>`);
+export async function oooCommand(userId: number, env: env) {
+  const response = await getUserOOODetails(userId, env);
+  return discordTextResponse(`${response}`);
 }

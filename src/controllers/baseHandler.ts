@@ -47,7 +47,7 @@ export async function baseHandler(
       return await mentionEachUser(transformedArgument, env);
     }
     case getCommandName(OOO): {
-      return oooCommand(message.member.user.id);
+      return await oooCommand(message.member.user.id, env);
     }
     default: {
       return commandNotFound();
