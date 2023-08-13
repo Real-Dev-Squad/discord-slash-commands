@@ -49,22 +49,22 @@ export async function baseHandler(
 
     case getCommandName(LISTENING): {
       const data = message.data?.options;
-      const setter = data ? data[0].value :false;
-      console.log('mmmmm',message)
-      if(setter){
+      const setter = data ? data[0].value : false;
+      console.log("mmmmm", message);
+      if (setter) {
         await updateNickName(
           `${message.member.user.id}`,
           message.member.user.username + "-listening",
           env
         );
-      }else{
+      } else {
         await updateNickName(
           `${message.member.user.id}`,
           message.member.user.username,
           env
         );
       }
-  
+
       return discordEphemeralResponse("Your nickname changed successfully");
     }
     default: {

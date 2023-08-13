@@ -18,7 +18,7 @@ export async function updateNickName(
       },
       body: JSON.stringify(data),
     });
-    console.log('nameChangeResponse',await nameChangeResponse.json())
+    console.log("nameChangeResponse", await nameChangeResponse.json());
     if (nameChangeResponse.ok) {
       return NAME_CHANGED;
     }

@@ -48,7 +48,6 @@ router.put("/roles/add", addGroupRoleHandler);
 
 router.delete("/roles", removeGuildRoleHandler);
 
-
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
   if (message.type === InteractionType.PING) {
