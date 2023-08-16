@@ -1,6 +1,6 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
-import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
+import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import {
   onlyRoleToBeTagged,
   transformedArgument,
@@ -67,16 +67,14 @@ describe("Test mention each function", () => {
       "<@282859044593598464>",
       "<@725745030706364447>",
     ];
-    const msgToBeSent = "hello";
-    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
-    const expectedResponse = `${msgToBeSent} ${usersWithMatchingRole} \n \`Disclaimer: Very soon all the users will be tagged individually in a separate(new) message!\``;
+    const response = checkDisplayType({ usersWithMatchingRole });
+    const expectedResponse = `${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
 
   it("should return default string ", () => {
     const usersWithMatchingRole = [] as string[];
-    const msgToBeSent = "hello";
-    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
+    const response = checkDisplayType({ usersWithMatchingRole });
     const expectedResponse = `Sorry no user found under this role.`;
     expect(response).toBe(expectedResponse);
   });
@@ -86,10 +84,8 @@ describe("Test mention each function", () => {
       "<@282859044593598464>",
       "<@725745030706364447>",
     ] as string[];
-    const msgToBeSent = undefined;
-    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
-    const returnString = msgToBeSent ? msgToBeSent : "";
-    const expectedResponse = `${returnString} ${usersWithMatchingRole} \n \`Disclaimer: Very soon all the users will be tagged individually in a separate(new) message!\``;
+    const response = checkDisplayType({ usersWithMatchingRole });
+    const expectedResponse = `${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
 });
