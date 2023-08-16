@@ -105,12 +105,12 @@ Now to setup discord in `rds-backend`
  }
 
  botToken: {
-   botPublicKey: "<Public key generated in the format similar to development.js in config>",
+   botPublicKey: "<botPublicKey>", ( go to development in config folder and follow the same format to add keys)
  },
 
 
  rdsServerlessBot: {
-   rdsServerLessPrivateKey: "<RDS_SERVERLESS_PRIVATE_KEY in the format similar to development.js in config>",
+   rdsServerLessPrivateKey: "<RDS_SERVERLESS_PRIVATE_KEY>", ( go to development in config folder and follow the same format to add keys)
    ttl: 60,
  },
 ```
@@ -132,6 +132,8 @@ Now to setup discord in `rds-backend`
 Now, go to [Discord Developer Portal](https://discord.com/developers/applications) > `Bot` > `under the heading of Privileged Gateway Intents ,turn on server member intent`
 
 To check this, try running '/verify' command in your discord
+
+If you want to add discordId to your user data then run (website-my)[https://github.com/Real-Dev-Squad/website-my] along with it to access the link after `/verify` command 
 
 (Note:`if it doesn't run , try running the command almost three to four times.`)
 
