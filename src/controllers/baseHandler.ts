@@ -16,6 +16,7 @@ import {
 import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
+import { removeListening } from "../utils/removeListening";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -50,19 +51,15 @@ export async function baseHandler(
     case getCommandName(LISTENING): {
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
-      console.log("mmmmm", message);
+      const nickname = removeListening(message.member.nick);
       if (setter) {
         await updateNickName(
           `${message.member.user.id}`,
-          message.member.user.username + "-listening",
+          message.member.nick + "-listening",
           env
         );
       } else {
-        await updateNickName(
-          `${message.member.user.id}`,
-          message.member.user.username,
-          env
-        );
+        await updateNickName(`${message.member.user.id}`, nickname, env);
       }
 
       return discordEphemeralResponse("Your nickname changed successfully");
