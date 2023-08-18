@@ -67,8 +67,9 @@ describe("Test mention each function", () => {
       "<@282859044593598464>",
       "<@725745030706364447>",
     ];
-    const response = checkDisplayType({ usersWithMatchingRole });
-    const expectedResponse = `${usersWithMatchingRole}`;
+    const msgToBeSent = "hello";
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
+    const expectedResponse = `${msgToBeSent} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
 
@@ -87,7 +88,8 @@ describe("Test mention each function", () => {
     ] as string[];
     const msgToBeSent = undefined;
     const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
-    const expectedResponse = `${usersWithMatchingRole}`;
+    const returnString = msgToBeSent ? msgToBeSent : "";
+    const expectedResponse = `${returnString} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
 });
