@@ -17,6 +17,7 @@ import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { removeListening } from "../utils/removeListening";
+import { DESC_MESSAGE, LISTENING_COPY } from "../constants/copy";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -53,10 +54,10 @@ export async function baseHandler(
       const setter = data ? data[0].value : false;
       const nickname = removeListening(message.member.nick || "");
       if (setter) {
-        if (!message.member.nick?.includes("-Can't Talk")) {
+        if (!message.member.nick?.includes(LISTENING_COPY)) {
           await updateNickName(
             `${message.member.user.id}`,
-            "🎧 " + message.member.nick + "-Can't Talk",
+            "🎧 " + message.member.nick + LISTENING_COPY,
             env
           );
         }
@@ -64,7 +65,7 @@ export async function baseHandler(
         await updateNickName(`${message.member.user.id}`, nickname, env);
       }
 
-      return discordEphemeralResponse("Your nickname changed successfully");
+      return discordEphemeralResponse(DESC_MESSAGE);
     }
     default: {
       return commandNotFound();
