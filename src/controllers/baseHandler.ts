@@ -51,13 +51,15 @@ export async function baseHandler(
     case getCommandName(LISTENING): {
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
-      const nickname = removeListening(message.member.nick);
+      const nickname = removeListening(message.member.nick || "");
       if (setter) {
-        await updateNickName(
-          `${message.member.user.id}`,
-          message.member.nick + "-listening",
-          env
-        );
+        if (!message.member.nick?.includes("-Can't Talk")) {
+          await updateNickName(
+            `${message.member.user.id}`,
+            "🎧 " + message.member.nick + "-Can't Talk",
+            env
+          );
+        }
       } else {
         await updateNickName(`${message.member.user.id}`, nickname, env);
       }

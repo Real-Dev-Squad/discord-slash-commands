@@ -19,6 +19,7 @@ export interface messageRequestDataOptions {
 
 export interface messageRequestMember {
   user: messageMember;
+  nick?: string;
 }
 
 export interface messageMember {
