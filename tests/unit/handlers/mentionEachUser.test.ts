@@ -74,7 +74,8 @@ describe("Test mention each function", () => {
 
   it("should return default string ", () => {
     const usersWithMatchingRole = [] as string[];
-    const response = checkDisplayType({ usersWithMatchingRole });
+    const msgToBeSent = "hello";
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
     const expectedResponse = `Sorry no user found under this role.`;
     expect(response).toBe(expectedResponse);
   });
@@ -84,7 +85,8 @@ describe("Test mention each function", () => {
       "<@282859044593598464>",
       "<@725745030706364447>",
     ] as string[];
-    const response = checkDisplayType({ usersWithMatchingRole });
+    const msgToBeSent = undefined;
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
     const expectedResponse = `${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });

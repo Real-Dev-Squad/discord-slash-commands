@@ -3,12 +3,14 @@
 
 export function checkDisplayType({
   usersWithMatchingRole,
+  msgToBeSent,
 }: {
   msgToBeSent?: string;
   usersWithMatchingRole: string[];
 }) {
   if (usersWithMatchingRole.length > 0) {
-    return `${usersWithMatchingRole}`;
+    const returnString = msgToBeSent ? msgToBeSent : "";
+    return `${returnString} ${usersWithMatchingRole}`;
   } else {
     return `Sorry no user found under this role.`;
   }
