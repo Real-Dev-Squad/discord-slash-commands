@@ -17,7 +17,17 @@ import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { removeListening } from "../utils/removeListening";
-import { DESC_MESSAGE, LISTENING_COPY } from "../constants/copy";
+import {
+  NICKNAME_SUFFIX,
+  NICKNAME_PREFIX,
+} from "../constants/messagingConstants";
+import {
+  ALREADY_LISTENING,
+  LISTENING_SUCCESS_MESSAGE,
+  NOTHING_CHANGED,
+  REMOVED_LISTENING_MESSAGE,
+  RETRY_COMMAND,
+} from "../constants/responses";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -53,19 +63,29 @@ export async function baseHandler(
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
       const nickname = removeListening(message.member.nick || "");
-      if (setter) {
-        if (!message.member.nick?.includes(LISTENING_COPY)) {
-          await updateNickName(
-            `${message.member.user.id}`,
-            "🎧 " + message.member.nick + LISTENING_COPY,
-            env
-          );
+      try {
+        if (setter) {
+          if (!message.member.nick?.includes(NICKNAME_SUFFIX)) {
+            await updateNickName(
+              `${message.member.user.id}`,
+              NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX,
+              env
+            );
+            return discordEphemeralResponse(LISTENING_SUCCESS_MESSAGE);
+          } else {
+            return discordEphemeralResponse(ALREADY_LISTENING);
+          }
+        } else {
+          if (message.member.nick?.includes(NICKNAME_SUFFIX)) {
+            await updateNickName(`${message.member.user.id}`, nickname, env);
+            return discordEphemeralResponse(REMOVED_LISTENING_MESSAGE);
+          } else {
+            return discordEphemeralResponse(NOTHING_CHANGED);
+          }
         }
-      } else {
-        await updateNickName(`${message.member.user.id}`, nickname, env);
+      } catch (err) {
+        return discordEphemeralResponse(RETRY_COMMAND);
       }
-
-      return discordEphemeralResponse(DESC_MESSAGE);
     }
     default: {
       return commandNotFound();

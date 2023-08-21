@@ -40,3 +40,10 @@ export const ROLE_FETCH_FAILED =
 export const BAD_REQUEST = {
   error: "Oops! This is not a proper request.",
 };
+
+export const LISTENING_SUCCESS_MESSAGE =
+  "Your name is now changed to reflect your listening status";
+
+export const REMOVED_LISTENING_MESSAGE = "Listening nickname removed.";
+export const ALREADY_LISTENING = "You are already set to listen.";
+export const NOTHING_CHANGED = "Your nickname remains unchanged.";
