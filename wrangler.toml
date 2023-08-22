@@ -3,3 +3,6 @@ main = "src/index.ts"
 compatibility_date = "2023-01-13"
 node_compat = true
 [vars]
+DISCORD_PUBLIC_KEY="41335939158a85d21eca4e0e833c5f761a56ee2ba36e65325d55f9358d7c5f96"
+[triggers]
+crons = ["*/1 * * * *"]

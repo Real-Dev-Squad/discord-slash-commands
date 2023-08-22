@@ -1,9 +1,10 @@
 import { env } from "../typeDefinitions/default.types";
 import { taskOverDueDiscordMembers } from "../utils/taskOverDueDiscordMembers";
+import * as error from "../constants/responses";
 
-export async function send(env: env): Promise<Response | undefined> {
+export async function send(env: env): Promise<void> {
   try {
-    const discordIds: string[] | undefined = await taskOverDueDiscordMembers();
+    const discordIds: string[] | string = await taskOverDueDiscordMembers();
 
     //A user might have more than one task which are running red
     //so to mention them just once, we are using Set to filter out
@@ -37,8 +38,6 @@ export async function send(env: env): Promise<Response | undefined> {
         },
       }
     );
-
-    return res;
   } catch (e) {
     console.log(e);
   }

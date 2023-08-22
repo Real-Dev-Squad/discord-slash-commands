@@ -9,7 +9,7 @@ import jwt from "@tsndr/cloudflare-worker-jwt";
 
 export async function verifyAuthToken(authHeader: string, env: env) {
   const authToken = authHeader.split(" ")[1];
-  await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, {
+  await jwt.verify(authToken, env.DISCORD_PUBLIC_KEY, {
     algorithm: "RS256",
   });
 }
