@@ -29,7 +29,10 @@ export const NAME_CHANGED = "User nickname changed successfully";
 export const ROLE_REMOVED = "Role Removed successfully";
 
 export const VERIFICATION_STRING =
-  "Please verify your identity by clicking the link above and granting authorization to the Real Dev Squad. This will allow us to manage your Discord data.";
+  "Please verify your discord account by clicking the link below 👇";
+
+export const VERIFICATION_SUBSTRING =
+  "By granting authorization, you agree to permit us to manage your server nickname displayed ONLY in the Real Dev Squad server and to sync your joining data with your user account on our platform.";
 
 export const ROLE_FETCH_FAILED =
   "Oops! We are experiencing an issue fetching roles.";
@@ -37,3 +40,10 @@ export const ROLE_FETCH_FAILED =
 export const BAD_REQUEST = {
   error: "Oops! This is not a proper request.",
 };
+
+export const LISTENING_SUCCESS_MESSAGE =
+  "Your name is now changed to reflect your listening status";
+
+export const REMOVED_LISTENING_MESSAGE = "Listening nickname removed.";
+export const ALREADY_LISTENING = "You are already set to listen.";
+export const NOTHING_CHANGED = "Your nickname remains unchanged.";

@@ -1,4 +1,4 @@
-import { HELLO, MENTION_EACH, VERIFY } from "./constants/commands";
+import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "./constants/commands";
 import { config } from "dotenv";
 import { DISCORD_BASE_URL } from "./constants/urls";
 import { registerCommands } from "./utils/registerCommands";

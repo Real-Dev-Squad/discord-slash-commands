@@ -67,7 +67,7 @@ Next you will have to set up the wrangler cli, so that you can connect to your c
 - run `npx wrangler login` -> You will be prompted to authenticate your account, after which you will see a 'successfully logged in' message in your terminal
 - For a sanity check, run `npx wrangler whoami` -> You will then see your account name and account id in the terminal
 
-- Run the command `npx wrangler publish`
+- Run the command `npm run deploy`
 - Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
 - Now add following variables to your environment:
 
@@ -76,34 +76,65 @@ Next you will have to set up the wrangler cli, so that you can connect to your c
   - `DISCORD_PUBLIC_KEY`
   - `DISCORD_TOKEN`
 
+- Encrypt all the variables after adding then save and deploy
+
 - Now, start the local server with the command `npm start`- make sure it is running on port `8787`
-- Open another terminal and type in the command `npm run ngrok`.
-- `ngrok` creates a secure tunnel that allows a local server to connect to external clients. It provides a URL that can be used to connect to a local server, just like if it were a public server hosted somewhere. For eg: Say you're running your app on `http://127.0.0.1:5501/` i.e localhost port 5501. Any external applications cannot connect to this server by default, but `ngrok` will give you a `http(s)` URL that any other client can use to connect to this server.
-- You will see 2 URLs generated, copy the `https` URL (eg: https://765m-321-132-44-44-44.ngrok.io)
+- Go to `cloudflare > workers-pages > copy the url under preview which endswith '.workers.dev' `
 - Now, go to [Discord Developer Portal](https://discord.com/developers/applications) and select your bot
-  - In the General Information, paste the link in the `INTERACTIONS ENDPOINT URL` field.
+  - In the General Information, paste the url in the `INTERACTIONS ENDPOINT URL` field.
 
 To verify if your bot is working:
 
 - Go to the server where your bot was invited
 - run a /hello command and the bot should reply with `Hello <Your_username>`
 
-Now add the public key in `rds-backend`
+Now to setup discord in `rds-backend`
 
-- Go to `local.js` in config
-- Create following there
+- Go to Your cloudflare `dashboard > workers > discord-slash-commands > settings > variables > edit Variables`
+- Now add one more variables to your environment:
+
+  - `RDS_SERVERLESS_PUBLIC_KEY` ([generate here](https://cryptotools.net/rsagen))
+
+- Go to config/local.js, add
 
 ```
-botToken:{
-  botPublicKey:<Public key generated in the format similar to development.js>
-}
+ services:{
+   discordBot: {
+     baseUrl: "<Cloudflare_url>",
+   },
+ }
+
+ botToken: {
+   botPublicKey: "<botPublicKey>", ( go to development in config folder and follow the same format to add keys)
+ },
+
+
+ rdsServerlessBot: {
+   rdsServerLessPrivateKey: "<RDS_SERVERLESS_PRIVATE_KEY>", ( go to development in config folder and follow the same format to add keys)
+   ttl: 60,
+ },
 ```
 
 - Start the rds backend
-- Open a new terminal and run the following command `npx ngrok http <backend-port>`
+- Open another terminal and type in the command `npx ngrok http <port backend running on>`.
+- `ngrok` creates a secure tunnel that allows a local server to connect to external clients. It provides a URL that can be used to connect to a local server, just like if it were a public server hosted somewhere. For eg: Say you're running your app on `http://127.0.0.1:5501/` i.e localhost port 5501. Any external applications cannot connect to this server by default, but `ngrok` will give you a `http(s)` URL that any other client can use to connect to this server.
+- copy the `https` URL
+
+- Also update the `local Url` of backend with `https` url given by ngrok
 
 - Go to `constants.js` in discord-slash-commands
 - Go to `src/constants/urls.ts`
-- Change the `RDS_BASE_DEVELOPMENT_API_URL` to the `ngrok https` URL generated for rds backend
+- Change the `RDS_BASE_DEVELOPMENT_API_URL`,`RDS_BASE_STAGING_API_URL` and `RDS_BASE_API_URL ` to the `ngrok https` URL generated for rds backend
+- run `npm run deploy`
+
+(!Warning: `ngrok update its url in every 2 hr or less so keep it updated`)
+
+Now, go to [Discord Developer Portal](https://discord.com/developers/applications) > `Bot` > `under the heading of Privileged Gateway Intents ,turn on server member intent`
+
+To check this, try running '/verify' command in your discord
+
+If you want to add discordId to your user data then run (website-my)[https://github.com/Real-Dev-Squad/website-my] along with it to access the link after `/verify` command
+
+(Note:`if it doesn't run , try running the command almost three to four times.`)
 
 Now you are ready to contribute to the Repository.

@@ -1,6 +1,7 @@
 import {
   RETRY_COMMAND,
   VERIFICATION_STRING,
+  VERIFICATION_SUBSTRING,
 } from "../../../src/constants/responses";
 import config from "../../../config/config";
 import {
@@ -57,10 +58,7 @@ describe("verifyCommand", () => {
     const resultData = JSON.parse(resultText);
 
     const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
-    const message =
-      `${verificationSiteURL}/discord?token=${UNIQUE_TOKEN}\n` +
-      VERIFICATION_STRING;
-
+    const message = `${VERIFICATION_STRING}\n${verificationSiteURL}/discord?token=${UNIQUE_TOKEN}\n${VERIFICATION_SUBSTRING}`;
     expect(resultData.data.content).toEqual(message);
   });
 
