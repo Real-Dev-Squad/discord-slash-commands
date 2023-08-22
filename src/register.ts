@@ -1,4 +1,4 @@
-import { HELLO, MENTION_EACH, VERIFY } from "./constants/commands";
+import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "./constants/commands";
 import { config } from "dotenv";
 import { DISCORD_BASE_URL } from "./constants/urls";
 import { registerCommands } from "./utils/registerCommands";
@@ -17,7 +17,7 @@ async function registerGuildCommands(
   discordApplicationId?: string,
   discordGuildId?: string
 ) {
-  const commands = [HELLO, VERIFY, MENTION_EACH];
+  const commands = [HELLO, VERIFY, MENTION_EACH, LISTENING];
 
   try {
     if (!discordBotToken) throw new Error("Please provide a BOT TOKEN");
