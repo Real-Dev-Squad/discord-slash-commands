@@ -1,4 +1,5 @@
 import { RDS_BASE_STAGING_API_URL } from "../constants/urls";
+import { UserBackend } from "../typeDefinitions/userBackend.types";
 
 export const getDiscordIds = async (userIds: string[]) => {
   try {
@@ -6,17 +7,17 @@ export const getDiscordIds = async (userIds: string[]) => {
 
     const numberOfBatches = Math.ceil(userIds.length / 6);
 
-    const batchCollection = [];
+    const batchCollection = [] as Array<Promise<Response>[]>;
 
     //for storing the data returned
-    const responseCollection: any = [];
+    const responseCollection = [] as Array<UserBackend[]>;
 
     let indexCollection = 0;
     let numberOfFetchCalls = 0;
 
     //adding all batch
     for (let i = 0; i < numberOfBatches; i++) {
-      const batch: Promise<any>[] = [];
+      const batch: Promise<Response>[] = [];
       batchCollection.push(batch);
     }
 
@@ -38,7 +39,9 @@ export const getDiscordIds = async (userIds: string[]) => {
 
     for (let i = 0; i < numberOfBatches; i++) {
       const responses = await Promise.all(batchCollection[i]);
-      const json = responses.map((response) => response.json());
+      const json: Promise<UserBackend>[] = responses.map((response) =>
+        response.json()
+      );
       const data = await Promise.all(json);
 
       responseCollection.push(data);

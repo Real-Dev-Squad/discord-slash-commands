@@ -1,17 +1,23 @@
 import { RDS_BASE_STAGING_API_URL } from "../constants/urls";
 import { getDiscordIds } from "./getDiscordIds";
 import { UserBackend } from "../typeDefinitions/userBackend.types";
+import {
+  TaskOverdue,
+  TaskOverdueResponse,
+} from "../typeDefinitions/taskOverdue.types";
 
 export const taskOverDueDiscordMembers = async () => {
   try {
     const overDueUrl = `${RDS_BASE_STAGING_API_URL}/tasks?dev=true&status=overdue&size=100`;
 
-    const response = await fetch(overDueUrl);
-    const msg: any = await response.json();
+    const response: Response = await fetch(overDueUrl);
+    const responseObj: TaskOverdueResponse = await response.json();
 
-    const assigneeIds: string[] = msg.tasks.map((task: any) => task.assigneeId);
+    const assigneeIds: string[] = responseObj.tasks.map(
+      (task: TaskOverdue) => task.assigneeId
+    );
 
-    const data: any[] = await getDiscordIds(assigneeIds);
+    const data = (await getDiscordIds(assigneeIds)) as Array<UserBackend[]>;
 
     const discordIds: string[] = [];
 

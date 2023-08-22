@@ -1,7 +1,7 @@
 import { env } from "../typeDefinitions/default.types";
 import { taskOverDueDiscordMembers } from "../utils/taskOverDueDiscordMembers";
 
-export async function send(env: env): Promise<any> {
+export async function send(env: env): Promise<Response | undefined> {
   try {
     const discordIds: string[] | undefined = await taskOverDueDiscordMembers();
 
