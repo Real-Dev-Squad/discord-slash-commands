@@ -17,10 +17,7 @@ import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { removeListening } from "../utils/removeListening";
-import {
-  NICKNAME_SUFFIX,
-  NICKNAME_PREFIX,
-} from "../constants/messagingConstants";
+import { NICKNAME_SUFFIX, NICKNAME_PREFIX } from "../constants/nicknameAffixes";
 import {
   ALREADY_LISTENING,
   LISTENING_SUCCESS_MESSAGE,

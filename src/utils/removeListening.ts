@@ -1,4 +1,4 @@
-import { NICKNAME_SUFFIX } from "../constants/messagingConstants";
+import { NICKNAME_SUFFIX } from "../constants/nicknameAffixes";
 
 export const removeListening = (nick: string) => {
   const emojiRemovedNick = nick.replace("🎧", "");
