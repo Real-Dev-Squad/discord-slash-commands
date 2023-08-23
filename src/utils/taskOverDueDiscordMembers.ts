@@ -1,12 +1,13 @@
 import { RDS_BASE_STAGING_API_URL } from "../constants/urls";
-import { getDiscordIds } from "./getDiscordIds";
-import { UserBackend } from "../typeDefinitions/userBackend.types";
 import {
   TaskOverdue,
   TaskOverdueResponse,
 } from "../typeDefinitions/taskOverdue.types";
+import * as errors from "../constants/responses";
 
-export const taskOverDueDiscordMembers = async () => {
+export const taskOverDueDiscordMembers = async (): Promise<
+  string[] | string
+> => {
   try {
     const overDueUrl = `${RDS_BASE_STAGING_API_URL}/tasks?dev=true&status=overdue&size=100`;
 
@@ -17,23 +18,8 @@ export const taskOverDueDiscordMembers = async () => {
       (task: TaskOverdue) => task.assigneeId
     );
 
-    const data = (await getDiscordIds(assigneeIds)) as Array<UserBackend[]>;
-
-    const discordIds: string[] = [];
-
-    //data contains arrays of User objects
-    //we are looping over nested arrays and extracting discordIds
-
-    data.forEach((d: UserBackend[]) => {
-      d.forEach((dt: UserBackend) => {
-        if (dt.user.discordId) {
-          discordIds.push(dt.user.discordId);
-        }
-      });
-    });
-
-    return discordIds;
+    return assigneeIds;
   } catch (e) {
-    console.log(e);
+    return errors.INTERNAL_SERVER_ERROR;
   }
 };

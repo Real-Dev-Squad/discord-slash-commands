@@ -171,18 +171,26 @@ export const userBackendMock: UserBackend = {
   },
 };
 
-// export const taskOverdueMock: TaskOverdueResponse = {
-//   message: "Tasks returned Successfully",
-//   tasks: {
-//     id: "123456",
-//     percentCompleted: 90,
-//     assignee: "fmk",
-//     assigneeId: "1234",
-//     endsOn: 1223333,
-//     startedOn: 1112222,
-//     createdBy: "rmj44",
-//     title: "remove functionality",
-//     priority: "HIGH",
-//     status: "SMOKE_TESTING",
-//   },
-// };
+export const taskOverdueMock: TaskOverdueResponse = {
+  message: "Tasks returned Successfully",
+  tasks: [
+    {
+      id: "1234567",
+      percentCompleted: 60,
+      endsOn: "1686528000",
+      isNoteworthy: false,
+      createdBy: "random",
+      assignee: "vineeeet",
+      title: "task dependsOn",
+      type: "feature",
+      status: "SMOKE_TESTING",
+      assigneeId: "12345",
+      dependsOn: [
+        "1NtgKz4lzyiGMHSyBWje",
+        " HdRj3T603v0L5Pn80GUq",
+        " C29GgTuPWK32UqcyImsA",
+      ],
+      startedOn: "1686527000",
+    },
+  ],
+};

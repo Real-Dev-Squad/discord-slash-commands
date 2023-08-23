@@ -1,13 +1,15 @@
 import { env } from "../typeDefinitions/default.types";
 import { taskOverDueDiscordMembers } from "../utils/taskOverDueDiscordMembers";
 import * as error from "../constants/responses";
+import { getDiscordIds } from "../utils/getDiscordIds";
 
 export async function send(env: env): Promise<void> {
   try {
-    const discordIds: string[] | string = await taskOverDueDiscordMembers();
+    const assigneeIds: string[] | string = await taskOverDueDiscordMembers();
 
     //A user might have more than one task which are running red
     //so to mention them just once, we are using Set to filter out
+    const discordIds: string[] | string = await getDiscordIds(assigneeIds);
     const uniqueDiscordIds = [...new Set(discordIds)];
 
     //notifying the two users with the authority.

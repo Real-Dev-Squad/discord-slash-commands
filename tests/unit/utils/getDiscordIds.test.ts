@@ -21,14 +21,12 @@ describe("getDiscordIds()", () => {
       userBackendMock.user.id,
     ]);
     expect(result).toEqual([
-      [
-        userBackendMock,
-        userBackendMock,
-        userBackendMock,
-        userBackendMock,
-        userBackendMock,
-        userBackendMock,
-      ],
+      userBackendMock.user.discordId,
+      userBackendMock.user.discordId,
+      userBackendMock.user.discordId,
+      userBackendMock.user.discordId,
+      userBackendMock.user.discordId,
+      userBackendMock.user.discordId,
     ]);
     expect(global.fetch).toHaveBeenCalledWith(
       `${RDS_BASE_STAGING_API_URL}/users/userId/${userBackendMock.user.id}`

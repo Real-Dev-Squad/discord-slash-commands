@@ -3,8 +3,8 @@ import { UserBackend } from "../typeDefinitions/userBackend.types";
 import * as response from "../constants/responses";
 
 export const getDiscordIds = async (
-  userIds: string[]
-): Promise<UserBackend[][] | string> => {
+  userIds: string[] | string
+): Promise<string[] | string> => {
   try {
     const url = `${RDS_BASE_STAGING_API_URL}/users/userId`;
 
@@ -17,6 +17,8 @@ export const getDiscordIds = async (
 
     let indexCollection = 0;
     let numberOfFetchCalls = 0;
+
+    const discordIds = [] as Array<string>;
 
     //adding all batch
     for (let i = 0; i < numberOfBatches; i++) {
@@ -50,7 +52,18 @@ export const getDiscordIds = async (
       responseCollection.push(data);
     }
 
-    return responseCollection;
+    //data contains arrays of User objects
+    //we are looping over nested arrays and extracting discordIds
+
+    responseCollection.forEach((d: UserBackend[]) => {
+      d.forEach((dt: UserBackend) => {
+        if (dt.user.discordId) {
+          discordIds.push(dt.user.discordId);
+        }
+      });
+    });
+
+    return discordIds;
   } catch (e) {
     return response.INTERNAL_SERVER_ERROR;
   }
