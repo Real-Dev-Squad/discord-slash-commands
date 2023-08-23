@@ -36,6 +36,18 @@ export const TASK = {
       name: "username",
       description: "name of the user",
       type: 3,
+    },
+  ],
+};
+
+export const LISTENING = {
+  name: "listening",
+  description: "mark user as listening",
+  options: [
+    {
+      name: "value",
+      description: "to enable or disable the listening mode",
+      type: 5, // 2 is type SUB_COMMAND_GROUP
       required: true,
     },
   ],

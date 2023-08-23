@@ -15,7 +15,7 @@ export async function taskCommand(
   const tasks = response.tasks;
 
   let taskdetails: any[] = [];
-  for (let task of tasks) {
+  for (const task of tasks) {
     taskdetails = [
       ...taskdetails,
       {
