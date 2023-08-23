@@ -1,6 +1,6 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
-import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
+import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import {
   onlyRoleToBeTagged,
   transformedArgument,
@@ -69,7 +69,7 @@ describe("Test mention each function", () => {
     ];
     const msgToBeSent = "hello";
     const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
-    const expectedResponse = `${msgToBeSent} ${usersWithMatchingRole} \n \`Disclaimer: Very soon all the users will be tagged individually in a separate(new) message!\``;
+    const expectedResponse = `${msgToBeSent} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
 
@@ -89,7 +89,7 @@ describe("Test mention each function", () => {
     const msgToBeSent = undefined;
     const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
     const returnString = msgToBeSent ? msgToBeSent : "";
-    const expectedResponse = `${returnString} ${usersWithMatchingRole} \n \`Disclaimer: Very soon all the users will be tagged individually in a separate(new) message!\``;
+    const expectedResponse = `${returnString} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
 });
