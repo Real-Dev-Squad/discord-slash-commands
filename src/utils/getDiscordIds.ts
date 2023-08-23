@@ -1,7 +1,10 @@
 import { RDS_BASE_STAGING_API_URL } from "../constants/urls";
 import { UserBackend } from "../typeDefinitions/userBackend.types";
+import * as response from "../constants/responses";
 
-export const getDiscordIds = async (userIds: string[]) => {
+export const getDiscordIds = async (
+  userIds: string[]
+): Promise<UserBackend[][] | string> => {
   try {
     const url = `${RDS_BASE_STAGING_API_URL}/users/userId`;
 
@@ -49,6 +52,6 @@ export const getDiscordIds = async (userIds: string[]) => {
 
     return responseCollection;
   } catch (e) {
-    console.log(e);
+    return response.INTERNAL_SERVER_ERROR;
   }
 };
