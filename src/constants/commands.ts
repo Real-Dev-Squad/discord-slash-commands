@@ -27,3 +27,16 @@ export const MENTION_EACH = {
     },
   ],
 };
+
+export const TASK = {
+  name: "task",
+  description: "display the active task of the user",
+  options: [
+    {
+      name: "username",
+      description: "name of the user",
+      type: 3,
+      required: true,
+    },
+  ],
+};

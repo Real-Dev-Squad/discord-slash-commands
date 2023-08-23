@@ -43,6 +43,7 @@ router.get("/member/:id", getGuildMemberDetailsHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
+
   if (message.type === InteractionType.PING) {
     return new JSONResponse({
       type: InteractionResponseType.PONG,

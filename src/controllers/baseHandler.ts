@@ -2,6 +2,7 @@ import { commandNotFound } from "./commandNotFound";
 import { helloCommand } from "./helloCommand";
 import { verifyCommand } from "./verifyCommand";
 import { mentionEachUser } from "./mentionEachUser";
+import { taskCommand } from "./taskCommand";
 
 import { getCommandName } from "../utils/getCommandName";
 import JSONResponse from "../utils/JsonResponse";
@@ -13,7 +14,7 @@ import {
   messageRequestDataOptions,
 } from "../typeDefinitions/discordMessage.types";
 
-import { HELLO, MENTION_EACH, VERIFY } from "../constants/commands";
+import { HELLO, MENTION_EACH, VERIFY, TASK } from "../constants/commands";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -45,6 +46,9 @@ export async function baseHandler(
 
       return await mentionEachUser(transformedArgument, env);
     }
+    case getCommandName(TASK):
+      let data = message.data?.options as Array<messageRequestDataOptions>;
+      return await taskCommand(data[0], env);
     default: {
       return commandNotFound();
     }
