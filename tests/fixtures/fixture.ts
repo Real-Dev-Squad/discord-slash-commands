@@ -5,6 +5,8 @@ import {
   memberGroupRole,
 } from "../../src/typeDefinitions/discordMessage.types";
 import { InteractionType } from "discord-interactions";
+import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
+import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,
@@ -154,3 +156,33 @@ export const discordUserData = {
     expiry: mockDateNow + 1000 * 60 * 2,
   },
 };
+
+export const userBackendMock: UserBackend = {
+  message: "User returned successfully",
+  user: {
+    id: "1234567",
+    username: "fmk",
+    first_name: "f",
+    last_name: "mk",
+    discordId: "12345",
+    github_display_name: "fmk",
+    github_id: "fmk23",
+    isMember: false,
+  },
+};
+
+// export const taskOverdueMock: TaskOverdueResponse = {
+//   message: "Tasks returned Successfully",
+//   tasks: {
+//     id: "123456",
+//     percentCompleted: 90,
+//     assignee: "fmk",
+//     assigneeId: "1234",
+//     endsOn: 1223333,
+//     startedOn: 1112222,
+//     createdBy: "rmj44",
+//     title: "remove functionality",
+//     priority: "HIGH",
+//     status: "SMOKE_TESTING",
+//   },
+// };
