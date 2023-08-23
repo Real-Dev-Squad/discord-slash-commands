@@ -18,14 +18,12 @@ export async function mentionEachUser(
 ) {
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
-  // optional chaining here only because display message obj is optional argument
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
-
+  // optional chaining here only because display message obj is optional argument
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
     roleId
   );
-
   const responseData = checkDisplayType({
     usersWithMatchingRole,
     msgToBeSent,
