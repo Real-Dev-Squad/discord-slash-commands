@@ -1,18 +1,23 @@
 export interface TaskOverdue {
   id: string;
-  percentCompleted: number;
-  endsOn: number;
-  createdBy: string;
-  assignee: string;
   title: string;
   type: string;
-  priority: string;
-  startedOn: number;
+  endsOn: string;
+  startedOn: string;
   status: string;
+  assignee?: string;
   assigneeId: string;
+  percentCompleted: number;
+  dependsOn: string[];
+  participants?: string[];
+
+  isNoteworthy: boolean;
+  createdBy: string;
 }
 
 export interface TaskOverdueResponse {
   message: string;
-  tasks: Array<TaskOverdue>;
+  tasks: TaskOverdue[];
+  next?: string;
+  prev?: string;
 }
