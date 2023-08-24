@@ -9,3 +9,6 @@ export const VERIFICATION_SITE_URL = "https://my.realdevsquad.com";
 export const DEVELOPMENT_VERIFICATION_SITE_URL = "http://localhost:3443";
 export const STAGING_VERIFICATION_SITE_URL =
   "https://staging-my.realdevsquad.com";
+
+export const RDS_TRACKING_CHANNEL_URL =
+  "https://discord.com/api/v10/channels/1136583634845962261/messages";

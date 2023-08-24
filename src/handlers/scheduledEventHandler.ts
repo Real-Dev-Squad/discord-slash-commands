@@ -2,6 +2,7 @@ import { env } from "../typeDefinitions/default.types";
 import { taskOverDueDiscordMembers } from "../utils/taskOverDueDiscordMembers";
 import * as error from "../constants/responses";
 import { getDiscordIds } from "../utils/getDiscordIds";
+import { RDS_TRACKING_CHANNEL_URL } from "../constants/urls";
 
 export async function send(env: env): Promise<void> {
   try {
@@ -25,21 +26,27 @@ export async function send(env: env): Promise<void> {
       }
     }
 
+    if (
+      assigneeIds === error.INTERNAL_SERVER_ERROR ||
+      discordIds === error.INTERNAL_SERVER_ERROR
+    ) {
+      str = "Something went wrong!";
+    }
+
     const bodyObj = {
       content: str,
     };
 
-    const res = await fetch(
-      "https://discord.com/api/webhooks/1137198547691913246/E4Qv3sFMNtutQsIMg3TMgjR8Brw-awAw6Qs4ayYVE7wNFJpB6oEd0eQ_0nTVvS3BtSpm",
-      {
-        method: "POST",
-        body: JSON.stringify(bodyObj),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bot ${env.DISCORD_TOKEN}`,
-        },
-      }
-    );
+    const url = `${RDS_TRACKING_CHANNEL_URL}`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(bodyObj),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${env.DISCORD_TOKEN}`,
+      },
+    });
   } catch (e) {
     console.log(e);
   }
