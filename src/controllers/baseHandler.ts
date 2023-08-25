@@ -62,40 +62,21 @@ export async function baseHandler(
       const nickname = removeListening(message.member.nick || "");
       try {
         if (setter) {
-          if (
-            !message.member.nick?.includes(NICKNAME_SUFFIX) &&
-            message.member.nick
-          ) {
-            await updateNickName(
-              `${message.member.user.id}`,
-              NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX,
-              env
-            );
-            return discordEphemeralResponse(LISTENING_SUCCESS_MESSAGE);
-          } else if (!message.member.nick) {
-            await updateNickName(
-              `${message.member.user.id}`,
-              NICKNAME_PREFIX + "" + NICKNAME_SUFFIX,
-              env
-            );
-            return discordEphemeralResponse(LISTENING_SUCCESS_MESSAGE);
-          } else {
-            return discordEphemeralResponse(ALREADY_LISTENING);
-          }
-        } else if (!setter && !message.member.nick) {
-          await updateNickName(
-            `${message.member.user.id}`,
-            message.member.user.username + NICKNAME_SUFFIX,
-            env
-          );
+          const newNickname = message.member.nick
+            ? NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX
+            : NICKNAME_PREFIX + "" + NICKNAME_SUFFIX;
+
+          await updateNickName(`${message.member.user.id}`, newNickname, env);
           return discordEphemeralResponse(LISTENING_SUCCESS_MESSAGE);
+        } else if (!setter && !message.member.nick) {
+          const newNickname = message.member.user.username + NICKNAME_SUFFIX;
+          await updateNickName(`${message.member.user.id}`, newNickname, env);
+          return discordEphemeralResponse(REMOVED_LISTENING_MESSAGE);
+        } else if (message.member.nick?.includes(NICKNAME_SUFFIX)) {
+          await updateNickName(`${message.member.user.id}`, nickname, env);
+          return discordEphemeralResponse(REMOVED_LISTENING_MESSAGE);
         } else {
-          if (message.member.nick?.includes(NICKNAME_SUFFIX)) {
-            await updateNickName(`${message.member.user.id}`, nickname, env);
-            return discordEphemeralResponse(REMOVED_LISTENING_MESSAGE);
-          } else {
-            return discordEphemeralResponse(NOTHING_CHANGED);
-          }
+          return discordEphemeralResponse(ALREADY_LISTENING);
         }
       } catch (err) {
         return discordEphemeralResponse(RETRY_COMMAND);
