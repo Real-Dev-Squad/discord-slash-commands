@@ -31,7 +31,7 @@ export async function send(env: env): Promise<void> {
       assigneeIds === error.INTERNAL_SERVER_ERROR ||
       discordIds === error.INTERNAL_SERVER_ERROR
     ) {
-      str = "Something went wrong!";
+      throw new Error(error.INTERNAL_SERVER_ERROR);
     }
 
     const bodyObj = {
