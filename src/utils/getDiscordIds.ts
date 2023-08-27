@@ -10,10 +10,10 @@ export const getDiscordIds = async (
 
     const numberOfBatches = Math.ceil(userIds.length / 6);
 
-    const batchCollection = [] as Array<Promise<Response>[]>;
+    const fetchCollection = [] as Array<Promise<Response>[]>;
 
     //for storing the data returned
-    const responseCollection = [] as Array<UserBackend[]>;
+    const fetchResponseCollection = [] as Array<UserBackend[]>;
 
     let indexCollection = 0;
     let numberOfFetchCalls = 0;
@@ -23,14 +23,14 @@ export const getDiscordIds = async (
     //adding all batch
     for (let i = 0; i < numberOfBatches; i++) {
       const batch: Promise<Response>[] = [];
-      batchCollection.push(batch);
+      fetchCollection.push(batch);
     }
 
     //CF workers only allow 6 outgoing simultaneous request, so in order to retrieve all the data
     //we are making fetch calls in the batches of 6
 
     for (let i = 0; i < userIds.length; i++) {
-      batchCollection[indexCollection].push(fetch(`${url}/${userIds[i]}`));
+      fetchCollection[indexCollection].push(fetch(`${url}/${userIds[i]}`));
       numberOfFetchCalls++;
 
       if (numberOfFetchCalls == 6) {
@@ -43,19 +43,19 @@ export const getDiscordIds = async (
     //and extract the data in response array
 
     for (let i = 0; i < numberOfBatches; i++) {
-      const responses = await Promise.all(batchCollection[i]);
+      const responses = await Promise.all(fetchCollection[i]);
       const json: Promise<UserBackend>[] = responses.map((response) =>
         response.json()
       );
       const data = await Promise.all(json);
 
-      responseCollection.push(data);
+      fetchResponseCollection.push(data);
     }
 
     //data contains arrays of User objects
     //we are looping over nested arrays and extracting discordIds
 
-    responseCollection.forEach((d: UserBackend[]) => {
+    fetchResponseCollection.forEach((d: UserBackend[]) => {
       d.forEach((dt: UserBackend) => {
         if (dt.user.discordId) {
           discordIds.push(dt.user.discordId);
