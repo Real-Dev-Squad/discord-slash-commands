@@ -55,10 +55,10 @@ export const getDiscordIds = async (
     //data contains arrays of User objects
     //we are looping over nested arrays and extracting discordIds
 
-    fetchResponseCollection.forEach((d: UserBackend[]) => {
-      d.forEach((dt: UserBackend) => {
-        if (dt.user.discordId) {
-          discordIds.push(dt.user.discordId);
+    fetchResponseCollection.forEach((dataArray: UserBackend[]) => {
+      dataArray.forEach((data: UserBackend) => {
+        if (data.user.discordId) {
+          discordIds.push(data.user.discordId);
         }
       });
     });
