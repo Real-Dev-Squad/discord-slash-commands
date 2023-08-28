@@ -1,7 +1,7 @@
 import { getDiscordIds } from "../../../src/utils/getDiscordIds";
 import { userBackendMock } from "../../fixtures/fixture";
 import JSONResponse from "../../../src/utils/JsonResponse";
-import { RDS_BASE_STAGING_API_URL } from "../../../src/constants/urls";
+import { RDS_BASE_API_URL } from "../../../src/constants/urls";
 
 describe("getDiscordIds()", () => {
   test("it should return discordId of the user", async () => {
@@ -29,7 +29,7 @@ describe("getDiscordIds()", () => {
       userBackendMock.user.discordId,
     ]);
     expect(global.fetch).toHaveBeenCalledWith(
-      `${RDS_BASE_STAGING_API_URL}/users/userId/${userBackendMock.user.id}`
+      `${RDS_BASE_API_URL}/users/userId/${userBackendMock.user.id}`
     );
     expect(global.fetch).toBeCalledTimes(6);
   });
@@ -46,7 +46,7 @@ describe("getDiscordIds()", () => {
     );
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${RDS_BASE_STAGING_API_URL}/users/userId/${userBackendMock.user.id}`
+      `${RDS_BASE_API_URL}/users/userId/${userBackendMock.user.id}`
     );
   });
 });

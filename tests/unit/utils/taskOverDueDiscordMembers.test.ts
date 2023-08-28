@@ -1,7 +1,7 @@
 import { taskOverDueDiscordMembers } from "../../../src/utils/taskOverDueDiscordMembers";
 import { taskOverdueMock } from "../../fixtures/fixture";
 import JSONResponse from "../../../src/utils/JsonResponse";
-import { RDS_BASE_STAGING_API_URL } from "../../../src/constants/urls";
+import { RDS_BASE_API_URL } from "../../../src/constants/urls";
 
 describe("taskOverDueDiscordMembers()", () => {
   test("should return all the tasks which are overdue", async () => {
@@ -16,7 +16,7 @@ describe("taskOverDueDiscordMembers()", () => {
     expect(result).toEqual([taskOverdueMock.tasks[0].assigneeId]);
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${RDS_BASE_STAGING_API_URL}/tasks?dev=true&status=overdue&size=100`
+      `${RDS_BASE_API_URL}/tasks?dev=true&status=overdue&size=100`
     );
 
     expect(global.fetch).toBeCalledTimes(1);
@@ -34,7 +34,7 @@ describe("taskOverDueDiscordMembers()", () => {
     );
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${RDS_BASE_STAGING_API_URL}/tasks?dev=true&status=overdue&size=100`
+      `${RDS_BASE_API_URL}/tasks?dev=true&status=overdue&size=100`
     );
   });
 });

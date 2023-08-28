@@ -1,4 +1,4 @@
-import { RDS_BASE_STAGING_API_URL } from "../constants/urls";
+import { RDS_BASE_API_URL } from "../constants/urls";
 import { UserBackend } from "../typeDefinitions/userBackend.types";
 import * as response from "../constants/responses";
 
@@ -6,7 +6,7 @@ export const getDiscordIds = async (
   userIds: string[] | string
 ): Promise<string[] | string> => {
   try {
-    const url = `${RDS_BASE_STAGING_API_URL}/users/userId`;
+    const url = `${RDS_BASE_API_URL}/users/userId`;
 
     const numberOfBatches = Math.ceil(userIds.length / 6);
 
