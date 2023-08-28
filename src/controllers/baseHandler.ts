@@ -60,26 +60,47 @@ export async function baseHandler(
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
       const nickname = removeListening(message.member.nick || "");
+      let discordEphemeral;
+      let updateNickNameData = "";
       try {
         if (setter) {
-          if (!message.member.nick?.includes(NICKNAME_SUFFIX)) {
-            await updateNickName(
-              `${message.member.user.id}`,
-              NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX,
-              env
-            );
-            return discordEphemeralResponse(LISTENING_SUCCESS_MESSAGE);
+          if (
+            message.member.nick &&
+            !message.member.nick.includes(NICKNAME_SUFFIX)
+          ) {
+            updateNickNameData =
+              NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX;
+            discordEphemeral = LISTENING_SUCCESS_MESSAGE;
+          } else if (!message.member.nick) {
+            (updateNickNameData = NICKNAME_PREFIX + "" + NICKNAME_SUFFIX),
+              (discordEphemeral = LISTENING_SUCCESS_MESSAGE);
           } else {
-            return discordEphemeralResponse(ALREADY_LISTENING);
+            updateNickNameData = message.member.nick;
+            discordEphemeral = ALREADY_LISTENING;
           }
+        } else if (
+          !setter &&
+          !message.member.nick &&
+          message.member.user.username.includes(NICKNAME_SUFFIX)
+        ) {
+          updateNickNameData = message.member.user.username + NICKNAME_SUFFIX;
+
+          discordEphemeral = REMOVED_LISTENING_MESSAGE;
         } else {
           if (message.member.nick?.includes(NICKNAME_SUFFIX)) {
-            await updateNickName(`${message.member.user.id}`, nickname, env);
-            return discordEphemeralResponse(REMOVED_LISTENING_MESSAGE);
+            updateNickNameData = nickname;
+            discordEphemeral = REMOVED_LISTENING_MESSAGE;
           } else {
-            return discordEphemeralResponse(NOTHING_CHANGED);
+            updateNickNameData = nickname;
+            discordEphemeral = NOTHING_CHANGED;
           }
         }
+        await updateNickName(
+          message.member.user.id.toString(),
+          updateNickNameData,
+          env
+        );
+        return discordEphemeralResponse(discordEphemeral);
       } catch (err) {
         return discordEphemeralResponse(RETRY_COMMAND);
       }
