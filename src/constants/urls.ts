@@ -11,4 +11,4 @@ export const STAGING_VERIFICATION_SITE_URL =
   "https://staging-my.realdevsquad.com";
 
 export const RDS_TRACKING_CHANNEL_URL =
-  "https://discord.com/api/v10/channels/1136583634845962261/messages";
+  "https://discord.com/api/v10/channels/1136650427878871090/messages";
