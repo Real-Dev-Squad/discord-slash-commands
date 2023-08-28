@@ -3,9 +3,7 @@ import { taskOverDueDiscordMembers } from "../utils/taskOverDueDiscordMembers";
 import * as error from "../constants/responses";
 import { getDiscordIds } from "../utils/getDiscordIds";
 import { RDS_TRACKING_CHANNEL_URL } from "../constants/urls";
-
-const SUPER_USER_ONE = "154585730465660929";
-const SUPER_USER_TWO = "1040700289348542566";
+import { SUPER_USER_ONE, SUPER_USER_TWO } from "../constants/variables";
 
 export async function send(env: env): Promise<void> {
   try {
@@ -21,8 +19,8 @@ export async function send(env: env): Promise<void> {
 
     let forFormatting = 0;
     uniqueDiscordIds.forEach((id) => {
-      const s = `<@${id}> `;
-      stringToBeSent += s;
+      const discordUser = `<@${id}> `;
+      stringToBeSent += discordUser;
       forFormatting++;
       if (forFormatting === 3) {
         //to keep 3 users/line
