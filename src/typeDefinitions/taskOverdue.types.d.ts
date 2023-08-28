@@ -10,7 +10,6 @@ export interface TaskOverdue {
   percentCompleted: number;
   dependsOn: string[];
   participants?: string[];
-
   isNoteworthy: boolean;
   createdBy: string;
 }

@@ -22,6 +22,7 @@ export async function send(env: env): Promise<void> {
       str += s;
       forFormatting++;
       if (forFormatting === 3) {
+        //to keep 3 users/line
         forFormatting = 0;
         str += `\n`;
       }
