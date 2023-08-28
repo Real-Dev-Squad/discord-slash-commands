@@ -2,21 +2,15 @@ import { RDS_BASE_API_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 import {} from "../typeDefinitions/discordMessage.types";
 import { TasksResponseType } from "../typeDefinitions/task.types";
+import { formatTask } from "../utils/FormatTask";
 import { discordTextResponse } from "../utils/discordResponse";
 import { formatStatus } from "../utils/formatStatus";
 import { getNickName } from "../utils/getNickName";
 
 function fetchTask(assignee: string, status: string) {
-  const url = `https://api.realdevsquad.com/tasks?status=${status}&assignee=${assignee}&dev=true`;
+  const url = `${RDS_BASE_API_URL}/tasks?status=${status}&assignee=${assignee}&dev=true`;
   const response = fetch(url);
   return response;
-}
-
-function formatTask(task: TasksResponseType["tasks"][0]) {
-  return `
-    **Title:** ${task.title}
-    **Progress:** ${task.percentCompleted}%
-    **See more:** [Task Details](https://status.realdevsquad.com/tasks/${task.id})\n`;
 }
 
 export async function taskCommand(userId: string, env: env) {
