@@ -16,6 +16,7 @@ import {
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
 import { getGuildMemberDetailsHandler } from "./controllers/getGuildMemberDetailsHandler";
+import { send } from "./handlers/scheduledEventHandler";
 
 const router = Router();
 
@@ -50,6 +51,7 @@ router.delete("/roles", removeGuildRoleHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
+
   if (message.type === InteractionType.PING) {
     return new JSONResponse({
       type: InteractionResponseType.PONG,
@@ -78,4 +80,11 @@ export default {
     }
     return router.handle(request, env);
   },
+
+  //keeping these code under comment until we patch the pagination
+  //of overdue tasks API
+
+  // async scheduled(req: Request, env: env, ctx: ExecutionContext) {
+  //   ctx.waitUntil(send(env));
+  // },
 };
