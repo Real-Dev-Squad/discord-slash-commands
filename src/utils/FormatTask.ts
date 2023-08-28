@@ -8,5 +8,5 @@ export function formatTask(task: TasksResponseType["tasks"][0]) {
       **Ends On:** ${formatDate(task.endsOn)}
       **See more:** [Task Details](https://status.realdevsquad.com/tasks/${
         task.id
-      })\n`;
+      })`;
 }

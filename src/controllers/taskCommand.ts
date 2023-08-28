@@ -48,5 +48,9 @@ export async function taskCommand(userId: string, env: env) {
     );
   }
 
-  return discordTextResponse(formattedTasks.join("\n"));
+  return discordTextResponse(`
+  ## Tasks of ${nickName}
+  \n${formattedTasks.join("\n")}
+  \nSee more tasks of ${nickName}: [RDS Tasks](https://status.realdevsquad.com/tasks?dev=true&q=status:all+assignee:${nickName})
+  `);
 }
