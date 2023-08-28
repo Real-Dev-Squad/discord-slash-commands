@@ -17,7 +17,7 @@ async function registerGuildCommands(
   discordApplicationId?: string,
   discordGuildId?: string
 ) {
-  const commands = [HELLO, VERIFY, MENTION_EACH];
+  const commands = [HELLO, VERIFY, MENTION_EACH, LISTENING];
 
   try {
     if (!discordBotToken) throw new Error("Please provide a BOT TOKEN");
