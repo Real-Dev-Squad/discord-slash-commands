@@ -4,6 +4,9 @@ import * as error from "../constants/responses";
 import { getDiscordIds } from "../utils/getDiscordIds";
 import { RDS_TRACKING_CHANNEL_URL } from "../constants/urls";
 
+const SUPER_USER_ONE = "154585730465660929";
+const SUPER_USER_TWO = "1040700289348542566";
+
 export async function send(env: env): Promise<void> {
   try {
     const assigneeIds: string[] | string = await taskOverDueDiscordMembers();
@@ -14,19 +17,19 @@ export async function send(env: env): Promise<void> {
     const uniqueDiscordIds = [...new Set(discordIds)];
 
     //notifying the two users with the authority.
-    let str = `<@154585730465660929> <@1040700289348542566>\nThese people have their task running red:\n`;
+    let stringToBeSent = `<@${SUPER_USER_ONE}> <@${SUPER_USER_TWO}>\nThese people have their task running red:\n`;
 
     let forFormatting = 0;
-    for (let i = 0; i < uniqueDiscordIds?.length; i++) {
-      const s = `<@${uniqueDiscordIds[i]}> `;
-      str += s;
+    uniqueDiscordIds.forEach((id) => {
+      const s = `<@${id}> `;
+      stringToBeSent += s;
       forFormatting++;
       if (forFormatting === 3) {
         //to keep 3 users/line
         forFormatting = 0;
-        str += `\n`;
+        stringToBeSent += `\n`;
       }
-    }
+    });
 
     if (
       assigneeIds === error.INTERNAL_SERVER_ERROR ||
@@ -36,7 +39,7 @@ export async function send(env: env): Promise<void> {
     }
 
     const bodyObj = {
-      content: str,
+      content: stringToBeSent,
     };
 
     const url = `${RDS_TRACKING_CHANNEL_URL}`;
