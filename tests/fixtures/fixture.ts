@@ -55,6 +55,10 @@ export const guildEnv = {
   DISCORD_TOKEN: "abcd",
 };
 
+export const dummyInviteBody = {
+  channelId: '1234'
+}
+
 export const dummyGuildMemberDetails = {
   avatar: null,
   communication_disabled_until: null,

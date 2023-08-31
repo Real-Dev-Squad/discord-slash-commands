@@ -1,3 +1,4 @@
+import { INVITE_OPTIONS } from "../constants/inviteOptions";
 import { INTERNAL_SERVER_ERROR, INVITED_CREATED } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
@@ -8,8 +9,8 @@ export async function generateDiscordLink(body: inviteLinkBody, env: env) {
   const generateInviteUrl = `${DISCORD_BASE_URL}/channels/${channelId}/invites`;
 
   const inviteOptions = {
-    max_uses: 1, // Maximum number of times the invite can be used
-    unique: true, // Whether to create a unique invite or not
+    max_uses: INVITE_OPTIONS.MAX_USE, // Maximum number of times the invite can be used
+    unique: INVITE_OPTIONS.UNIQUE, // Whether to create a unique invite or not
   };
   try {
     const response = await fetch(generateInviteUrl, {
