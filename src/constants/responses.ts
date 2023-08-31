@@ -7,7 +7,7 @@ export const NOT_FOUND = {
 };
 
 export const BAD_SIGNATURE = {
-  error: "🚫 Bad Request Signature",
+  error: "🚫 Bad Request",
 };
 
 export const STATUS_CHECK = {
@@ -23,6 +23,8 @@ export const RETRY_COMMAND =
   "Oops, we didn't catch that! Please use the command again.";
 
 export const ROLE_ADDED = "Role added successfully";
+
+export const INVITED_CREATED = "Invite created successfully!";
 
 export const NAME_CHANGED = "User nickname changed successfully";
 

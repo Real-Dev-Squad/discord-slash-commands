@@ -17,6 +17,8 @@ import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
 import { getGuildMemberDetailsHandler } from "./controllers/getGuildMemberDetailsHandler";
 import { send } from "./handlers/scheduledEventHandler";
+import { localEnv } from "../local.env";
+import { generateInviteLink } from "./controllers/generateDiscordInvite";
 
 const router = Router();
 
@@ -44,6 +46,7 @@ router.get("/member/:id", getGuildMemberDetailsHandler);
 router.patch("/guild/member", changeNickname);
 
 router.put("/roles/create", createGuildRoleHandler);
+router.put("/invite", generateInviteLink);
 
 router.put("/roles/add", addGroupRoleHandler);
 
@@ -71,6 +74,7 @@ router.all("*", async () => {
 
 export default {
   async fetch(request: Request, env: env): Promise<Response> {
+    env = localEnv;
     if (request.method === "POST") {
       const isVerifiedRequest = await verifyBot(request, env);
       if (!isVerifiedRequest) {
