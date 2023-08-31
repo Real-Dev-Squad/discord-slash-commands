@@ -40,3 +40,29 @@ export const LISTENING = {
     },
   ],
 };
+
+export const OOO = {
+  name: "ooo",
+  description: "out-of-office data of the mentioned user",
+  options: [
+    {
+      name: "username",
+      description: "tag user for that",
+      type: 6,
+      required: true,
+    },
+  ],
+};
+
+export const TASK = {
+  name: "ooo",
+  description: "display the ooo status",
+  options: [
+    {
+      name: "username",
+      description: "Nickname of the user",
+      type: 6,
+      required: true,
+    },
+  ],
+};

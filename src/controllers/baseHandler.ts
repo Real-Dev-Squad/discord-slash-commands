@@ -2,6 +2,7 @@ import { commandNotFound } from "./commandNotFound";
 import { helloCommand } from "./helloCommand";
 import { verifyCommand } from "./verifyCommand";
 import { mentionEachUser } from "./mentionEachUser";
+import { oooCommand } from "./oooCommand";
 
 import { getCommandName } from "../utils/getCommandName";
 import JSONResponse from "../utils/JsonResponse";
@@ -13,7 +14,13 @@ import {
   messageRequestDataOptions,
 } from "../typeDefinitions/discordMessage.types";
 
-import { HELLO, LISTENING, MENTION_EACH, VERIFY } from "../constants/commands";
+import {
+  HELLO,
+  LISTENING,
+  MENTION_EACH,
+  VERIFY,
+  OOO,
+} from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
 import { removeListening } from "../utils/removeListening";
@@ -104,6 +111,10 @@ export async function baseHandler(
       } catch (err) {
         return discordEphemeralResponse(RETRY_COMMAND);
       }
+    }
+    case getCommandName(OOO): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      return await oooCommand(data[0].value);
     }
     default: {
       return commandNotFound();
