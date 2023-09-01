@@ -56,8 +56,8 @@ export const guildEnv = {
 };
 
 export const dummyInviteBody = {
-  channelId: '1234'
-}
+  channelId: "1234",
+};
 
 export const dummyGuildMemberDetails = {
   avatar: null,
