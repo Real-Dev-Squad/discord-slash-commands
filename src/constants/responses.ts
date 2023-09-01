@@ -7,7 +7,7 @@ export const NOT_FOUND = {
 };
 
 export const BAD_SIGNATURE = {
-  error: "🚫 Bad Request",
+  error: "🚫 Bad Request Signature",
 };
 
 export const STATUS_CHECK = {

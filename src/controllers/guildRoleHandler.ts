@@ -72,7 +72,6 @@ export async function removeGuildRoleHandler(request: IRequest, env: env) {
 }
 export async function getGuildRolesHandler(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
-
   if (!authHeader) {
     return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
   }
