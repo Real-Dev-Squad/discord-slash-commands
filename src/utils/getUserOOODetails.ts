@@ -1,3 +1,4 @@
+import { userStatusMock } from "../../tests/fixtures/fixture";
 import * as response from "../constants/responses";
 import { RDS_BASE_API_URL } from "../constants/urls";
 import { formatOOOMessage } from "./formatOOOMessage";
@@ -25,24 +26,7 @@ export const getUserOOODetails = async (id: string) => {
     //   );
     //   const userStatusData = await userStatus.json();
     //   const data = userStatusData.data;
-    const userobject = {
-      userId: "String",
-      // "currentStatus":  {
-      //     "state": "OOO",
-      //     "updatedAt": 1693314367311,
-      //     "from": 1680912000000,
-      //     "until": 1703980800000,
-      //     "message": "react conference"
-      //   },
-      futureStatus: {
-        state: "OOO",
-        updatedAt: 1693314367311,
-        from: 1693267200000,
-        until: 1693785600000,
-        message: "Going to bahamas",
-      },
-    };
-    const userResponse = formatOOOMessage(userobject, id);
+    const userResponse = formatOOOMessage(userStatusMock);
     return userResponse;
   } catch (err) {
     return response.BAD_SIGNATURE;

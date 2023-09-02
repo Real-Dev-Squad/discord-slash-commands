@@ -1,4 +1,6 @@
-export function formatOOOMessage(data: object, id: string) {
+import { UserStatus } from "../typeDefinitions/userStatus.type";
+
+export function formatOOOMessage(data: UserStatus) {
   let msg = "";
   const { currentStatus, futureStatus } = data;
 

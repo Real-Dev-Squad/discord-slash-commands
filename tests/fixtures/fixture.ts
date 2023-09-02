@@ -7,6 +7,7 @@ import {
 import { InteractionType } from "discord-interactions";
 import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
 import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
+import { UserStatus } from "../../src/typeDefinitions/userStatus.type";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,
@@ -193,4 +194,27 @@ export const taskOverdueMock: TaskOverdueResponse = {
       startedOn: "1686527000",
     },
   ],
+};
+
+export const userStatusMock: UserStatus = {
+  id: "someId",
+  userId: "someUserId",
+  currentStatus: {
+    state: "OOO",
+    updatedAt: "2023-08-30T00:00:00.000Z",
+    from: "2023-08-30T00:00:00.000Z",
+    until: "2023-08-31T00:00:00.000Z",
+    message: "Out of office message for today",
+  },
+  futureStatus: {
+    state: "OOO",
+    updatedAt: "2023-09-01T00:00:00.000Z",
+    from: "2023-09-01T00:00:00.000Z",
+    until: "2023-09-02T00:00:00.000Z",
+    message: "Upcoming out of office message",
+  },
+  monthlyHours: {
+    committed: 40,
+    updatedAt: "2023-08-01T00:00:00.000Z",
+  },
 };
