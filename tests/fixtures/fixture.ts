@@ -199,22 +199,25 @@ export const taskOverdueMock: TaskOverdueResponse = {
 export const userStatusMock: UserStatus = {
   id: "someId",
   userId: "someUserId",
-  currentStatus: {
-    state: "OOO",
-    updatedAt: "2023-08-30T00:00:00.000Z",
-    from: "2023-08-30T00:00:00.000Z",
-    until: "2023-08-31T00:00:00.000Z",
-    message: "Out of office message for today",
+  data: {
+    currentStatus: {
+      state: "OOO",
+      updatedAt: "2023-08-30T00:00:00.000Z",
+      from: "2023-08-30T00:00:00.000Z",
+      until: "2023-08-31T00:00:00.000Z",
+      message: "Out of office message for today",
+    },
+    futureStatus: {
+      state: "OOO",
+      updatedAt: "2023-09-01T00:00:00.000Z",
+      from: "2023-09-01T00:00:00.000Z",
+      until: "2023-09-02T00:00:00.000Z",
+      message: "Upcoming out of office message",
+    },
+    monthlyHours: {
+      committed: 40,
+      updatedAt: "2023-08-01T00:00:00.000Z",
+    },
   },
-  futureStatus: {
-    state: "OOO",
-    updatedAt: "2023-09-01T00:00:00.000Z",
-    from: "2023-09-01T00:00:00.000Z",
-    until: "2023-09-02T00:00:00.000Z",
-    message: "Upcoming out of office message",
-  },
-  monthlyHours: {
-    committed: 40,
-    updatedAt: "2023-08-01T00:00:00.000Z",
-  },
+  message: "User Status found successfully.",
 };
