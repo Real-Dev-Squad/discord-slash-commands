@@ -7,6 +7,7 @@ import {
 import { InteractionType } from "discord-interactions";
 import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
 import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
+import { INVITED_CREATED } from "../../src/constants/responses";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,
@@ -103,12 +104,13 @@ export const onlyRoleToBeTagged = {
   },
 };
 
-export const generateDummyRequestObject = ({
+export const  generateDummyRequestObject = ({
   url,
   method,
   params,
   query,
   headers, // Object of key value pair
+  body,
 }: Partial<IRequest>): IRequest => {
   return {
     method: method ?? "GET",
@@ -116,6 +118,7 @@ export const generateDummyRequestObject = ({
     params: params ?? {},
     query: query ?? {},
     headers: new Map(Object.entries(headers ?? {})),
+    body: body ?? JSON.stringify({}) 
   };
 };
 
@@ -197,4 +200,9 @@ export const taskOverdueMock: TaskOverdueResponse = {
       startedOn: "1686527000",
     },
   ],
+};
+
+export const discordLinkResponseMock = {
+  data: {},
+  message: INVITED_CREATED,
 };

@@ -12,11 +12,17 @@ export async function generateInviteLink(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
+    console.log("coming in top")
     await verifyAuthToken(authHeader, env);
+    console.log("coming below authHeader")
+    console.log(request, 'request')
+
     const body: inviteLinkBody = await request.json();
+    console.log(body, 'body')
     const res = await generateDiscordLink(body, env);
+    console.log(res)
     return new JSONResponse(res);
   } catch (err) {
-    return new JSONResponse(response.BAD_SIGNATURE);
+    return new JSONResponse({...response.BAD_SIGNATURE, err});
   }
 }
