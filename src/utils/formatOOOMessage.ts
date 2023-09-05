@@ -1,26 +1,37 @@
 import { UserStatus } from "../typeDefinitions/userStatus.type";
 
-export function formatOOOMessage(data: UserStatus) {
+export function formatOOOMessage(userStatusData: UserStatus) {
   let msg = "";
-  const { data: userData } = data;
 
-  if (userData.currentStatus && userData.currentStatus.state === "OOO") {
+  if (
+    userStatusData.data.currentStatus &&
+    userStatusData.data.currentStatus.state === "OOO"
+  ) {
     const currentFromDate = new Date(
-      userData.currentStatus.from
+      userStatusData.data.currentStatus.from
     ).toDateString();
-    const currentToDate = new Date(userData.currentStatus.until).toDateString();
+    const currentToDate = new Date(
+      userStatusData.data.currentStatus.until
+    ).toDateString();
 
     msg = msg.concat(
-      `**Current**:\n${currentFromDate} - ${currentToDate}\n ${userData.currentStatus.message}\n\n`
+      `**Current**:\n${currentFromDate} - ${currentToDate}\n ${userStatusData.data.currentStatus.message}\n\n`
     );
   }
 
-  if (userData.futureStatus && userData.futureStatus.state === "OOO") {
-    const futureFromDate = new Date(userData.futureStatus.from).toDateString();
-    const futureToDate = new Date(userData.futureStatus.until).toDateString();
+  if (
+    userStatusData.data.futureStatus &&
+    userStatusData.data.futureStatus.state === "OOO"
+  ) {
+    const futureFromDate = new Date(
+      userStatusData.data.futureStatus.from
+    ).toDateString();
+    const futureToDate = new Date(
+      userStatusData.data.futureStatus.until
+    ).toDateString();
 
     msg = msg.concat(
-      `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${userData.futureStatus.message}\n`
+      `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${userStatusData.data.futureStatus.message}\n`
     );
   }
 

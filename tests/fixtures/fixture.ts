@@ -200,6 +200,7 @@ export const userStatusMock: UserStatus = {
   id: "someId",
   userId: "someUserId",
   data: {
+    userId: "someUserId",
     currentStatus: {
       state: "OOO",
       updatedAt: "2023-08-30T00:00:00.000Z",

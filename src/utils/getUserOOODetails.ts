@@ -6,22 +6,15 @@ import { formatOOOMessage } from "./formatOOOMessage";
 
 export const getUserOOODetails = async (id: string) => {
   try {
-    const response = await fetch(`${RDS_BASE_API_URL}/users/vikhyat`);
+    const response = await fetch(`${RDS_BASE_API_URL}/users/vinit`);
     const responseData: User = await response.json();
     const userId = responseData?.user?.id;
     if (userId) {
       const userStatus = await fetch(
-        `${RDS_BASE_API_URL}/users/status/${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        `${RDS_BASE_API_URL}/users/status/${userId}`
       );
       const userStatusData: any = await userStatus.json();
-      const data = userStatusData?.data;
-      const userResponse = formatOOOMessage(data);
+      const userResponse = formatOOOMessage(userStatusData);
       return userResponse;
     }
   } catch (err) {
