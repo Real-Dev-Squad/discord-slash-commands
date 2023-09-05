@@ -47,3 +47,8 @@ export const LISTENING_SUCCESS_MESSAGE =
 export const REMOVED_LISTENING_MESSAGE = "Listening nickname removed.";
 export const ALREADY_LISTENING = "You are already set to listen.";
 export const NOTHING_CHANGED = "Your nickname remains unchanged.";
+
+export const INVALID_NICKNAME_ERROR = `"{{nickName}}" is not a valid nickname or username. Please set your discord server nickname or contact the Moderators.`;
+export const NO_TASKS_FOUND = `No tasks found for **{{nickName}}**.`;
+export const TASKS_FETCH_FAILED = "An error occurred while fetching tasks.";
+export const FAILED_TO_FETCH_TASKS = `Failed to fetch tasks for **{{assignee}}**.`;
