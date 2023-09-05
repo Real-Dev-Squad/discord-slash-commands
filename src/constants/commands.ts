@@ -53,16 +53,3 @@ export const OOO = {
     },
   ],
 };
-
-export const TASK = {
-  name: "ooo",
-  description: "display the ooo status",
-  options: [
-    {
-      name: "username",
-      description: "Nickname of the user",
-      type: 6,
-      required: true,
-    },
-  ],
-};
