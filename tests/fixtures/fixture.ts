@@ -7,7 +7,6 @@ import {
 import { InteractionType } from "discord-interactions";
 import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
 import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
-import { INVITED_CREATED } from "../../src/constants/responses";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,

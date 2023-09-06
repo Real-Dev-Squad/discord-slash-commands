@@ -2,7 +2,7 @@ import { generateInviteLink } from "../../../src/controllers/generateDiscordInvi
 import JSONResponse from "../../../src/utils/JsonResponse";
 import { generateDummyRequestObject, guildEnv } from "../../fixtures/fixture";
 import * as responseConstants from "../../../src/constants/responses";
-import { IRequest } from "itty-router";
+import { inviteResponseType } from "../../../src/typeDefinitions/discordLink.types";
 
 jest.mock("../../../src/utils/verifyAuthToken", () => ({
   verifyAuthToken: jest.fn().mockReturnValue(true),
@@ -38,7 +38,6 @@ describe("generate discord link", () => {
         "Content-Type": "application/json",
       },
       json: async () => {
-        /* return a valid inviteLinkBody object here */
         return { channelId: "xyz" };
       },
     });
@@ -48,7 +47,7 @@ describe("generate discord link", () => {
       guildEnv
     );
 
-    const jsonResponse: any = await response.json();
+    const jsonResponse: inviteResponseType = await response.json();
 
     expect(response.status).toBe(200);
     expect(jsonResponse.message).toEqual(responseConstants.INVITED_CREATED);

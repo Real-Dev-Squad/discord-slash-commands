@@ -41,10 +41,6 @@ export interface memberGroupRole {
   roleid: string;
 }
 
-export interface inviteLinkBody {
-  channelId: string;
-}
-
 export interface guildRoleResponse {
   id: string;
   name: string;

@@ -2,7 +2,7 @@ import { INVITE_OPTIONS } from "../constants/inviteOptions";
 import { INTERNAL_SERVER_ERROR, INVITED_CREATED } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
-import { inviteLinkBody } from "../typeDefinitions/discordMessage.types";
+import { inviteLinkBody } from "../typeDefinitions/discordLink.types";
 
 export async function generateDiscordLink(body: inviteLinkBody, env: env) {
   const { channelId } = body;

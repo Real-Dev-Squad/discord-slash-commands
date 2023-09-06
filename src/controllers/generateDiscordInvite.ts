@@ -4,7 +4,7 @@ import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { verifyAuthToken } from "../utils/verifyAuthToken";
 import { generateDiscordLink } from "../utils/generateDiscordInvite";
-import { inviteLinkBody } from "../typeDefinitions/discordMessage.types";
+import { inviteLinkBody } from "../typeDefinitions/discordLink.types";
 
 export async function generateInviteLink(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
