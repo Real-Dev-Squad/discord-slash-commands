@@ -38,7 +38,6 @@ describe("generate invite link", () => {
       );
 
     const result = await generateDiscordLink(dummyInviteBody, guildEnv);
-    console.log(result, "result here");
     expect(result).toEqual({ data: {}, message: response.INVITED_CREATED });
     expect(global.fetch).toHaveBeenCalledWith(
       `https://discord.com/api/v10/channels/${dummyInviteBody.channelId}/invites`,
