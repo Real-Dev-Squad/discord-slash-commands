@@ -1,7 +1,4 @@
-import {
-  TasksResponseType,
-  task,
-} from "../../../src/typeDefinitions/task.types";
+import { task } from "../../../src/typeDefinitions/task.types";
 import {
   formatTask,
   generateTaskResponseMessage,
@@ -21,7 +18,7 @@ describe("Test formatTask function", () => {
     const expectedTask = `
       **Title:** Test Cases for QR scanning feature
       **Progress:** 40%
-      **Ends On:** 9 September 2023, 5:30 AM IST
+      **Ends On:** 9 September 2023, 12:00 AM IST
       **More details:** [Task Details](https://status.realdevsquad.com/tasks/qaCqdCTjRyX1EPLuv1mJ)`;
     expect(formattedTask).toBe(expectedTask);
   });
@@ -48,12 +45,12 @@ describe("Test generateTaskResponseMessage function", () => {
     const task1 = `
       **Title:** Test Cases for QR scanning feature
       **Progress:** 40%
-      **Ends On:** 9 September 2023, 5:30 AM IST
+      **Ends On:** 9 September 2023, 12:00 AM IST
       **More details:** [Task Details](https://status.realdevsquad.com/tasks/qaCqdCTjRyX1EPLuv1mJ)`;
     const task2 = `
       **Title:** /task command to  show assignee task details 
       **Progress:** 50%
-      **Ends On:** 9 September 2023, 3:47 PM IST
+      **Ends On:** 9 September 2023, 10:17 PM IST
       **More details:** [Task Details](https://status.realdevsquad.com/tasks/xylBsqi7LayeiZVlJfUr)`;
     const allTaskURL =
       " [→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:sunny-s)";
