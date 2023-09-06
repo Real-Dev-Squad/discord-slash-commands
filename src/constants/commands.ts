@@ -28,6 +28,19 @@ export const MENTION_EACH = {
   ],
 };
 
+export const USER = {
+  name: "user",
+  description: "Replies with specific user details in the channel",
+  options: [
+    {
+      name: "username",
+      description: "Takes username and shows user details",
+      type: 6, // 2 is type SUB_COMMAND_GROUP
+      required: true,
+    },
+  ],
+};
+
 export const LISTENING = {
   name: "listening",
   description: "mark user as listening",
