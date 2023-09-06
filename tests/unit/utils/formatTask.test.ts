@@ -50,7 +50,7 @@ describe("Test generateTaskResponseMessage function", () => {
     const task2 = `
       **Title:** /task command to  show assignee task details 
       **Progress:** 50%
-      **Ends On:** 9 September 2023, 10:17 PM IST
+      **Ends On:** 9 September 2023, 10:17 AM IST
       **More details:** [Task Details](https://status.realdevsquad.com/tasks/xylBsqi7LayeiZVlJfUr)`;
     const allTaskURL =
       " [→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:sunny-s)";
