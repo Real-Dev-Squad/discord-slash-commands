@@ -110,7 +110,6 @@ export const generateDummyRequestObject = ({
   params,
   query,
   headers, // Object of key value pair
-  body,
   json,
 }: Partial<IRequest>): IRequest => {
   return {
@@ -119,7 +118,6 @@ export const generateDummyRequestObject = ({
     params: params ?? {},
     query: query ?? {},
     headers: new Map(Object.entries(headers ?? {})),
-    body: body ?? JSON.stringify({}),
     json: json,
   };
 };
@@ -202,9 +200,4 @@ export const taskOverdueMock: TaskOverdueResponse = {
       startedOn: "1686527000",
     },
   ],
-};
-
-export const discordLinkResponseMock = {
-  data: {},
-  message: INVITED_CREATED,
 };
