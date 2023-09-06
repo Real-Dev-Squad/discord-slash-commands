@@ -1,26 +1,14 @@
-import { RDS_BASE_API_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 import { TasksResponseType } from "../typeDefinitions/task.types";
 import { formatTask, generateTaskResponseMessage } from "../utils/formatTask";
 import { discordTextResponse } from "../utils/discordResponse";
+import { fetchTasks } from "../utils/fetchTasks";
 import { getNickName } from "../utils/getNickName";
 import {
-  FAILED_TO_FETCH_TASKS,
   INVALID_NICKNAME_ERROR,
   NO_TASKS_FOUND,
   TASKS_FETCH_FAILED,
 } from "../constants/responses";
-
-async function fetchTasks(assignee: string, status: string) {
-  const url = `${RDS_BASE_API_URL}/tasks?status=${status}&assignee=${assignee}&dev=true`;
-  const response = await fetch(url);
-  const responseData: TasksResponseType = await response.json();
-
-  if (!response.ok) {
-    throw new Error(FAILED_TO_FETCH_TASKS.replace("{{assignee}}", assignee));
-  }
-  return responseData;
-}
 
 export async function taskCommand(userId: string, env: env) {
   try {
