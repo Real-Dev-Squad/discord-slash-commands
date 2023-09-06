@@ -1,22 +1,23 @@
-import { generateInviteLink } from '../../../src/controllers/generateDiscordInvite';
-import JSONResponse from '../../../src/utils/JsonResponse';
-import { generateDummyRequestObject, guildEnv } from '../../fixtures/fixture';
-import * as responseConstants from '../../../src/constants/responses';
+import { generateInviteLink } from "../../../src/controllers/generateDiscordInvite";
+import JSONResponse from "../../../src/utils/JsonResponse";
+import { generateDummyRequestObject, guildEnv } from "../../fixtures/fixture";
+import * as responseConstants from "../../../src/constants/responses";
+import { IRequest } from "itty-router";
 
-jest.mock('../../../src/utils/verifyAuthToken', () => ({
+jest.mock("../../../src/utils/verifyAuthToken", () => ({
   verifyAuthToken: jest.fn().mockReturnValue(true),
 }));
 
-jest.mock('../../../src/utils/generateDiscordInvite', () => ({
+jest.mock("../../../src/utils/generateDiscordInvite", () => ({
   generateDiscordLink: jest
     .fn()
-    .mockReturnValue({ data: {}, message: 'Invite created successfully!' }),
+    .mockReturnValue({ data: {}, message: "Invite created successfully!" }),
 }));
 
-describe('generate discord link', () => {
+describe("generate discord link", () => {
   it("should return 🚫 Bad Request Signature' if authtoken is there in the header", async () => {
     const mockRequest = generateDummyRequestObject({
-      url: '/invite',
+      url: "/invite",
     });
 
     const response: JSONResponse = await generateInviteLink(
@@ -28,15 +29,18 @@ describe('generate discord link', () => {
     expect(jsonResponse).toEqual(responseConstants.BAD_SIGNATURE);
   });
 
-  it('should return data object with message on success', async () => {
+  it("should return data object with message on success", async () => {
     const mockRequest = generateDummyRequestObject({
-      method: 'PUT',
-      url: '/invite',
+      method: "PUT",
+      url: "/invite",
       headers: {
-        Authorization: 'Bearer testtoken',
-        'Content-Type': 'application/json',
+        Authorization: "Bearer testtoken",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ channelId: 'xyz' }),
+      json: async () => {
+        /* return a valid inviteLinkBody object here */
+        return { channelId: "xyz" };
+      },
     });
 
     const response: JSONResponse = await generateInviteLink(
@@ -46,7 +50,6 @@ describe('generate discord link', () => {
 
     const jsonResponse: any = await response.json();
 
-    console.log(jsonResponse);
     expect(response.status).toBe(200);
     expect(jsonResponse.message).toEqual(responseConstants.INVITED_CREATED);
   });

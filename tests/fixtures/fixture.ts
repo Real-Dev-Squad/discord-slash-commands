@@ -104,13 +104,14 @@ export const onlyRoleToBeTagged = {
   },
 };
 
-export const  generateDummyRequestObject = ({
+export const generateDummyRequestObject = ({
   url,
   method,
   params,
   query,
   headers, // Object of key value pair
   body,
+  json,
 }: Partial<IRequest>): IRequest => {
   return {
     method: method ?? "GET",
@@ -118,7 +119,8 @@ export const  generateDummyRequestObject = ({
     params: params ?? {},
     query: query ?? {},
     headers: new Map(Object.entries(headers ?? {})),
-    body: body ?? JSON.stringify({}) 
+    body: body ?? JSON.stringify({}),
+    json: json,
   };
 };
 
