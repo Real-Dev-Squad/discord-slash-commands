@@ -14,33 +14,29 @@ import {
 async function fetchTasks(assignee: string, status: string) {
   const url = `${RDS_BASE_API_URL}/tasks?status=${status}&assignee=${assignee}&dev=true`;
   const response = await fetch(url);
-  const tasks: TasksResponseType = await response.json();
+  const responseData: TasksResponseType = await response.json();
 
   if (!response.ok) {
     throw new Error(FAILED_TO_FETCH_TASKS.replace("{{assignee}}", assignee));
   }
-
-  return tasks;
+  return responseData;
 }
 
 export async function taskCommand(userId: string, env: env) {
   try {
     const nickName = await getNickName(userId, env);
     if (nickName === null) {
-      const errorMessage = INVALID_NICKNAME_ERROR.replace(
-        "{{nickName}}",
-        nickName
-      );
-      return discordTextResponse(errorMessage);
+      return discordTextResponse(INVALID_NICKNAME_ERROR);
     }
     const status = "IN_PROGRESS";
-    const tasks = await fetchTasks(nickName, status);
-    if (!tasks.tasks) {
+    const tasksData = await fetchTasks(nickName, status);
+
+    if (!tasksData.tasks) {
       const errorMessage = NO_TASKS_FOUND.replace("{{nickName}}", nickName);
       return discordTextResponse(errorMessage);
     }
 
-    const formattedTasks = tasks.tasks.map(
+    const formattedTasks = tasksData.tasks.map(
       (task: TasksResponseType["tasks"][0]) => formatTask(task)
     );
 
