@@ -11,12 +11,12 @@ import {
 } from "../constants/responses";
 
 export async function taskCommand(userId: string, env: env) {
+  const status = "IN_PROGRESS";
   try {
     const nickName = await getNickName(userId, env);
     if (nickName === null) {
       return discordTextResponse(INVALID_NICKNAME_ERROR);
     }
-    const status = "IN_PROGRESS";
     const tasksData = await fetchTasks(nickName, status);
 
     if (!tasksData.tasks) {
