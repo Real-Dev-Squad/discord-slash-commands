@@ -12,7 +12,6 @@ export async function getNickName(id: string, env: env) {
       }
     );
     const data: any = await response.json();
-    console;
     return data.nick;
   } catch (error) {
     console.error("An error occurred:", error);
