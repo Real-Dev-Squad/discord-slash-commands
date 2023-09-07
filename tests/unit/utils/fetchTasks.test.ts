@@ -38,4 +38,21 @@ describe("Test fetchTasks function", () => {
       "https://api.realdevsquad.com/tasks?status=IN_PROGRESS&assignee=sunny-s&dev=true"
     );
   });
+
+  it("Should return a response with no tasks", async () => {
+    const mockResponse = {
+      tasks: [],
+    };
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.resolve(new JSONResponse(mockResponse))
+      );
+    const tasks = await fetchTasks("sunny-s", "IN_PROGRESS");
+    expect(tasks).toEqual(mockResponse);
+    expect(tasks.tasks.length).toEqual(0);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.realdevsquad.com/tasks?status=IN_PROGRESS&assignee=sunny-s&dev=true"
+    );
+  });
 });
