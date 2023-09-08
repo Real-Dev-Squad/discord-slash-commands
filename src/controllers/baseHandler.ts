@@ -2,6 +2,7 @@ import { commandNotFound } from "./commandNotFound";
 import { helloCommand } from "./helloCommand";
 import { verifyCommand } from "./verifyCommand";
 import { mentionEachUser } from "./mentionEachUser";
+import { taskCommand } from "./taskCommand";
 import { oooCommand } from "./oooCommand";
 
 import { getCommandName } from "../utils/getCommandName";
@@ -19,7 +20,7 @@ import {
   LISTENING,
   MENTION_EACH,
   VERIFY,
-  OOO,
+  TASK,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -111,6 +112,10 @@ export async function baseHandler(
       } catch (err) {
         return discordEphemeralResponse(RETRY_COMMAND);
       }
+    }
+    case getCommandName(TASK): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      return await taskCommand(data[0].value, env);
     }
     case getCommandName(OOO): {
       const data = message.data?.options as Array<messageRequestDataOptions>;

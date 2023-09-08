@@ -41,6 +41,19 @@ export const LISTENING = {
   ],
 };
 
+export const TASK = {
+  name: "task",
+  description: "display the task of the user",
+  options: [
+    {
+      name: "username",
+      description: "Nickname of the user",
+      type: 6,
+      required: true,
+    },
+  ],
+};
+
 export const OOO = {
   name: "ooo",
   description: "out-of-office data of the mentioned user",
