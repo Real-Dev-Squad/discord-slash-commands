@@ -1,5 +1,5 @@
 import { env } from "../typeDefinitions/default.types";
-import { TasksResponseType } from "../typeDefinitions/task.types";
+import { TasksResponseType, task } from "../typeDefinitions/task.types";
 import { formatTask, generateTaskResponseMessage } from "../utils/formatTask";
 import { discordTextResponse } from "../utils/discordResponse";
 import { fetchTasks } from "../utils/fetchTasks";
@@ -25,7 +25,7 @@ export async function taskCommand(userId: string, env: env) {
     }
 
     const formattedTasks = tasksData.tasks.map(
-      (task: TasksResponseType["tasks"][0]) => formatTask(task)
+      (task: task) => formatTask(task)
     );
 
     const responseMessage = generateTaskResponseMessage(
