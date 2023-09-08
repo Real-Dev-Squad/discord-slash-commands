@@ -24,8 +24,8 @@ export async function taskCommand(userId: string, env: env) {
       return discordTextResponse(errorMessage);
     }
 
-    const formattedTasks = tasksData.tasks.map(
-      (task: task) => formatTask(task)
+    const formattedTasks = tasksData.tasks.map((task: task) =>
+      formatTask(task)
     );
 
     const responseMessage = generateTaskResponseMessage(

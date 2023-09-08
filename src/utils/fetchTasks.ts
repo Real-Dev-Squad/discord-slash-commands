@@ -6,11 +6,11 @@ async function fetchTasks(assignee: string, status: string) {
   try {
     const url = `${RDS_BASE_API_URL}/tasks?status=${status}&assignee=${assignee}&dev=true`;
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       throw new Error(FAILED_TO_FETCH_TASKS.replace("{{assignee}}", assignee));
     }
-    
+
     const responseData: TasksResponseType = await response.json();
     return responseData;
   } catch (error) {
