@@ -1,5 +1,12 @@
 import { INVITE_OPTIONS } from "../constants/inviteOptions";
-import { INTERNAL_SERVER_ERROR, INVITED_CREATED } from "../constants/responses";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  INVITED_CREATED,
+  NOT_FOUND,
+  TOO_MAN_REQUESTS,
+  UNAUTHORIZED,
+} from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 import { inviteLinkBody } from "../typeDefinitions/discordLink.types";
@@ -26,6 +33,22 @@ export async function generateDiscordLink(body: inviteLinkBody, env: env) {
       const data = await response.json();
       return { message: INVITED_CREATED, data };
     } else {
+      if (response.status === 400) {
+        return BAD_REQUEST;
+      }
+
+      if (response.status === 401) {
+        return UNAUTHORIZED;
+      }
+
+      if (response.status === 404) {
+        return NOT_FOUND;
+      }
+
+      if (response.status === 429) {
+        return TOO_MAN_REQUESTS;
+      }
+
       return INTERNAL_SERVER_ERROR;
     }
   } catch (err) {

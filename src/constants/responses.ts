@@ -14,6 +14,10 @@ export const STATUS_CHECK = {
   message: "Welcome to our discord Bot Server 👋",
 };
 
+export const TOO_MAN_REQUESTS = {
+  error: "Too many requests!",
+};
+
 export const COMMAND_NOT_FOUND = "Command Not Found";
 
 export const INTERNAL_SERVER_ERROR =
@@ -41,6 +45,9 @@ export const ROLE_FETCH_FAILED =
 
 export const BAD_REQUEST = {
   error: "Oops! This is not a proper request.",
+};
+export const UNAUTHORIZED = {
+  error: "UnAuthorized!",
 };
 
 export const LISTENING_SUCCESS_MESSAGE =
