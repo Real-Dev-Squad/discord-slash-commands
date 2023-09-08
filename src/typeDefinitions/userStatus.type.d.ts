@@ -5,14 +5,14 @@ export interface UserStatus {
     userId: string;
     currentStatus: {
       from: TimeStamp;
-      until: string;
+      until: TimeStamp;
       state: "IDLE" | "OOO" | "ACTIVE";
       updatedAt: TimeStamp;
       message: string;
     };
     futureStatus: {
       from: TimeStamp;
-      until: string;
+      until: TimeStamp;
       state: "IDLE" | "OOO" | "ACTIVE";
       updatedAt: TimeStamp;
       message: string;

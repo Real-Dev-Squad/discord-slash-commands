@@ -1,4 +1,5 @@
 import { UserStatus } from "../typeDefinitions/userStatus.type";
+import { formatDate } from "./formatDate";
 
 export function formatOOOMessage(userStatusData: UserStatus) {
   let msg = "";
@@ -7,12 +8,8 @@ export function formatOOOMessage(userStatusData: UserStatus) {
     userStatusData.data.currentStatus &&
     userStatusData.data.currentStatus.state === "OOO"
   ) {
-    const currentFromDate = new Date(
-      userStatusData.data.currentStatus.from
-    ).toDateString();
-    const currentToDate = new Date(
-      userStatusData.data.currentStatus.until
-    ).toDateString();
+    const currentFromDate = formatDate(userStatusData.data.currentStatus.from);
+    const currentToDate = formatDate(userStatusData.data.currentStatus.until);
 
     msg = msg.concat(
       `**Current**:\n${currentFromDate} - ${currentToDate}\n ${userStatusData.data.currentStatus.message}\n\n`
@@ -23,12 +20,8 @@ export function formatOOOMessage(userStatusData: UserStatus) {
     userStatusData.data.futureStatus &&
     userStatusData.data.futureStatus.state === "OOO"
   ) {
-    const futureFromDate = new Date(
-      userStatusData.data.futureStatus.from
-    ).toDateString();
-    const futureToDate = new Date(
-      userStatusData.data.futureStatus.until
-    ).toDateString();
+    const futureFromDate = formatDate(userStatusData.data.futureStatus.from);
+    const futureToDate = formatDate(userStatusData.data.futureStatus.until);
 
     msg = msg.concat(
       `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${userStatusData.data.futureStatus.message}\n`
