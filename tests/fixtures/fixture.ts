@@ -5,6 +5,8 @@ import {
   memberGroupRole,
 } from "../../src/typeDefinitions/discordMessage.types";
 import { InteractionType } from "discord-interactions";
+import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
+import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,
@@ -153,4 +155,42 @@ export const discordUserData = {
     discriminator: "discriminator",
     expiry: mockDateNow + 1000 * 60 * 2,
   },
+};
+
+export const userBackendMock: UserBackend = {
+  message: "User returned successfully",
+  user: {
+    id: "1234567",
+    username: "fmk",
+    first_name: "f",
+    last_name: "mk",
+    discordId: "12345",
+    github_display_name: "fmk",
+    github_id: "fmk23",
+    isMember: false,
+  },
+};
+
+export const taskOverdueMock: TaskOverdueResponse = {
+  message: "Tasks returned Successfully",
+  tasks: [
+    {
+      id: "1234567",
+      percentCompleted: 60,
+      endsOn: "1686528000",
+      isNoteworthy: false,
+      createdBy: "random",
+      assignee: "vineeeet",
+      title: "task dependsOn",
+      type: "feature",
+      status: "SMOKE_TESTING",
+      assigneeId: "12345",
+      dependsOn: [
+        "1NtgKz4lzyiGMHSyBWje",
+        " HdRj3T603v0L5Pn80GUq",
+        " C29GgTuPWK32UqcyImsA",
+      ],
+      startedOn: "1686527000",
+    },
+  ],
 };

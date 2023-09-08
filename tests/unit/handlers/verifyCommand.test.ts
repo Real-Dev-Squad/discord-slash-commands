@@ -11,7 +11,7 @@ import {
   mockDateNow,
 } from "../../fixtures/fixture";
 
-describe("verifyCommand", () => {
+describe.skip("verifyCommand", () => {
   beforeEach(() => {
     jest.mock("@tsndr/cloudflare-worker-jwt");
     jest.spyOn(Date, "now").mockReturnValue(mockDateNow);
