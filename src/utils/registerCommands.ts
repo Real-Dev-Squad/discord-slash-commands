@@ -21,9 +21,9 @@ export async function registerCommands(
       method: "PUT",
       body: JSON.stringify(commands),
     });
-
-    if (response.ok) console.log("Registered all commands");
-    else console.error("Error Registering Commands");
+    if (response.ok) {
+      console.log("Registered all commands");
+    } else console.error("Error Registering Commands");
   } catch (error) {
     console.error(error);
   }
