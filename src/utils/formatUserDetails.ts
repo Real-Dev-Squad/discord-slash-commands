@@ -6,6 +6,7 @@ export function formatUserDetails(user: string) {
   const numericTimestamp = isoTimestamp.getTime() / 1000;
 
   return `      
+        ## User Details  
         **Full Name :** ${userDetailsObj.user.first_name} ${
     userDetailsObj.user.last_name
   } 

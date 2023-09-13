@@ -81,27 +81,3 @@ export interface discordMemberDetails {
   mute: boolean;
   deaf: boolean;
 }
-
-export interface rdsUserDetails {
-  message: string;
-  user: {
-    id: string;
-    discordJoinedAt: string;
-    discordId: string;
-    github_display_name: string;
-    github_id: string;
-    tokens: {
-      githubAccessToken: string;
-    };
-    username: string;
-    first_name: string;
-    last_name: string;
-    roles: {
-      in_discord: boolean;
-      super_user: boolean;
-      archived: boolean;
-    };
-    incompleteUserDetails: boolean;
-    state: string;
-  };
-}
