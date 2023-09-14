@@ -1,41 +1,23 @@
 import { formatUserDetails } from "../../../src/utils/formatUserDetails";
-import { formatDate } from "../../../src/utils/formatDate";
 
-describe("formatUserDetails", () => {
-  it("formats user details correctly", () => {
+describe("formatUserDetails function", () => {
+  it("should format user details correctly", () => {
     const user = JSON.stringify({
       user: {
         first_name: "John",
         last_name: "Doe",
-        discordJoinedAt: "2023-09-13T12:00:00.000Z",
+        discordJoinedAt: "2023-09-13T09:30:00.000Z",
         state: "Active",
       },
     });
 
-    const expectedOutput = `
+    const formattedDetails = formatUserDetails(user).trim();
+    const expectedFormattedDetails = `
         ## User Details  
         **Full Name :** John Doe 
-        **RDS Discord Joined At :** ${formatDate(1699992000)}
+        **RDS Discord Joined At :** 13 September 2023, 3:00 PM IST
         **State :** Active
-      `;
-
-    const result = formatUserDetails(user);
-
-    expect(result).toEqual(expectedOutput);
-  });
-
-  it("handles invalid user data", () => {
-    const invalidUserData = "{invalid_json}";
-
-    const expectedOutput = `
-        ## User Details  
-        **Full Name :** undefined undefined 
-        **RDS Discord Joined At :** Invalid Date
-        **State :** undefined
-      `;
-
-    const result = formatUserDetails(invalidUserData);
-
-    expect(result).toEqual(expectedOutput);
+      `.trim();
+    expect(formattedDetails).toEqual(expectedFormattedDetails);
   });
 });

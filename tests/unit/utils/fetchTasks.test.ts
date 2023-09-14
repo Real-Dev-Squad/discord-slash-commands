@@ -2,7 +2,7 @@ import JSONResponse from "../../../src/utils/JsonResponse";
 import { fetchTasks } from "../../../src/utils/fetchTasks";
 import { tasksResponse } from "../../fixtures/tasks";
 
-describe.skip("Test fetchTasks function", () => {
+describe("Test fetchTasks function", () => {
   it("Should return a response", async () => {
     const tasks = await fetchTasks("sunny-s", "IN_PROGRESS");
     expect(tasks).toBeDefined();
