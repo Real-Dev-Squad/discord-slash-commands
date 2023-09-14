@@ -10,14 +10,14 @@ export interface UserStatus {
       updatedAt: TimeStamp;
       message: string;
     };
-    futureStatus: {
+    futureStatus?: {
       from: TimeStamp;
       until: TimeStamp;
       state: "IDLE" | "OOO" | "ACTIVE";
       updatedAt: TimeStamp;
       message: string;
     };
-    monthlyHours: {
+    monthlyHours?: {
       committed: number;
       updatedAt: TimeStamp;
     };

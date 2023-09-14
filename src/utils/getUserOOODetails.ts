@@ -1,8 +1,7 @@
-// import { userStatusMock } from "../../tests/fixtures/fixture";
 import * as response from "../constants/responses";
 import { RDS_BASE_API_URL } from "../constants/urls";
 import { User } from "../typeDefinitions/user.types";
-import { formatOOOMessage } from "./formatOOOMessage";
+import { UserStatus } from "../typeDefinitions/userStatus.type";
 
 export const getUserOOODetails = async (id: string) => {
   try {
@@ -13,9 +12,8 @@ export const getUserOOODetails = async (id: string) => {
       const userStatus = await fetch(
         `${RDS_BASE_API_URL}/users/status/${userId}`
       );
-      const userStatusData: any = await userStatus.json();
-      const userResponse = formatOOOMessage(userStatusData);
-      return userResponse;
+      const userStatusData: UserStatus = await userStatus.json();
+      return userStatusData;
     }
   } catch (err) {
     return response.BAD_SIGNATURE;

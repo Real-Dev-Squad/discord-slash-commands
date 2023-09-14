@@ -1,32 +1,27 @@
 import { UserStatus } from "../typeDefinitions/userStatus.type";
-import { formatDate } from "./formatDate";
 
 export function formatOOOMessage(userStatusData: UserStatus) {
-  let msg = "";
-
-  if (
-    userStatusData.data.currentStatus &&
-    userStatusData.data.currentStatus.state === "OOO"
-  ) {
-    const currentFromDate = formatDate(userStatusData.data.currentStatus.from);
-    const currentToDate = formatDate(userStatusData.data.currentStatus.until);
-
-    msg = msg.concat(
-      `**Current**:\n${currentFromDate} - ${currentToDate}\n ${userStatusData.data.currentStatus.message}\n\n`
-    );
+  let msg: string;
+  const currentStatusState = userStatusData.data.currentStatus.state;
+  const futureStatusState = userStatusData.data.futureStatus?.state;
+  if (currentStatusState === "OOO") {
+    const currentFromDate = new Date(
+      userStatusData.data.currentStatus.from
+    ).toDateString();
+    const currentToDate = new Date(
+      userStatusData.data.currentStatus.until
+    ).toDateString();
+    msg = `**Current**:\n${currentFromDate} - ${currentToDate}\n ${userStatusData.data.currentStatus.message}\n\n`;
+  } else if (futureStatusState === "OOO") {
+    const futureFromDate = new Date(
+      userStatusData.data.futureStatus?.from
+    ).toDateString();
+    const futureToDate = new Date(
+      userStatusData.data.futureStatus?.until
+    ).toDateString();
+    msg = `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${userStatusData.data.futureStatus?.message}\n`;
+  } else {
+    msg = "No data found!";
   }
-
-  if (
-    userStatusData.data.futureStatus &&
-    userStatusData.data.futureStatus.state === "OOO"
-  ) {
-    const futureFromDate = formatDate(userStatusData.data.futureStatus.from);
-    const futureToDate = formatDate(userStatusData.data.futureStatus.until);
-
-    msg = msg.concat(
-      `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${userStatusData.data.futureStatus.message}\n`
-    );
-  }
-
-  return msg ? msg : "No data found!";
+  return msg;
 }

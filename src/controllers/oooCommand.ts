@@ -1,18 +1,15 @@
 import { discordTextResponse } from "../utils/discordResponse";
+import { formatOOOMessage } from "../utils/formatOOOMessage";
 import { getUserOOODetails } from "../utils/getUserOOODetails";
+import { UserStatus } from "../typeDefinitions/userStatus.type";
 
 export async function oooCommand(userId: string) {
   console.log(userId);
-
-  const responseuser = await getUserOOODetails(userId);
-
-  if (responseuser) {
-    if (typeof responseuser === "string") {
-      return discordTextResponse(responseuser);
-    } else {
-      return discordTextResponse(responseuser.error);
-    }
-  } else {
-    return discordTextResponse("No data found");
+  try {
+    const userResponse = await getUserOOODetails(userId);
+    const responseuser = formatOOOMessage(userResponse as UserStatus);
+    return discordTextResponse(responseuser);
+  } catch (error: any) {
+    return discordTextResponse(error);
   }
 }

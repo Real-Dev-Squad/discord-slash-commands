@@ -208,13 +208,7 @@ export const userStatusMock: UserStatus = {
       until: "2023-08-31T00:00:00.000Z",
       message: "Out of office message for today",
     },
-    futureStatus: {
-      state: "OOO",
-      updatedAt: "2023-09-01T00:00:00.000Z",
-      from: "2023-09-01T00:00:00.000Z",
-      until: "2023-09-02T00:00:00.000Z",
-      message: "Upcoming out of office message",
-    },
+    // No futureStatus when currentStatus is "OOO"
     monthlyHours: {
       committed: 40,
       updatedAt: "2023-08-01T00:00:00.000Z",
