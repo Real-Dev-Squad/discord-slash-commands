@@ -15,7 +15,7 @@ describe("formatUserDetails function", () => {
     const expectedFormattedDetails = `
         ## User Details  
         **Full Name :** John Doe 
-        **RDS Discord Joined At :** 13 September 2023, 9:30 PM IST
+        **RDS Discord Joined At :** 13 September 2023, 9:30 AM IST
         **State :** Active
       `.trim();
     expect(formattedDetails).toEqual(expectedFormattedDetails);
