@@ -84,10 +84,7 @@ export default {
     return router.handle(request, env);
   },
 
-  //keeping these code under comment until we patch the pagination
-  //of overdue tasks API
-
-  // async scheduled(req: Request, env: env, ctx: ExecutionContext) {
-  //   ctx.waitUntil(send(env));
-  // },
+  async scheduled(req: Request, env: env, ctx: ExecutionContext) {
+    ctx.waitUntil(send(env));
+  },
 };
