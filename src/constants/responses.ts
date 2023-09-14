@@ -14,7 +14,7 @@ export const STATUS_CHECK = {
   message: "Welcome to our discord Bot Server 👋",
 };
 
-export const TOO_MAN_REQUESTS = {
+export const TOO_MANY_REQUESTS = {
   error: "Too many requests!",
 };
 

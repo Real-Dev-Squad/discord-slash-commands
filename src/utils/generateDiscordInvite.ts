@@ -4,7 +4,7 @@ import {
   INTERNAL_SERVER_ERROR,
   INVITED_CREATED,
   NOT_FOUND,
-  TOO_MAN_REQUESTS,
+  TOO_MANY_REQUESTS,
   UNAUTHORIZED,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
@@ -46,7 +46,7 @@ export async function generateDiscordLink(body: inviteLinkBody, env: env) {
       }
 
       if (response.status === 429) {
-        return TOO_MAN_REQUESTS;
+        return TOO_MANY_REQUESTS;
       }
 
       return INTERNAL_SERVER_ERROR;
