@@ -42,7 +42,6 @@ describe("Test getUserDetails function", () => {
       );
 
     const userId = "123456";
-
     await expect(() => getUserDetails(userId)).rejects.toThrow(
       mockErrorResponse.message
     );

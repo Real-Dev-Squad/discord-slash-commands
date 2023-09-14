@@ -5,7 +5,6 @@ import { getUserDetails } from "../utils/getUserDetails";
 
 export async function userCommand(userId: string, env: env) {
   try {
-    console.log("id", userId);
     const UserDetails = await getUserDetails(userId);
     return discordTextResponse(UserDetails);
   } catch (error) {
