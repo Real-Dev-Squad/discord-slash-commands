@@ -1,26 +1,27 @@
-import { env } from "../typeDefinitions/default.types";
-import { TasksResponseType, task } from "../typeDefinitions/task.types";
+import { task } from "../typeDefinitions/task.types";
 import { formatTask, generateTaskResponseMessage } from "../utils/formatTask";
 import { discordTextResponse } from "../utils/discordResponse";
 import { fetchTasks } from "../utils/fetchTasks";
-import { getNickName } from "../utils/getNickName";
+import { getUserDetails } from "../utils/getUserDetails";
 import {
   INVALID_NICKNAME_ERROR,
   NO_TASKS_FOUND,
   TASKS_FETCH_FAILED,
 } from "../constants/responses";
+import { UserResponseType } from "../typeDefinitions/rdsUser.types";
 
-export async function taskCommand(userId: string, env: env) {
+export async function taskCommand(userId: string) {
   const status = "IN_PROGRESS";
   try {
-    const nickName = await getNickName(userId, env);
-    if (nickName === null) {
+    const userData = (await getUserDetails(userId)) as UserResponseType;
+    if (!userData.user) {
       return discordTextResponse(INVALID_NICKNAME_ERROR);
     }
-    const tasksData = await fetchTasks(nickName, status);
+    const username = userData.user.username;
+    const tasksData = await fetchTasks(username, status);
 
     if (!tasksData.tasks) {
-      const errorMessage = NO_TASKS_FOUND.replace("{{nickName}}", nickName);
+      const errorMessage = NO_TASKS_FOUND.replace("{{username}}", username);
       return discordTextResponse(errorMessage);
     }
 
@@ -29,14 +30,14 @@ export async function taskCommand(userId: string, env: env) {
     );
 
     const responseMessage = generateTaskResponseMessage(
-      nickName,
+      username,
       formattedTasks,
       status
     );
 
     return discordTextResponse(responseMessage);
-  } catch (error: any) {
-    console.error(error.message);
+  } catch (error) {
+    console.error(error);
     return discordTextResponse(TASKS_FETCH_FAILED);
   }
 }
