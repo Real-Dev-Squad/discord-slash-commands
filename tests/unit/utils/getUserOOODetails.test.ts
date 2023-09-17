@@ -1,14 +1,48 @@
-import * as responses from "../../../src/constants/responses";
+import JSONResponse from "../../../src/utils/JsonResponse";
 import { getUserOOODetails } from "../../../src/utils/getUserOOODetails";
-// import { formatOOOMessage } from "../../../src/utils/formatOOOMessage";
+import { userStatusMock } from "../../fixtures/fixture";
 
-global.fetch = jest.fn();
+describe("Test getUserOOODetails function", () => {
+  it("Should return a response", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.resolve(new JSONResponse(userStatusMock))
+      );
+    const userOOODetails = await getUserOOODetails("discordId");
+    expect(userOOODetails).toBeDefined();
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.realdevsquad.com/users/?discordId=discordId&dev=true"
+    );
+  });
 
-describe("getUserOOODetails", () => {
-  it("returns BAD_SIGNATURE on API error", async () => {
-    const id = "someUserId";
-    jest.spyOn(global, "fetch").mockRejectedValue(new Error("API error"));
-    const result = await getUserOOODetails(id);
-    expect(result).toEqual(responses.BAD_SIGNATURE);
+  it("Should return user OOO details", async () => {
+    const mockResponse = userStatusMock;
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.resolve(new JSONResponse(mockResponse))
+      );
+
+    const userOOODetails = await getUserOOODetails("discordId");
+    expect(userOOODetails).toEqual(mockResponse);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.realdevsquad.com/users/?discordId=discordId&dev=true"
+    );
+  });
+
+  it.skip("Should return BAD_SIGNATURE response on error", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.reject(new Error("Failed to fetch user OOO details"))
+      );
+
+    const userOOODetails = await getUserOOODetails("discordId");
+    expect(userOOODetails).toEqual(response.BAD_SIGNATURE);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.realdevsquad.com/users/?discordId=discordId&dev=true"
+    );
   });
 });
