@@ -7,7 +7,7 @@ async function getUserDetails(id: string): Promise<UserResponseType> {
       `${RDS_BASE_API_URL}/users?discordId=${id}&dev=true`
     );
 
-    const userResponse : UserResponseType = (await response.json());
+    const userResponse: UserResponseType = await response.json();
     return userResponse;
   } catch (error) {
     console.error("An error occurred:", error);
