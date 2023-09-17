@@ -36,4 +36,16 @@ describe("Test getUserDetails function", () => {
       "https://api.realdevsquad.com/users?discordId=1234567890&dev=true"
     );
   });
+
+  it("Should throw an error", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.reject(new Error("An error occurred")));
+    await expect(getUserDetails(discordID)).rejects.toThrow(
+      "An error occurred"
+    );
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.realdevsquad.com/users?discordId=1234567890&dev=true"
+    );
+  });
 });

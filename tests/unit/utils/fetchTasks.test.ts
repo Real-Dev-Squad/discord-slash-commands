@@ -1,6 +1,7 @@
 import JSONResponse from "../../../src/utils/JsonResponse";
 import { fetchTasks } from "../../../src/utils/fetchTasks";
 import { tasksResponse } from "../../fixtures/tasks";
+import { FAILED_TO_FETCH_TASKS } from "../../../src/constants/responses";
 
 describe("Test fetchTasks function", () => {
   it("Should return a response", async () => {
@@ -34,6 +35,22 @@ describe("Test fetchTasks function", () => {
     const tasks = await fetchTasks("sunny-s", "IN_PROGRESS");
     expect(tasks).toEqual(mockResponse);
     expect(tasks.tasks.length).toEqual(0);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.realdevsquad.com/tasks?status=IN_PROGRESS&assignee=sunny-s&dev=true"
+    );
+  });
+
+  it("Should throw an error", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.reject(new Error(FAILED_TO_FETCH_TASKS))
+      );
+    try {
+      await fetchTasks("sunny-s", "IN_PROGRESS");
+    } catch (error: any) {
+      expect(error.message).toEqual(FAILED_TO_FETCH_TASKS);
+    }
     expect(global.fetch).toHaveBeenCalledWith(
       "https://api.realdevsquad.com/tasks?status=IN_PROGRESS&assignee=sunny-s&dev=true"
     );
