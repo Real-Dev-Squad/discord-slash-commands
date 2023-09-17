@@ -11,7 +11,7 @@ async function getUserDetails(id: string): Promise<UserResponseType> {
     return userResponse;
   } catch (error) {
     console.error("An error occurred:", error);
-    throw error;
+    return Promise.reject(error);
   }
 }
 
