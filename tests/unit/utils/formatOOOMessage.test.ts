@@ -1,6 +1,6 @@
 import { UserStatus } from "../../../src/typeDefinitions/userStatus.type";
 import { formatOOOMessage } from "../../../src/utils/formatOOOMessage";
-import { userStatusMock } from "../../fixtures/fixture";
+import { userStatusMock, userFutureStatusMock } from "../../fixtures/fixture";
 
 describe("formatOOOMessage", () => {
   it("formats an OOO message correctly when current status is OOO", () => {
@@ -17,64 +17,32 @@ describe("formatOOOMessage", () => {
   });
 
   it("formats an OOO message correctly when the future status is OOO", () => {
-    const userStatusMockWithOOOFuture: UserStatus = {
-      id: "someId",
-      userId: "someUserId",
-      data: {
-        userId: "someUserId",
-        currentStatus: {
-          state: "ACTIVE",
-          updatedAt: "2023-08-30T00:00:00.000Z",
-          from: "2023-08-30T00:00:00.000Z",
-          until: "",
-          message: "Active status message",
-        },
-        futureStatus: {
-          state: "OOO",
-          updatedAt: "2023-09-01T00:00:00.000Z",
-          from: "2023-09-01T00:00:00.000Z",
-          until: "2023-09-02T00:00:00.000Z",
-          message: "Upcoming out of office message",
-        },
-        monthlyHours: {
-          committed: 40,
-          updatedAt: "2023-08-01T00:00:00.000Z",
-        },
-      },
-      message: "User Status found successfully.",
-    };
-
-    const futureStatus = userStatusMockWithOOOFuture.data.futureStatus;
+    const futureStatus = userFutureStatusMock.data.futureStatus;
 
     const futureFromDate = new Date(futureStatus?.from).toDateString();
     const futureToDate = new Date(futureStatus?.until).toDateString();
 
     const expectedMessage = `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${futureStatus?.message}\n`;
-    const result = formatOOOMessage(userStatusMockWithOOOFuture);
+    const result = formatOOOMessage(userFutureStatusMock);
 
     expect(result).toEqual(expectedMessage);
   });
 
   it('returns "No data found!" when no OOO statuses are provided', () => {
     const data: UserStatus = {
-      id: "someId",
-      userId: "someUserId",
+      ...userStatusMock,
       data: {
-        userId: "someUserId",
+        ...userStatusMock.data,
         currentStatus: {
           state: "ACTIVE",
-          updatedAt: "2023-08-30T00:00:00.000Z",
-          from: "2023-08-30T00:00:00.000Z",
-          until: "2023-08-31T00:00:00.000Z",
+          updatedAt: 1691398400000,
+          from: 1691398400000,
+          until: 1691484800000,
           message: "Active status message",
         },
-        monthlyHours: {
-          committed: 40,
-          updatedAt: "2023-08-01T00:00:00.000Z",
-        },
       },
-      message: "User Status found successfully.",
     };
+
     const expectedMessage = "No data found!";
     const result = formatOOOMessage(data);
     expect(result).toEqual(expectedMessage);

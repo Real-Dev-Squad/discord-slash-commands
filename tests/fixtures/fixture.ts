@@ -203,15 +203,41 @@ export const userStatusMock: UserStatus = {
     userId: "someUserId",
     currentStatus: {
       state: "OOO",
-      updatedAt: "2023-08-30T00:00:00.000Z",
-      from: "2023-08-30T00:00:00.000Z",
-      until: "2023-08-31T00:00:00.000Z",
+      updatedAt: 1691398400000,
+      from: 1691398400000,
+      until: 1691484800000,
       message: "Out of office message for today",
     },
-    // No futureStatus when currentStatus is "OOO"
     monthlyHours: {
       committed: 40,
-      updatedAt: "2023-08-01T00:00:00.000Z",
+      updatedAt: 1690956800000,
+    },
+  },
+  message: "User Status found successfully.",
+};
+
+export const userFutureStatusMock: UserStatus = {
+  id: "someId",
+  userId: "someUserId",
+  data: {
+    userId: "someUserId",
+    currentStatus: {
+      state: "ACTIVE",
+      updatedAt: 1691398400000,
+      from: 1691398400000,
+      until: 1691484800000,
+      message: "Out of office message for today",
+    },
+    futureStatus: {
+      state: "OOO",
+      updatedAt: 1691030400000,
+      from: 1691030400000,
+      until: 1691116800000,
+      message: "Upcoming out of office message",
+    },
+    monthlyHours: {
+      committed: 40,
+      updatedAt: 1690956800000,
     },
   },
   message: "User Status found successfully.",
