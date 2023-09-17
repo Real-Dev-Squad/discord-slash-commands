@@ -8,12 +8,11 @@ import {
   NO_TASKS_FOUND,
   TASKS_FETCH_FAILED,
 } from "../constants/responses";
-import { UserResponseType } from "../typeDefinitions/rdsUser.types";
 
 export async function taskCommand(userId: string) {
   const status = "IN_PROGRESS";
   try {
-    const userData = (await getUserDetails(userId)) as UserResponseType;
+    const userData = await getUserDetails(userId);
     if (!userData.user) {
       return discordTextResponse(INVALID_NICKNAME_ERROR);
     }

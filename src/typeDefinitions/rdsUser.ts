@@ -37,7 +37,7 @@ export type UserResponseType = {
   user?: UserType;
 };
 
-export type userListResponseType = {
+export type UserListResponseType = {
   message: string;
   count: number;
   users: string[];

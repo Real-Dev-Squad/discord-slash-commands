@@ -1,5 +1,5 @@
 import { RDS_BASE_API_URL } from "../constants/urls";
-import { UserResponseType } from "../typeDefinitions/rdsUser.types";
+import { UserResponseType } from "../typeDefinitions/rdsUser";
 
 async function getUserDetails(id: string): Promise<UserResponseType> {
   try {
@@ -7,7 +7,7 @@ async function getUserDetails(id: string): Promise<UserResponseType> {
       `${RDS_BASE_API_URL}/users?discordId=${id}&dev=true`
     );
 
-    const userResponse = (await response.json()) as UserResponseType;
+    const userResponse : UserResponseType = (await response.json());
     return userResponse;
   } catch (error) {
     console.error("An error occurred:", error);
