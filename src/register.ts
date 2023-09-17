@@ -34,7 +34,7 @@ async function registerGuildCommands(
     const registrationUrl = `${DISCORD_BASE_URL}/applications/${discordApplicationId}/guilds/${discordGuildId}/commands`;
     await registerCommands(registrationUrl, discordBotToken, commands);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }
 
