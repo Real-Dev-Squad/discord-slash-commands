@@ -50,6 +50,6 @@ export const sendDiscordDm = async (
       }),
     });
   } catch (e) {
-    console.log("Could not send the DM. Error: ", e);
+    console.error("Could not send the DM. Error: ", e);
   }
 };
