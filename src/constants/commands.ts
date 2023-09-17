@@ -53,3 +53,40 @@ export const TASK = {
     },
   ],
 };
+
+export const NOTIFY = {
+  name: "notify",
+  description: "notify the user",
+  options: [
+    {
+      name: "type",
+      description: "type of notification",
+      type: 3,
+      required: true,
+      choices: [
+        {
+          name: "OVERDUE",
+          value: "OVERDUE",
+        },
+        {
+          name: "ONBOARDING",
+          value: "ONBOARDING",
+        },
+      ],
+    },
+    {
+      name: "days",
+      description: "number of days",
+      type: 4,
+      required: true,
+      options: [
+        {
+          name: "days",
+          description: "number of days",
+          type: 4,
+          required: true,
+        },
+      ],
+    },
+  ],
+};
