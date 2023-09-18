@@ -53,3 +53,16 @@ export const TASK = {
     },
   ],
 };
+
+export const OOO = {
+  name: "ooo",
+  description: "out-of-office data of the mentioned user",
+  options: [
+    {
+      name: "username",
+      description: "tag user for that",
+      type: 6,
+      required: true,
+    },
+  ],
+};
