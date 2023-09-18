@@ -53,3 +53,16 @@ export const TASK = {
     },
   ],
 };
+
+export const USER = {
+  name: "user",
+  description: "Replies with specific user details in the channel",
+  options: [
+    {
+      name: "username",
+      description: "Takes username and shows user details",
+      type: 6,
+      required: true,
+    },
+  ],
+};
