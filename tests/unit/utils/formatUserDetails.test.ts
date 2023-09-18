@@ -1,9 +1,9 @@
 import { UserResponseType } from "../../../src/typeDefinitions/rdsUser";
 import { formatUserDetails } from "../../../src/utils/formatUserDetails";
 import { userResponse } from "../../fixtures/user";
-import { userBackendMock } from "../../fixtures/fixture";
+import { convertTimeStamp } from "../../../src/utils/formatUserDetails";
 
-describe.only("formatUserDetails function", () => {
+describe("formatUserDetails function", () => {
   it("Should return a string", () => {
     const userData: UserResponseType = userResponse;
     const formattedUserDetails = formatUserDetails(userData);
@@ -12,10 +12,11 @@ describe.only("formatUserDetails function", () => {
 
   it("should format user details correctly", () => {
     const formattedDetails = formatUserDetails(userResponse).trim();
+    console.log(formattedDetails);
     const expectedFormattedDetails = `
           ## User Details
           **Full Name :** Sunny Sahsi
-          **RDS Discord Joined At :** 08/08/2023 17:10:42
+          **RDS Discord Joined At :** ${convertTimeStamp(userResponse)}
           **State :** ACTIVE
         `.trim();
     expect(formattedDetails).toEqual(expectedFormattedDetails);

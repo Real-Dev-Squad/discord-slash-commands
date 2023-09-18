@@ -1,6 +1,6 @@
 import { UserResponseType } from "../typeDefinitions/rdsUser";
 
-export function formatUserDetails(userDetails: UserResponseType) {
+export function convertTimeStamp(userDetails: UserResponseType) {
   const timestamp = userDetails.user?.discordJoinedAt ?? "";
   const date = new Date(timestamp);
 
@@ -13,11 +13,15 @@ export function formatUserDetails(userDetails: UserResponseType) {
   const seconds = String(date.getSeconds()).padStart(2, "0");
 
   const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  return formattedDate;
+}
 
+export function formatUserDetails(userDetails: UserResponseType) {
+  const convertedTimestamp = convertTimeStamp(userDetails);
   return `
           ## User Details
           **Full Name :** ${userDetails.user?.first_name} ${userDetails.user?.last_name}
-          **RDS Discord Joined At :** ${formattedDate}
+          **RDS Discord Joined At :** ${convertedTimestamp}
           **State :** ${userDetails.user?.state}
           `;
 }
