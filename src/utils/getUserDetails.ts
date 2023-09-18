@@ -6,6 +6,7 @@ async function getUserDetails(id: string): Promise<UserResponseType> {
     const response = await fetch(
       `${RDS_BASE_API_URL}/users?discordId=${id}&dev=true`
     );
+
     const userResponse: UserResponseType = await response.json();
     return userResponse;
   } catch (error) {

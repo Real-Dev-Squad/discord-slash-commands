@@ -43,7 +43,7 @@ describe("formatOOOMessage", () => {
       },
     };
 
-    const expectedMessage = `User is currently ${userStatusData.data.currentStatus.state}`;
+    const expectedMessage = `User is currently **${userStatusData.data.currentStatus.state}**`;
     const result = formatOOOMessage(userStatusData);
     expect(result).toEqual(expectedMessage);
   });
