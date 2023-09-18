@@ -3,6 +3,7 @@ import { helloCommand } from "./helloCommand";
 import { verifyCommand } from "./verifyCommand";
 import { mentionEachUser } from "./mentionEachUser";
 import { taskCommand } from "./taskCommand";
+import { userCommand } from "./userCommand";
 
 import { getCommandName } from "../utils/getCommandName";
 import JSONResponse from "../utils/JsonResponse";
@@ -20,6 +21,7 @@ import {
   MENTION_EACH,
   VERIFY,
   TASK,
+  USER,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -115,6 +117,11 @@ export async function baseHandler(
     case getCommandName(TASK): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await taskCommand(data[0].value, env);
+    }
+
+    case getCommandName(USER): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      return await userCommand(data[0].value, env);
     }
     default: {
       return commandNotFound();
