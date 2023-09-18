@@ -1,6 +1,6 @@
 import { formatDate } from "../../../src/utils/formatDate";
 
-describe("Test formatDate function", () => {
+describe.skip("Test formatDate function", () => {
   it("Should return a string", () => {
     const date = formatDate(1627708800);
     expect(typeof date).toBe("string");

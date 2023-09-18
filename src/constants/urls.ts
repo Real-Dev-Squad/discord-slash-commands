@@ -1,4 +1,5 @@
-export const RDS_BASE_API_URL = "https://api.realdevsquad.com";
+export const RDS_BASE_API_URL =
+  "https://e649-2405-201-300f-281b-16-71d9-14b8-fc61.ngrok-free.app";
 export const RDS_BASE_STAGING_API_URL = "https://staging-api.realdevsquad.com";
 export const RDS_BASE_DEVELOPMENT_API_URL = "http://localhost:3000"; // If needed, modify the URL to your local API server run through ngrok
 
