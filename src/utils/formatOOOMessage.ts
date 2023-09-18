@@ -21,7 +21,7 @@ export function formatOOOMessage(userStatusData: UserStatus) {
     ).toDateString();
     msg = `**Upcoming**:\n${futureFromDate} - ${futureToDate}\n${userStatusData.data.futureStatus?.message}\n`;
   } else {
-    msg = "No data found!";
+    msg = `User is currently ${currentStatusState}`;
   }
   return msg;
 }

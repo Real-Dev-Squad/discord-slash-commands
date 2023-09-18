@@ -53,3 +53,5 @@ export const INVALID_NICKNAME_ERROR =
 export const NO_TASKS_FOUND = `No tasks found for **{{username}}**.`;
 export const TASKS_FETCH_FAILED = "An error occurred while fetching tasks.";
 export const FAILED_TO_FETCH_TASKS = `Failed to fetch tasks for **{{assignee}}**.`;
+export const USER_NOT_FOUND = `User Not Found`;
+export const USER_STATUS_NOT_FOUND = "No Status Found";

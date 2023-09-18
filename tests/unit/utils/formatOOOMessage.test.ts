@@ -29,7 +29,7 @@ describe("formatOOOMessage", () => {
   });
 
   it('returns "No data found!" when no OOO statuses are provided', () => {
-    const data: UserStatus = {
+    const userStatusData: UserStatus = {
       ...userStatusMock,
       data: {
         ...userStatusMock.data,
@@ -43,8 +43,8 @@ describe("formatOOOMessage", () => {
       },
     };
 
-    const expectedMessage = "No data found!";
-    const result = formatOOOMessage(data);
+    const expectedMessage = `User is currently ${userStatusData.data.currentStatus.state}`;
+    const result = formatOOOMessage(userStatusData);
     expect(result).toEqual(expectedMessage);
   });
 });
