@@ -1,22 +1,14 @@
 import { formatUserDetails } from "../../../src/utils/formatUserDetails";
+import { userBackendMock } from "../../fixtures/fixture";
 
 describe("formatUserDetails function", () => {
   it("should format user details correctly", () => {
-    const user = JSON.stringify({
-      user: {
-        first_name: "John",
-        last_name: "Doe",
-        discordJoinedAt: "2023-09-13T09:30:00.000Z",
-        state: "Active",
-      },
-    });
-
-    const formattedDetails = formatUserDetails(user).trim();
+    const formattedDetails = formatUserDetails(userBackendMock).trim();
     const expectedFormattedDetails = `
         ## User Details  
-        **Full Name :** John Doe 
-        **RDS Discord Joined At :** 13 September 2023, 9:30 AM IST
-        **State :** Active
+        **Full Name :** Jane Doe 
+        **RDS Discord Joined At :** 17/06/2023 02:50:03
+        **State :** IDLE
       `.trim();
     expect(formattedDetails).toEqual(expectedFormattedDetails);
   });

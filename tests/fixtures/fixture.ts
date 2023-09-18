@@ -160,21 +160,14 @@ export const discordUserData = {
 export const userBackendMock: UserBackend = {
   message: "User returned successfully",
   user: {
-    id: "SomeId",
-    discordJoinedAt: "2023-06-16T21:20:03.413000+00:00",
-    discordId: "SomeDiscordId",
-    github_display_name: "Jane Doe",
-    github_id: "J24",
-    username: "jane",
-    first_name: "Jane",
-    last_name: "Doe",
-    roles: {
-      in_discord: true,
-      super_user: false,
-      archived: false,
-    },
-    incompleteUserDetails: false,
-    state: "IDLE",
+    id: "1234567",
+    username: "fmk",
+    first_name: "f",
+    last_name: "mk",
+    discordId: "12345",
+    github_display_name: "fmk",
+    github_id: "fmk23",
+    isMember: false,
   },
 };
 
