@@ -48,4 +48,15 @@ describe("Test getUserDetails function", () => {
       "https://api.realdevsquad.com/users?discordId=1234567890&dev=true"
     );
   });
+
+  it("Should include state property", async () => {
+    const mockResponse = userResponse;
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() =>
+        Promise.resolve(new JSONResponse(mockResponse))
+      );
+    const user = await getUserDetails(discordID);
+    expect(userResponse.user).toHaveProperty("state");
+  });
 });

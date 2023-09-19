@@ -29,6 +29,7 @@ export type UserType = {
   designation?: string;
   username: string;
   profileStatus?: string;
+  state?: string;
 };
 
 export type UserResponseType = {
