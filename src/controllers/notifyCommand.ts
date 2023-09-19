@@ -1,8 +1,7 @@
-import { env } from "../typeDefinitions/default.types";
 import {
+  UserListResponseType,
   UserResponseType,
-  userListResponseType,
-} from "../typeDefinitions/rdsUser.types";
+} from "../typeDefinitions/rdsUser";
 import { discordTextResponse } from "../utils/discordResponse";
 import { fetchRdsData } from "../utils/fetchUser";
 
@@ -15,8 +14,9 @@ function convertIdsToFormatted(discordIds: string[]) {
   return formattedIds;
 }
 
-
-export async function notifyCommand(data: any) {
+export async function notifyCommand(
+  data: Array<{ name: string; value: string }>
+) {
   const typeValue = data[0].value;
   const daysValue = data[1].value;
 
@@ -26,27 +26,29 @@ export async function notifyCommand(data: any) {
         isOverdue: true,
         days: daysValue,
       };
-      const usersResponse: any = await fetchRdsData(options);
+      const usersResponse = (await fetchRdsData(
+        options
+      )) as UserListResponseType;
       const usersIds = usersResponse?.users;
-      const discordIDs = [] || undefined;
-      for (let i = 0; i < 10; i++) {
-        const discordId = await fetchRdsData({ userId: usersIds[i] });
-        if (discordId?.user.discordId) {
-          discordIDs.push(discordId?.user.discordId);
+      console.log(usersIds);
+      const discordIDs: string[] = [];
+
+      for (let i = 0; i < 5; i++) {
+        const userData = (await fetchRdsData({
+          userId: usersIds[i],
+        })) as UserResponseType;
+        console.log(userData.message);
+        if (userData.user?.discordId) {
+          discordIDs.push(userData?.user.discordId);
+          console.log("Discord Id:", userData?.user.discordId);
         }
+        console.log(
+          `discordId: ${userData.user?.discordId} id: ${userData.user?.id}`
+        );
       }
 
-      // users?.forEach(async (id: string) => {
-      //   const discordId = await fetchRdsData({ userId: id });
-      //   console.log("discordId", discordId);
-      //   if (discordId?.user.discordId)
-      //   discordIDs.push(discordId?.user.discordId);
-      // });
       const formattedIds = convertIdsToFormatted(discordIDs);
-      // return discordTextResponse(
-      //   `Overdue tasks for ${daysValue} days: ${discordIDs?.join(", ")}`
-      // );
-      // tag users here in the message in discord using discordIDs
+
       const responseMessage = `
         Type: ${typeValue}
         Days: ${daysValue}
@@ -68,8 +70,8 @@ export async function notifyCommand(data: any) {
     `;
 
     return discordTextResponse(responseMessage);
-  } catch (error: any) {
-    console.error(error.message);
+  } catch (error) {
+    console.error(error);
     return discordTextResponse("Something went wrong");
   }
 }

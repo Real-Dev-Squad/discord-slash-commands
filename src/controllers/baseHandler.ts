@@ -116,7 +116,7 @@ export async function baseHandler(
     }
     case getCommandName(TASK): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      return await taskCommand(data[0].value, env);
+      return await taskCommand(data[0].value);
     }
     case getCommandName(NOTIFY): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
