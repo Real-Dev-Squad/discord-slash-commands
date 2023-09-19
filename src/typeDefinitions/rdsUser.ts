@@ -1,3 +1,4 @@
+import { task } from "./task.types";
 export type UserType = {
   id: string;
   profileURL?: string;
@@ -42,4 +43,17 @@ export type UserListResponseType = {
   message: string;
   count: number;
   users: string[];
+};
+
+export type UserOverdueTask = {
+  id: string;
+  discordId: string;
+  username: string;
+  tasks?: task[];
+};
+
+export type UserOverdueTaskResponseType = {
+  message: string;
+  count: number;
+  users: UserOverdueTask[];
 };

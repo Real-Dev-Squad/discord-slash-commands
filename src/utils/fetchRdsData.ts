@@ -1,12 +1,10 @@
 import { RDS_BASE_API_URL } from "../constants/urls";
 import {
-  UserType,
   UserResponseType,
-  UserListResponseType,
+  UserOverdueTaskResponseType,
 } from "../typeDefinitions/rdsUser";
 
 type OptionsType = {
-  userId?: string;
   days?: string;
   isOnboarding?: boolean;
   isOverdue?: boolean;
@@ -14,15 +12,15 @@ type OptionsType = {
 
 async function fetchRdsData(options = {}) {
   try {
-    const { userId, days, isOnboarding, isOverdue }: OptionsType = options;
+    const { days, isOnboarding, isOverdue }: OptionsType = options;
     let url = RDS_BASE_API_URL;
 
-    if (userId) {
-      url += `/users?id=${userId}`;
-    } else if (isOnboarding) {
+    if (isOnboarding) {
       url += `/users/search?state=ONBOARDING&time=${days}d`;
     } else if (isOverdue) {
-      url += `/users?query=filterBy:overdue_tasks+days:${days}`;
+      url += days
+        ? `/users?query=filterBy:overdue_tasks+days:${days}`
+        : `/users?query=filterBy:overdue_tasks`;
     } else {
       throw new Error("Invalid parameters. Please provide userId or days.");
     }
@@ -33,14 +31,11 @@ async function fetchRdsData(options = {}) {
       throw new Error("Failed to fetch user(s)");
     }
 
-    if (userId) {
-      const responseData: UserType = await response.json();
-      return responseData;
-    } else if (isOnboarding) {
+    if (isOnboarding) {
       const responseData: UserResponseType = await response.json();
       return responseData;
     } else if (isOverdue) {
-      const responseData: UserListResponseType = await response.json();
+      const responseData: UserOverdueTaskResponseType = await response.json();
       return responseData;
     }
   } catch (error) {

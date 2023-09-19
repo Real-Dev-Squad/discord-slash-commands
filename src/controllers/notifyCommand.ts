@@ -1,9 +1,6 @@
-import {
-  UserListResponseType,
-  UserResponseType,
-} from "../typeDefinitions/rdsUser";
+import { UserOverdueTaskResponseType } from "../typeDefinitions/rdsUser";
 import { discordTextResponse } from "../utils/discordResponse";
-import { fetchRdsData } from "../utils/fetchUser";
+import { fetchRdsData } from "../utils/fetchRdsData";
 
 function convertIdsToFormatted(discordIds: string[]) {
   if (!Array.isArray(discordIds)) {
@@ -28,24 +25,15 @@ export async function notifyCommand(
       };
       const usersResponse = (await fetchRdsData(
         options
-      )) as UserListResponseType;
-      const usersIds = usersResponse?.users;
-      console.log(usersIds);
+      )) as UserOverdueTaskResponseType;
+      const userData = usersResponse?.users;
       const discordIDs: string[] = [];
-
-      for (let i = 0; i < 5; i++) {
-        const userData = (await fetchRdsData({
-          userId: usersIds[i],
-        })) as UserResponseType;
-        console.log(userData.message);
-        if (userData.user?.discordId) {
-          discordIDs.push(userData?.user.discordId);
-          console.log("Discord Id:", userData?.user.discordId);
+      userData?.forEach((user) => {
+        const discordId = user?.discordId;
+        if (discordId) {
+          discordIDs.push(discordId);
         }
-        console.log(
-          `discordId: ${userData.user?.discordId} id: ${userData.user?.id}`
-        );
-      }
+      });
 
       const formattedIds = convertIdsToFormatted(discordIDs);
 
