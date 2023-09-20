@@ -4,6 +4,16 @@ import {
   UserOverdueTaskResponseType,
 } from "../typeDefinitions/rdsUser";
 
+/**
+ * Fetches user(s) from RDS API based on the options provided
+ * @param {Object} options - Options object
+ * @param {string} options.days - Number of days
+ * @param {boolean} options.isOnboarding - Whether to fetch onboarding users
+ * @param {boolean} options.isOverdue - Whether to fetch overdue task users
+ * @returns {Promise<UserResponseType | UserOverdueTaskResponseType>} - User(s) response
+ * @throws {Error} - Error object
+ */
+
 type OptionsType = {
   days?: string;
   isOnboarding?: boolean;
@@ -23,15 +33,8 @@ async function fetchRdsData(options = {}) {
       url += days
         ? `/users?query=filterBy:overdue_tasks+days:${days}`
         : `/users?query=filterBy:overdue_tasks`;
-    } else {
-      throw new Error("Invalid parameters. Please provide userId or days.");
     }
-
     const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch user(s)");
-    }
 
     if (isOnboarding) {
       const responseData: UserResponseType = await response.json();
