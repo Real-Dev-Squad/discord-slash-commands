@@ -101,16 +101,26 @@ export const NOTIFY = {
       ],
     },
     {
-      name: "days",
-      description: "number of days",
-      type: 4,
+      name: "sub-type",
+      description: "sub-type of notification",
+      type: 3,
       required: false,
-      options: [
+      choices: [
         {
-          name: "days",
-          description: "number of days",
-          type: 4,
-          required: true,
+          name: "In 1 Day",
+          value: "1",
+        },
+        {
+          name: "in 2 Day",
+          value: "2",
+        },
+        {
+          name: "> 7 Days",
+          value: "7",
+        },
+        {
+          name: "> 31 Days",
+          value: "31",
         },
       ],
     },
