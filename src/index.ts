@@ -51,7 +51,6 @@ router.delete("/roles", removeGuildRoleHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
-  console.log(message);
 
   if (message.type === InteractionType.PING) {
     return new JSONResponse({
