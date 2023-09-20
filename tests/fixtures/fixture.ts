@@ -7,6 +7,7 @@ import {
 import { InteractionType } from "discord-interactions";
 import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
 import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
+import { UserStatus } from "../../src/typeDefinitions/userStatus.type";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,
@@ -199,4 +200,51 @@ export const taskOverdueMock: TaskOverdueResponse = {
       startedOn: "1686527000",
     },
   ],
+};
+
+export const userStatusMock: UserStatus = {
+  id: "someId",
+  userId: "someUserId",
+  data: {
+    userId: "someUserId",
+    currentStatus: {
+      state: "OOO",
+      updatedAt: 1691398400000,
+      from: 1691398400000,
+      until: 1691484800000,
+      message: "Out of office message for today",
+    },
+    monthlyHours: {
+      committed: 40,
+      updatedAt: 1690956800000,
+    },
+  },
+  message: "User Status found successfully.",
+};
+
+export const userFutureStatusMock: UserStatus = {
+  id: "someId",
+  userId: "someUserId",
+  data: {
+    userId: "someUserId",
+    currentStatus: {
+      state: "ACTIVE",
+      updatedAt: 1691398400000,
+      from: 1691398400000,
+      until: 1691484800000,
+      message: "Out of office message for today",
+    },
+    futureStatus: {
+      state: "OOO",
+      updatedAt: 1691030400000,
+      from: 1691030400000,
+      until: 1691116800000,
+      message: "Upcoming out of office message",
+    },
+    monthlyHours: {
+      committed: 40,
+      updatedAt: 1690956800000,
+    },
+  },
+  message: "User Status found successfully.",
 };
