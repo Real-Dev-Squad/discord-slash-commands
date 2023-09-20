@@ -1,39 +1,19 @@
 import {
-  UserOverdueTask,
+  OVERDUE_DEFAULT_MESSAGE,
+  OVERDUE_CUSTOM_MESSAGE,
+  ONBOARDING_DEFAULT_MESSAGE,
+  ONBOARDING_CUSTOM_MESSAGE,
+} from "../constants/responses";
+import {
   UserOverdueTaskResponseType,
   UserResponseType,
-  UserType,
 } from "../typeDefinitions/rdsUser";
 import { discordTextResponse } from "../utils/discordResponse";
 import { fetchRdsData } from "../utils/fetchRdsData";
+import { createTaggableDiscordIds } from "../utils/createTaggableDiscordIds";
+import { extractDiscordIds } from "../utils/extractDiscordIds";
 
-function convertIdsToFormatted(discordIds: string[]) {
-  if (!Array.isArray(discordIds)) {
-    throw new Error("Input should be an array of IDs");
-  }
-
-  const formattedIds = discordIds.map((id) => `<@${id}>`);
-  return formattedIds;
-}
-
-function getDiscordIds(
-  usersResponse: UserOverdueTaskResponseType | UserResponseType
-): string[] {
-  const userData = usersResponse?.users;
-  const discordIDs: string[] = [];
-  userData?.forEach((user: UserOverdueTask | UserType) => {
-    const discordId = user?.discordId;
-    if (discordId) {
-      discordIDs.push(discordId);
-    }
-  });
-
-  return discordIDs;
-}
-
-export async function notifyCommand(
-  data: Array<{ name: string; value: string }>
-) {
+export async function notifyCommand(data: Array<{ value: string }>) {
   const typeValue = data[0].value;
   const daysValue = data[1]?.value;
 
@@ -46,14 +26,13 @@ export async function notifyCommand(
       const usersResponse = (await fetchRdsData(
         options
       )) as UserOverdueTaskResponseType;
-      const discordIDs = getDiscordIds(usersResponse);
-
-      const formattedIds = convertIdsToFormatted(discordIDs);
+      const discordIDs = extractDiscordIds(usersResponse);
+      const formattedIds = createTaggableDiscordIds(discordIDs);
 
       const message = `**Message:** ${
         daysValue
-          ? `Please be aware that you currently have tasks that are overdue or due within the next ${daysValue} day. If you require additional time to complete these tasks, kindly submit an extension request.`
-          : "You have overdue tasks."
+          ? OVERDUE_CUSTOM_MESSAGE.replace("{{days}}", daysValue)
+          : OVERDUE_DEFAULT_MESSAGE
       }`;
 
       const users = `**Developers:** ${formattedIds.join(", ")}`;
@@ -65,14 +44,13 @@ export async function notifyCommand(
         days: daysValue,
       };
       const users = (await fetchRdsData(options)) as UserResponseType;
-      const discordIDs = getDiscordIds(users);
-
-      const formattedIds = convertIdsToFormatted(discordIDs);
+      const discordIDs = extractDiscordIds(users);
+      const formattedIds = createTaggableDiscordIds(discordIDs);
 
       const message = `**Message:** ${
         daysValue
-          ? `Please update your status explaining why you are unable to complete your onboarding tasks within ${daysValue} days.`
-          : `You currently have an onboarding status. Please provide an update explaining any challenges you're facing in completing your tasks. If you're finished, consider assigning new tasks to Admin.`
+          ? ONBOARDING_CUSTOM_MESSAGE.replace("{{days}}", daysValue)
+          : ONBOARDING_DEFAULT_MESSAGE
       }`;
 
       const usersMessage = `**Developers:** ${formattedIds.join(", ")}`;

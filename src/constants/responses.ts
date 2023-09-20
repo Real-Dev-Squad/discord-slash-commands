@@ -55,3 +55,11 @@ export const TASKS_FETCH_FAILED = "An error occurred while fetching tasks.";
 export const FAILED_TO_FETCH_TASKS = `Failed to fetch tasks for **{{assignee}}**.`;
 export const USER_NOT_FOUND = `User Not Found`;
 export const USER_STATUS_NOT_FOUND = "No Status Found";
+
+export const OVERDUE_DEFAULT_MESSAGE = "You have overdue tasks.";
+export const OVERDUE_CUSTOM_MESSAGE =
+  "Please be aware that you currently have tasks that are overdue or due within the next {{days}} day. If you require additional time to complete these tasks, kindly submit an extension request.";
+
+export const ONBOARDING_DEFAULT_MESSAGE = `You currently have an onboarding status. Please provide an update explaining any challenges you're facing in completing your tasks. If you're finished, consider assigning new tasks to Admin.`;
+
+export const ONBOARDING_CUSTOM_MESSAGE = `Please update your status explaining why you are unable to complete your onboarding tasks within {{days}} days.`;
