@@ -111,7 +111,7 @@ export const NOTIFY = {
           value: "1",
         },
         {
-          name: "in 2 Day",
+          name: "In 2 Day",
           value: "2",
         },
         {
