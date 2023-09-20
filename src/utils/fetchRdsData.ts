@@ -16,7 +16,9 @@ async function fetchRdsData(options = {}) {
     let url = RDS_BASE_API_URL;
 
     if (isOnboarding) {
-      url += `/users/search?state=ONBOARDING&time=${days}d`;
+      url += days
+        ? `/users/search?state=ONBOARDING&time=${days}d`
+        : `/users/search?state=ONBOARDING`;
     } else if (isOverdue) {
       url += days
         ? `/users?query=filterBy:overdue_tasks+days:${days}`

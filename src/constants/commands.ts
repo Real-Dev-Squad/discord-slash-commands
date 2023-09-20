@@ -104,7 +104,7 @@ export const NOTIFY = {
       name: "days",
       description: "number of days",
       type: 4,
-      required: true,
+      required: false,
       options: [
         {
           name: "days",
