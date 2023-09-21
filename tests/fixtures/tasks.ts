@@ -37,7 +37,7 @@ export const tasks = {
       },
       createdBy: "amitprakash",
       assignee: "sunny-s",
-      title: "/task command to  show assignee task details ",
+      title: "/task command to  show assignee task details",
       type: "feature",
       priority: "TBD",
       status: "IN_PROGRESS",
