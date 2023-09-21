@@ -56,6 +56,10 @@ export const guildEnv = {
   DISCORD_TOKEN: "abcd",
 };
 
+export const dummyInviteBody = {
+  channelId: "1234",
+};
+
 export const dummyGuildMemberDetails = {
   avatar: null,
   communication_disabled_until: null,
@@ -106,6 +110,7 @@ export const generateDummyRequestObject = ({
   params,
   query,
   headers, // Object of key value pair
+  json,
 }: Partial<IRequest>): IRequest => {
   return {
     method: method ?? "GET",
@@ -113,6 +118,7 @@ export const generateDummyRequestObject = ({
     params: params ?? {},
     query: query ?? {},
     headers: new Map(Object.entries(headers ?? {})),
+    json: json,
   };
 };
 
