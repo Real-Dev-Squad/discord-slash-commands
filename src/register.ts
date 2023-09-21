@@ -4,6 +4,7 @@ import {
   VERIFY,
   LISTENING,
   TASK,
+  NOTIFY,
   OOO,
   USER,
 } from "./constants/commands";
@@ -25,7 +26,16 @@ async function registerGuildCommands(
   discordApplicationId?: string,
   discordGuildId?: string
 ) {
-  const commands = [HELLO, VERIFY, MENTION_EACH, LISTENING, TASK, OOO, USER];
+  const commands = [
+    HELLO,
+    VERIFY,
+    MENTION_EACH,
+    LISTENING,
+    TASK,
+    OOO,
+    USER,
+    NOTIFY,
+  ];
 
   try {
     if (!discordBotToken) throw new Error("Please provide a BOT TOKEN");
