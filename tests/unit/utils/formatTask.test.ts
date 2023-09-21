@@ -15,11 +15,11 @@ describe("Test formatTask function", () => {
   it("Should return a string with task details", () => {
     const tasksData: task = tasks.tasks[0];
     const formattedTask = formatTask(tasksData);
-    const expectedTask = `
-      **Title:** Test Cases for QR scanning feature
-      **Progress:** 40%
-      **Ends On:** 09/09/2023
-      **More details:** [Task Details](https://status.realdevsquad.com/tasks/qaCqdCTjRyX1EPLuv1mJ)`;
+    const expectedTitle = `**Title:** Test Cases for QR scanning feature`;
+    const expectedProgress = `**Progress:** 40%`;
+    const expectedEndsOn = `**Ends On:** 09/09/2023`;
+    const expectedMoreDetails = `**More details:** [Task Details](https://status.realdevsquad.com/tasks/qaCqdCTjRyX1EPLuv1mJ)`;
+    const expectedTask = `${expectedTitle}\n${expectedProgress}\n${expectedEndsOn}\n${expectedMoreDetails}`;
     expect(formattedTask).toBe(expectedTask);
   });
 });
@@ -42,23 +42,26 @@ describe("Test generateTaskResponseMessage function", () => {
       formattedTasks,
       "IN_PROGRESS"
     );
-    const task1 = `
-      **Title:** Test Cases for QR scanning feature
-      **Progress:** 40%
-      **Ends On:** 09/09/2023
-      **More details:** [Task Details](https://status.realdevsquad.com/tasks/qaCqdCTjRyX1EPLuv1mJ)`;
-    const task2 = `
-      **Title:** /task command to  show assignee task details 
-      **Progress:** 50%
-      **Ends On:** 09/09/2023
-      **More details:** [Task Details](https://status.realdevsquad.com/tasks/xylBsqi7LayeiZVlJfUr)`;
-    const allTaskURL =
-      " [→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:sunny-s)";
-    const expectedResponseMessage = `
-## In Progress Tasks of sunny-s
-${task1}
-${task2}\n
-${allTaskURL}\n`;
+    const expectedMessage = `## In Progress Tasks of sunny-s`;
+
+    const expectedTitle1 = `**Title:** Test Cases for QR scanning feature`;
+    const expectedProgress1 = `**Progress:** 40%`;
+    const expectedEndsOn1 = `**Ends On:** 09/09/2023`;
+    const expectedMoreDetails1 = `**More details:** [Task Details](https://status.realdevsquad.com/tasks/qaCqdCTjRyX1EPLuv1mJ)`;
+
+    const expectedTitle2 =
+      "**Title:** /task command to  show assignee task details";
+    const expectedProgress2 = `**Progress:** 50%`;
+    const expectedEndsOn2 = `**Ends On:** 09/09/2023`;
+    const expectedMoreDetails2 = `**More details:** [Task Details](https://status.realdevsquad.com/tasks/xylBsqi7LayeiZVlJfUr)`;
+
+    const task1 = `${expectedTitle1}\n${expectedProgress1}\n${expectedEndsOn1}\n${expectedMoreDetails1}`;
+
+    const task2 = `${expectedTitle2}\n${expectedProgress2}\n${expectedEndsOn2}\n${expectedMoreDetails2}`;
+
+    const allTaskURL = `[→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:sunny-s)`;
+
+    const expectedResponseMessage = `${expectedMessage}\n${task1}\n\n${task2}\n${allTaskURL}\n`;
     expect(responseMessage).toBe(expectedResponseMessage);
   });
 });
