@@ -4,4 +4,4 @@ compatibility_date = "2023-01-13"
 node_compat = true
 [vars]
 [triggers]
-crons = ["* */12 * * *"]
+crons = ["0 */12 * * *"]
