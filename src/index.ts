@@ -17,6 +17,7 @@ import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
 import { getGuildMemberDetailsHandler } from "./controllers/getGuildMemberDetailsHandler";
 import { send } from "./handlers/scheduledEventHandler";
+import { generateInviteLink } from "./controllers/generateDiscordInvite";
 
 const router = Router();
 
@@ -44,6 +45,7 @@ router.get("/member/:id", getGuildMemberDetailsHandler);
 router.patch("/guild/member", changeNickname);
 
 router.put("/roles/create", createGuildRoleHandler);
+router.post("/invite", generateInviteLink);
 
 router.put("/roles/add", addGroupRoleHandler);
 
@@ -71,10 +73,11 @@ router.all("*", async () => {
 
 export default {
   async fetch(request: Request, env: env): Promise<Response> {
-    if (request.method === "POST") {
+    const apiUrls = ["/invite"];
+    const url = new URL(request.url);
+    if (request.method === "POST" && !apiUrls.includes(url.pathname)) {
       const isVerifiedRequest = await verifyBot(request, env);
       if (!isVerifiedRequest) {
-        console.error("Invalid Request");
         return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
       }
     }

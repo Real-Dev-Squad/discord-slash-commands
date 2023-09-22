@@ -79,3 +79,50 @@ export const USER = {
     },
   ],
 };
+
+export const NOTIFY = {
+  name: "notify",
+  description: "notify the user",
+  options: [
+    {
+      name: "type",
+      description: "type of notification",
+      type: 3,
+      required: true,
+      choices: [
+        {
+          name: "OVERDUE",
+          value: "OVERDUE",
+        },
+        {
+          name: "ONBOARDING",
+          value: "ONBOARDING",
+        },
+      ],
+    },
+    {
+      name: "sub-type",
+      description: "sub-type of notification",
+      type: 3,
+      required: false,
+      choices: [
+        {
+          name: "In 1 Day",
+          value: "1",
+        },
+        {
+          name: "In 2 Day",
+          value: "2",
+        },
+        {
+          name: "> 7 Days",
+          value: "7",
+        },
+        {
+          name: "> 31 Days",
+          value: "31",
+        },
+      ],
+    },
+  ],
+};

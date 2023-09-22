@@ -14,6 +14,10 @@ export const STATUS_CHECK = {
   message: "Welcome to our discord Bot Server 👋",
 };
 
+export const TOO_MANY_REQUESTS = {
+  error: "Too many requests!",
+};
+
 export const COMMAND_NOT_FOUND = "Command Not Found";
 
 export const INTERNAL_SERVER_ERROR =
@@ -23,6 +27,8 @@ export const RETRY_COMMAND =
   "Oops, we didn't catch that! Please use the command again.";
 
 export const ROLE_ADDED = "Role added successfully";
+
+export const INVITED_CREATED = "Invite created successfully!";
 
 export const NAME_CHANGED = "User nickname changed successfully";
 
@@ -40,6 +46,9 @@ export const ROLE_FETCH_FAILED =
 export const BAD_REQUEST = {
   error: "Oops! This is not a proper request.",
 };
+export const UNAUTHORIZED = {
+  error: "UnAuthorized!",
+};
 
 export const LISTENING_SUCCESS_MESSAGE =
   "Your name is now changed to reflect your listening status";
@@ -55,3 +64,11 @@ export const TASKS_FETCH_FAILED = "An error occurred while fetching tasks.";
 export const FAILED_TO_FETCH_TASKS = `Failed to fetch tasks for **{{assignee}}**.`;
 export const USER_NOT_FOUND = `User Not Found`;
 export const USER_STATUS_NOT_FOUND = "No Status Found";
+
+export const OVERDUE_DEFAULT_MESSAGE = "You have overdue tasks.";
+export const OVERDUE_CUSTOM_MESSAGE =
+  "Please be aware that you currently have tasks that are overdue or due within the next {{days}} day. If you require additional time to complete these tasks, kindly submit an extension request.";
+
+export const ONBOARDING_DEFAULT_MESSAGE = `You currently have an onboarding status. Please provide an update explaining any challenges you're facing in completing your tasks. If you're finished, consider assigning new tasks to Admin.`;
+
+export const ONBOARDING_CUSTOM_MESSAGE = `Please update your status explaining why you are unable to complete your onboarding tasks within {{days}} days.`;
