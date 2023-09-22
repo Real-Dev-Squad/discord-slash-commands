@@ -2,7 +2,7 @@ import { env } from "../typeDefinitions/default.types";
 import { taskOverDueDiscordMembers } from "../utils/taskOverDueDiscordMembers";
 import * as error from "../constants/responses";
 import { getDiscordIds } from "../utils/getDiscordIds";
-import { RDS_TRACKING_CHANNEL_URL } from "../constants/urls";
+import config from "../../config/config";
 import { SUPER_USER_ONE, SUPER_USER_TWO } from "../constants/variables";
 
 export async function send(env: env): Promise<void> {
@@ -40,7 +40,7 @@ export async function send(env: env): Promise<void> {
       content: stringToBeSent,
     };
 
-    const url = `${RDS_TRACKING_CHANNEL_URL}`;
+    const url = config(env).TRACKING_CHANNEL_URL;
 
     const res = await fetch(url, {
       method: "POST",
