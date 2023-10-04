@@ -20,6 +20,7 @@ export const taskOverDueDiscordMembers = async (): Promise<
 
     return assigneeIds;
   } catch (e) {
-    return errors.INTERNAL_SERVER_ERROR;
+    console.log(e);
+    throw e;
   }
 };
