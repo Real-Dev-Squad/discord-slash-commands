@@ -26,13 +26,15 @@ async function fetchRdsData(options = {}) {
     let url = RDS_BASE_API_URL;
 
     if (isOnboarding) {
-      url += days
-        ? `/users/search?state=ONBOARDING&time=${days}d`
-        : `/users/search?state=ONBOARDING`;
+      url +=
+        Number(days) > 0
+          ? `/users/search?state=ONBOARDING&time=${days}d`
+          : `/users/search?state=ONBOARDING`;
     } else if (isOverdue) {
-      url += days
-        ? `/users?query=filterBy:overdue_tasks+days:${days}`
-        : `/users?query=filterBy:overdue_tasks`;
+      url +=
+        Number(days) > 0
+          ? `/users?query=filterBy:overdue_tasks+days:${days}`
+          : `/users?query=filterBy:overdue_tasks`;
     }
     const response = await fetch(url);
 

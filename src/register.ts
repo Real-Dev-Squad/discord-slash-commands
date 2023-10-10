@@ -4,7 +4,8 @@ import {
   VERIFY,
   LISTENING,
   TASK,
-  NOTIFY,
+  NOTIFY_OVERDUE,
+  NOTIFY_ONBOARDING,
   OOO,
   USER,
 } from "./constants/commands";
@@ -34,7 +35,8 @@ async function registerGuildCommands(
     TASK,
     OOO,
     USER,
-    NOTIFY,
+    NOTIFY_OVERDUE,
+    NOTIFY_ONBOARDING,
   ];
 
   try {
