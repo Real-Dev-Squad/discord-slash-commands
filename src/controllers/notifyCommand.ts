@@ -13,15 +13,18 @@ import { fetchRdsData } from "../utils/fetchRdsData";
 import { createTaggableDiscordIds } from "../utils/createTaggableDiscordIds";
 import { extractDiscordIds } from "../utils/extractDiscordIds";
 
-export async function notifyCommand(data: Array<{ value: string }>) {
-  const typeValue = data[0].value;
-  const daysValue = data[1]?.value;
+export async function notifyCommand(
+  data: Array<{ value: string }>,
+  overdue?: boolean,
+  onboarding?: boolean
+) {
+  const daysValue = data[0]?.value;
 
   try {
-    if (typeValue === "OVERDUE") {
+    if (overdue) {
       const options = {
-        isOverdue: true,
         days: daysValue,
+        isOverdue: true,
       };
       const usersResponse = (await fetchRdsData(
         options
@@ -30,7 +33,7 @@ export async function notifyCommand(data: Array<{ value: string }>) {
       const formattedIds = createTaggableDiscordIds(discordIDs);
 
       const message = `**Message:** ${
-        daysValue
+        Number(daysValue) > 0
           ? OVERDUE_CUSTOM_MESSAGE.replace("{{days}}", daysValue)
           : OVERDUE_DEFAULT_MESSAGE
       }`;
@@ -38,17 +41,17 @@ export async function notifyCommand(data: Array<{ value: string }>) {
       const users = `**Developers:** ${formattedIds.join(", ")}`;
       const responseMessage = `${message}\n${users}`;
       return discordTextResponse(responseMessage);
-    } else if (typeValue === "ONBOARDING") {
+    } else if (onboarding) {
       const options = {
-        isOnboarding: true,
         days: daysValue,
+        isOnboarding: true,
       };
       const users = (await fetchRdsData(options)) as UserResponseType;
       const discordIDs = extractDiscordIds(users);
       const formattedIds = createTaggableDiscordIds(discordIDs);
 
       const message = `**Message:** ${
-        daysValue
+        Number(daysValue) > 0
           ? ONBOARDING_CUSTOM_MESSAGE.replace("{{days}}", daysValue)
           : ONBOARDING_DEFAULT_MESSAGE
       }`;
