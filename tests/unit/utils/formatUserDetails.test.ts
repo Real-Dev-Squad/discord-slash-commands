@@ -12,13 +12,14 @@ describe("formatUserDetails function", () => {
 
   it("should format user details correctly", () => {
     const formattedDetails = formatUserDetails(userResponse).trim();
+    const userFullName = `**Full Name :** Sunny Sahsi`;
+    const discordJoinedAt = `**RDS Discord Joined at :** ${convertTimeStamp(
+      userResponse
+    )}`;
+    const userState = `**State :** ACTIVE`;
+    const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}`;
     console.log(formattedDetails);
-    const expectedFormattedDetails = `
-          ## User Details
-          **Full Name :** Sunny Sahsi
-          **RDS Discord Joined At :** ${convertTimeStamp(userResponse)}
-          **State :** ACTIVE
-        `.trim();
+    console.log(expectedFormattedDetails);
     expect(formattedDetails).toEqual(expectedFormattedDetails);
   });
 });
