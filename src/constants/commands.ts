@@ -80,39 +80,46 @@ export const USER = {
   ],
 };
 
-export const NOTIFY = {
-  name: "notify",
-  description: "notify the user",
+export const NOTIFY_OVERDUE = {
+  name: "notify-overdue",
+  description: "Notify the user about overdue tasks.",
   options: [
     {
-      name: "type",
-      description: "type of notification",
+      name: "notify-overdue",
+      description: "Select the number of days",
       type: 3,
       required: true,
       choices: [
         {
-          name: "OVERDUE",
-          value: "OVERDUE",
+          name: "Already Overdue",
+          value: "0",
         },
-        {
-          name: "ONBOARDING",
-          value: "ONBOARDING",
-        },
-      ],
-    },
-    {
-      name: "sub-type",
-      description: "sub-type of notification",
-      type: 3,
-      required: false,
-      choices: [
         {
           name: "In 1 Day",
           value: "1",
         },
         {
-          name: "In 2 Day",
+          name: "In 2 Days",
           value: "2",
+        },
+      ],
+    },
+  ],
+};
+
+export const NOTIFY_ONBOARDING = {
+  name: "notify-onboarding",
+  description: "Notify the user about onboarding information.",
+  options: [
+    {
+      name: "notify-onboarding",
+      description: "Select the number of days",
+      type: 3,
+      required: true,
+      choices: [
+        {
+          name: "All Onboarding Users",
+          value: "0",
         },
         {
           name: "> 7 Days",

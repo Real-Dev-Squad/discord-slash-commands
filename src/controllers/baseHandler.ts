@@ -23,7 +23,8 @@ import {
   MENTION_EACH,
   VERIFY,
   TASK,
-  NOTIFY,
+  NOTIFY_OVERDUE,
+  NOTIFY_ONBOARDING,
   OOO,
   USER,
 } from "../constants/commands";
@@ -122,9 +123,13 @@ export async function baseHandler(
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await taskCommand(data[0].value);
     }
-    case getCommandName(NOTIFY): {
+    case getCommandName(NOTIFY_OVERDUE): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      return await notifyCommand(data);
+      return await notifyCommand(data, true, false);
+    }
+    case getCommandName(NOTIFY_ONBOARDING): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      return await notifyCommand(data, false, true);
     }
     case getCommandName(OOO): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
