@@ -29,13 +29,6 @@ export async function send(env: env): Promise<void> {
       }
     });
 
-    if (
-      assigneeIds === error.INTERNAL_SERVER_ERROR ||
-      discordIds === error.INTERNAL_SERVER_ERROR
-    ) {
-      throw new Error(error.INTERNAL_SERVER_ERROR);
-    }
-
     const bodyObj = {
       content: stringToBeSent,
     };

@@ -27,11 +27,11 @@ describe("taskOverDueDiscordMembers()", () => {
       .spyOn(global, "fetch")
       .mockRejectedValueOnce(new Error("Network error"));
 
-    const result = await taskOverDueDiscordMembers();
-
-    expect(result).toEqual(
-      "Oops! We have encountered an internal Server Error"
-    );
+    try {
+      await taskOverDueDiscordMembers();
+    } catch (error: any) {
+      expect(error.message).toEqual("Network error");
+    }
 
     expect(global.fetch).toHaveBeenCalledWith(
       `${RDS_BASE_API_URL}/tasks?dev=true&status=overdue&size=100`
