@@ -173,3 +173,29 @@ export const onboardingUsersResponse = {
   message: "Users returned successfully!",
   users: users,
 };
+
+export const userWithoutDiscordJoinedAt = {
+  id: "DWcTUhbC5lRXfDjZRp06",
+  incompleteUserDetails: false,
+  discordJoinedAt: "",
+  discordId: "504855562094247953",
+  github_display_name: "Jyotsna Mehta",
+  updated_at: 1694888822719,
+  roles: {
+    archived: false,
+    in_discord: true,
+    member: false,
+    super_user: false,
+    archive: false,
+  },
+  last_name: "Mehta",
+  github_id: "j24m",
+  first_name: "Jyotsna",
+  username: "jyotsna",
+  state: "IDLE",
+};
+
+export const userWithoutDiscordJoinedAtResponse = {
+  message: "Users returned successfully!",
+  user: userWithoutDiscordJoinedAt,
+};
