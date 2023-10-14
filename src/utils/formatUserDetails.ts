@@ -13,14 +13,14 @@ export function convertTimeStamp(userDetails: UserResponseType) {
     return formattedDate;
   }
 
-  return "";
+  return "N/A";
 }
 
 export function formatUserDetails(userDetails: UserResponseType) {
   const convertedTimestamp = convertTimeStamp(userDetails);
 
   const userFullName = `**Full Name :** ${userDetails.user?.first_name} ${userDetails.user?.last_name}`;
-  const discordJoinedAt = `**RDS Discord Joined at :** ${convertedTimestamp}`;
+  const discordJoinedAt = `**Joined Server on :** ${convertedTimestamp}`;
   const userState = `**State :** ${userDetails.user?.state}`;
 
   return `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}`;

@@ -17,7 +17,7 @@ describe("formatUserDetails function", () => {
     const formattedDetails = formatUserDetails(userResponse).trim();
 
     const userFullName = `**Full Name :** Sunny Sahsi`;
-    const discordJoinedAt = `**RDS Discord Joined at :** ${convertTimeStamp(
+    const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userResponse
     )}`;
     const userState = `**State :** ACTIVE`;
@@ -31,7 +31,7 @@ describe("formatUserDetails function", () => {
       userWithoutDiscordJoinedAtResponse
     ).trim();
     const userFullName = `**Full Name :** Jyotsna Mehta`;
-    const discordJoinedAt = `**RDS Discord Joined at :** ${convertTimeStamp(
+    const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userWithoutDiscordJoinedAtResponse
     )}`;
     const userState = `**State :** IDLE`;
