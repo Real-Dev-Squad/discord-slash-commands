@@ -1,6 +1,9 @@
 import { UserResponseType } from "../../../src/typeDefinitions/rdsUser";
 import { formatUserDetails } from "../../../src/utils/formatUserDetails";
-import { userResponse } from "../../fixtures/user";
+import {
+  userResponse,
+  userWithoutDiscordJoinedAtResponse,
+} from "../../fixtures/user";
 import { convertTimeStamp } from "../../../src/utils/formatUserDetails";
 
 describe("formatUserDetails function", () => {
@@ -14,11 +17,24 @@ describe("formatUserDetails function", () => {
     const formattedDetails = formatUserDetails(userResponse).trim();
 
     const userFullName = `**Full Name :** Sunny Sahsi`;
-    const discordJoinedAt = `**RDS Discord Joined at :** ${convertTimeStamp(
+    const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userResponse
     )}`;
     const userState = `**State :** ACTIVE`;
 
+    const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}`;
+    expect(formattedDetails).toEqual(expectedFormattedDetails);
+  });
+
+  it("should return empty string if discordJoinedAt is undefined", () => {
+    const formattedDetails = formatUserDetails(
+      userWithoutDiscordJoinedAtResponse
+    ).trim();
+    const userFullName = `**Full Name :** Jyotsna Mehta`;
+    const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
+      userWithoutDiscordJoinedAtResponse
+    )}`;
+    const userState = `**State :** IDLE`;
     const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}`;
     expect(formattedDetails).toEqual(expectedFormattedDetails);
   });
