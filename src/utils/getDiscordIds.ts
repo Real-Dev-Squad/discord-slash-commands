@@ -4,7 +4,7 @@ import * as response from "../constants/responses";
 
 export const getDiscordIds = async (
   userIds: string[] | string
-): Promise<string[] | string> => {
+): Promise<string[]> => {
   try {
     const url = `${RDS_BASE_API_URL}/users/userId`;
 
@@ -65,6 +65,7 @@ export const getDiscordIds = async (
 
     return discordIds;
   } catch (e) {
-    return response.INTERNAL_SERVER_ERROR;
+    console.log(e);
+    throw e;
   }
 };

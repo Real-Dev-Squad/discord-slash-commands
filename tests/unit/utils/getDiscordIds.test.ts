@@ -39,11 +39,11 @@ describe("getDiscordIds()", () => {
       .spyOn(global, "fetch")
       .mockRejectedValueOnce(new Error("Network error"));
 
-    const result = await getDiscordIds([userBackendMock.user.id]);
-
-    expect(result).toEqual(
-      "Oops! We have encountered an internal Server Error"
-    );
+    try {
+      await getDiscordIds([userBackendMock.user.id]);
+    } catch (error: any) {
+      expect(error.message).toEqual("Network error");
+    }
 
     expect(global.fetch).toHaveBeenCalledWith(
       `${RDS_BASE_API_URL}/users/userId/${userBackendMock.user.id}`
