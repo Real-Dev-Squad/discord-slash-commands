@@ -46,8 +46,28 @@ export const TASK = {
   description: "display the task of the user",
   options: [
     {
+      name: "type",
+      description: "type of task",
+      type: 3,
+      required: true,
+      choices: [
+        {
+          name: "In Progress",
+          value: "IN_PROGRESS",
+        },
+        {
+          name: "Assigned",
+          value: "ASSIGNED",
+        },
+        {
+          name: "Blocked",
+          value: "BLOCKED",
+        },
+      ],
+    },
+    {
       name: "username",
-      description: "Nickname of the user",
+      description: "nickname of the user",
       type: 6,
       required: true,
     },

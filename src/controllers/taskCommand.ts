@@ -9,8 +9,9 @@ import {
   TASKS_FETCH_FAILED,
 } from "../constants/responses";
 
-export async function taskCommand(userId: string) {
-  const status = "IN_PROGRESS";
+export async function taskCommand(data: Array<{ value: string }>) {
+  const userId = data[1]?.value;
+  const status = data[0]?.value;
   try {
     const userData = await getUserDetails(userId);
     if (!userData.user) {

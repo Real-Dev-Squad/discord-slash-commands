@@ -121,7 +121,7 @@ export async function baseHandler(
     }
     case getCommandName(TASK): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      return await taskCommand(data[0].value);
+      return await taskCommand(data);
     }
     case getCommandName(NOTIFY_OVERDUE): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
