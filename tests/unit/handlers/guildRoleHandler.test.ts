@@ -1,16 +1,20 @@
 import {
   getGuildRoleByRoleNameHandler,
   getGuildRolesHandler,
+  getGuildRolesPostHandler,
 } from "../../../src/controllers/guildRoleHandler";
 import { Role } from "../../../src/typeDefinitions/role.types";
 import JSONResponse from "../../../src/utils/JsonResponse";
 import {
   generateDummyRequestObject,
   guildEnv,
+  memberGroupRoleList,
+  memberGroupRoleResponseList,
   rolesMock,
 } from "../../fixtures/fixture";
 import * as responseConstants from "../../../src/constants/responses";
 import * as guildRoleUtils from "../../../src/utils/guildRole";
+import { GROUP_ROLE_ADD } from "../../../src/constants/requestsActions";
 
 jest.mock("../../../src/utils/verifyAuthToken", () => ({
   verifyAuthToken: jest.fn().mockReturnValue(true),
@@ -245,5 +249,100 @@ describe("get role by role name", () => {
     const role: Role = await response.json();
     expect(response.status).toBe(200);
     expect(role).toEqual(resultMock);
+  });
+});
+
+describe("getGuildRolesPostHandler", () => {
+  beforeEach(() => {
+    jest.spyOn(global, "fetch").mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          return resolve(new JSONResponse({}, { status: 200 }));
+        })
+    );
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  it("should return response with user id and status for bulk add group roles", async () => {
+    const mockRequest = generateDummyRequestObject({
+      url: "/roles",
+      method: "POST",
+      headers: { Authorization: "Bearer testtoken" },
+      json: () => Promise.resolve(memberGroupRoleList),
+      query: { action: GROUP_ROLE_ADD.ADD_ROLE },
+    });
+    const response = await getGuildRolesPostHandler(mockRequest, guildEnv);
+    expect(response).toBeInstanceOf(JSONResponse);
+    const responseBody = await response.json();
+    expect(responseBody).toEqual(memberGroupRoleResponseList);
+  });
+
+  it("should return Bad Signature object if no auth headers provided", async () => {
+    const mockRequest = generateDummyRequestObject({
+      url: "/roles",
+      method: "POST",
+      json: () => Promise.resolve(memberGroupRoleList),
+      query: { action: GROUP_ROLE_ADD.ADD_ROLE },
+    });
+    const response: JSONResponse = await getGuildRolesPostHandler(
+      mockRequest,
+      guildEnv
+    );
+    const jsonResponse: { error: string } = await response.json();
+    expect(jsonResponse).toEqual(responseConstants.BAD_SIGNATURE);
+  });
+
+  it("should return Bad Signature object if invalid action is provided", async () => {
+    const mockRequest = generateDummyRequestObject({
+      url: "/roles",
+      method: "POST",
+      headers: { Authorization: "Bearer testtoken" },
+      json: () => Promise.resolve(memberGroupRoleList),
+      query: { action: "INVALID_ACTION" },
+    });
+    const response: JSONResponse = await getGuildRolesPostHandler(
+      mockRequest,
+      guildEnv
+    );
+    const jsonResponse: { error: string } = await response.json();
+    expect(jsonResponse).toEqual(responseConstants.BAD_SIGNATURE);
+  });
+
+  it("should return Bad Signature if request body length is above 25", async () => {
+    const requestList = new Array(26).fill(memberGroupRoleList[0]);
+    const mockRequest = generateDummyRequestObject({
+      url: "/roles",
+      method: "POST",
+      headers: { Authorization: "Bearer testtoken" },
+      json: () => Promise.resolve(requestList),
+      query: { action: GROUP_ROLE_ADD.ADD_ROLE },
+    });
+    const response: JSONResponse = await getGuildRolesPostHandler(
+      mockRequest,
+      guildEnv
+    );
+    const jsonResponse: { error: string } = await response.json();
+    expect(jsonResponse).toEqual(responseConstants.BAD_SIGNATURE);
+    expect(response.statusText).toBe("Max requests length is 25");
+  });
+
+  it("should return internal server error when theres an error", async () => {
+    const mockRequest = generateDummyRequestObject({
+      url: "/roles",
+      method: "POST",
+      headers: { Authorization: "Bearer testtoken" },
+      json: [],
+      query: { action: GROUP_ROLE_ADD.ADD_ROLE },
+    });
+    const response: JSONResponse = await getGuildRolesPostHandler(
+      mockRequest,
+      guildEnv
+    );
+    const jsonResponse: { error: string } = await response.json();
+    expect(jsonResponse).toEqual(responseConstants.INTERNAL_SERVER_ERROR);
   });
 });
