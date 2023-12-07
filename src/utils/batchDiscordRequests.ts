@@ -7,6 +7,7 @@ export const DISCORD_HEADERS = {
 };
 
 const MAX_RETRY = 1;
+const LIMIT_BUFFER = 0.2;
 
 interface RequestDetails {
   retries: number;
@@ -17,6 +18,22 @@ interface ResponseDetails {
   response: Response;
   data: RequestDetails;
 }
+
+const parseRateLimitRemaining = (response: Response) => {
+  let rateLimitRemaining = Number.parseInt(
+    response.headers.get(DISCORD_HEADERS.RATE_LIMIT_REMAINING) || "0"
+  );
+  rateLimitRemaining = Math.floor(rateLimitRemaining * (1 - LIMIT_BUFFER));
+  return rateLimitRemaining;
+};
+
+const parseResetAfter = (response: Response) => {
+  let resetAfter = Number.parseFloat(
+    response.headers.get(DISCORD_HEADERS.RATE_LIMIT_RESET_AFTER) || "0"
+  );
+  resetAfter = Math.ceil(resetAfter);
+  return resetAfter;
+};
 
 export const batchDiscordRequests = async (
   requests: { (): Promise<Response> }[]
@@ -32,24 +49,31 @@ export const batchDiscordRequests = async (
 
     const responseList: Response[] = new Array(requestsQueue.length);
     let resetAfter = 0;
-    let rateLimitRemaining: number | null = null;
-    let retryAfter: number | null = null;
+    let nextMinimumResetAfter = Infinity;
+    let rateLimitRemaining = 1;
+    let nextMinimumRateLimitRemaining = Infinity;
+
     const handleResponse = async (
       response: JSONResponse,
       data: RequestDetails
     ): Promise<void> => {
       if (response.ok) {
-        resetAfter = Number.parseFloat(
-          response.headers.get(DISCORD_HEADERS.RATE_LIMIT_RESET_AFTER) || "0"
+        nextMinimumResetAfter = Math.min(
+          nextMinimumResetAfter,
+          parseResetAfter(response)
         );
-        rateLimitRemaining = Number.parseInt(
-          response.headers.get(DISCORD_HEADERS.RATE_LIMIT_REMAINING) || "0"
+        nextMinimumRateLimitRemaining = Math.min(
+          nextMinimumRateLimitRemaining,
+          parseRateLimitRemaining(response)
         );
+
         responseList[data.index] = response;
       } else {
-        retryAfter = Number.parseFloat(
-          response.headers.get(DISCORD_HEADERS.RETRY_AFTER) || "0"
+        nextMinimumResetAfter = Math.min(
+          nextMinimumResetAfter,
+          parseResetAfter(response)
         );
+        rateLimitRemaining = 0;
         if (data.retries >= MAX_RETRY) {
           responseList[data.index] = response;
         } else {
@@ -66,6 +90,7 @@ export const batchDiscordRequests = async (
       try {
         response = await data.request();
       } catch (e: unknown) {
+        console.error(`Error executing request at index ${data.index}:`, e);
         response = new JSONResponse({ error: e }, { status: 500 });
       }
       return { response, data };
@@ -77,33 +102,32 @@ export const batchDiscordRequests = async (
       const requestData = requestsQueue.pop();
       if (!requestData) continue;
       promises.push(executeRequest(requestData));
-      if (rateLimitRemaining) {
-        rateLimitRemaining--;
-      }
-      if (
-        !rateLimitRemaining ||
-        rateLimitRemaining <= 0 ||
-        requestsQueue.length === 0
-      ) {
+      rateLimitRemaining--;
+
+      if (rateLimitRemaining <= 0 || requestsQueue.length === 0) {
         const resultList: ResponseDetails[] = await Promise.all(promises);
         promises = [];
         for (const result of resultList) {
           const { response, data } = result;
           await handleResponse(response, data);
         }
-        if (rateLimitRemaining && rateLimitRemaining <= 0 && resetAfter) {
+        if (nextMinimumRateLimitRemaining !== Infinity) {
+          rateLimitRemaining = nextMinimumRateLimitRemaining;
+        }
+        if (nextMinimumResetAfter !== Infinity) {
+          resetAfter = nextMinimumResetAfter;
+        }
+        nextMinimumRateLimitRemaining = Infinity;
+        nextMinimumResetAfter = Infinity;
+        if (rateLimitRemaining <= 0 && resetAfter) {
           await addDelay(convertSecondsToMillis(resetAfter));
-          rateLimitRemaining = null;
-        } else if (retryAfter && retryAfter > 0) {
-          await addDelay(convertSecondsToMillis(retryAfter));
-          retryAfter = null;
+          rateLimitRemaining = 1;
         }
       }
     }
-
     return responseList;
   } catch (e) {
-    console.error(e);
+    console.error("Error in batchDiscordRequests:", e);
     throw e;
   }
 };
