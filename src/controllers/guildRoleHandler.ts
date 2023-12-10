@@ -80,29 +80,46 @@ export async function bulkAddGroupRoleHandler(
   env: env
 ): Promise<JSONResponse> {
   try {
-    if (
-      !memberGroupRoleList ||
-      memberGroupRoleList.length > 25 ||
-      memberGroupRoleList.length === 0
-    ) {
+    if (!Array.isArray(memberGroupRoleList)) {
+      return new JSONResponse(response.BAD_SIGNATURE, {
+        status: 400,
+        statusText: "Expecting an array for user id and role id as payload",
+      });
+    }
+    if (memberGroupRoleList.length < 1) {
+      return new JSONResponse(response.BAD_SIGNATURE, {
+        status: 400,
+        statusText: "Minimum length of request is 1",
+      });
+    }
+    if (memberGroupRoleList.length > 25) {
       return new JSONResponse(response.BAD_SIGNATURE, {
         status: 400,
         statusText: "Max requests length is 25",
       });
     }
+
     const addGroupRoleRequests = [];
     for (const memberGroupRole of memberGroupRoleList) {
       const addRoleRequest = async () => {
         const { userid, roleid } = memberGroupRole;
-        const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
-        const options = {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bot ${env.DISCORD_TOKEN}`,
-          },
-        };
-        return await fetch(createGuildRoleUrl, options);
+        try {
+          const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bot ${env.DISCORD_TOKEN}`,
+            },
+          };
+          return await fetch(createGuildRoleUrl, options);
+        } catch (error) {
+          console.error(
+            `Error occurred while trying to add role: ${roleid} to user: ${userid}`,
+            error
+          );
+          throw error;
+        }
       };
       addGroupRoleRequests.push(addRoleRequest);
     }
