@@ -76,7 +76,7 @@ router.all("*", async () => {
 
 export default {
   async fetch(request: Request, env: env): Promise<Response> {
-    const apiUrls = ["/invite"];
+    const apiUrls = ["/invite","/roles"];
     const url = new URL(request.url);
     if (request.method === "POST" && !apiUrls.includes(url.pathname)) {
       const isVerifiedRequest = await verifyBot(request, env);
