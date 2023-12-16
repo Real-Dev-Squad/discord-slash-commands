@@ -1,5 +1,5 @@
 # Discord Slash Command
-
+test
 This is a discord bot for RealDevSquad discord server capable of using slash commands.
 
 The bot is written in TypeScript and will be hosted on cloudflare workers. Cloudflare workers provide us with a serverless environment to run our code.
