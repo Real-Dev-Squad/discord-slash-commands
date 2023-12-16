@@ -3,7 +3,7 @@
     "target": "es2021",
     "lib": ["es2021"],
     "module": "Node16",
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "types": ["@cloudflare/workers-types", "jest"],
     "resolveJsonModule": true,
     "allowJs": true,
