@@ -9,7 +9,7 @@ You can do so by visiting the following link: https://workers.cloudflare.com/wor
 
 To get an example and look at runtime apis for cloudflare workers you can go to: https://developers.cloudflare.com/workers/runtime-apis
 
-To start the server use
+To start the server use tddy
 
 ```
 npm start
