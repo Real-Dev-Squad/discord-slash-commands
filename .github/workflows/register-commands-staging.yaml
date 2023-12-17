@@ -1,7 +1,7 @@
 name: Register and deploy Slash Commands
 on:
   push:
-    branches: develop
+    branches: test-0089
 jobs:
   Register-Commands:
     runs-on: ubuntu-latest
