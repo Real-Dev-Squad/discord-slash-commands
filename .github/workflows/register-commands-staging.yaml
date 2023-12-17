@@ -8,6 +8,9 @@ jobs:
     environment: staging
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+        node-version: 18.18.2
       - run: npm install
       - run: npm run register
         env:
