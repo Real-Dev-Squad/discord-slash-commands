@@ -248,3 +248,15 @@ export const userFutureStatusMock: UserStatus = {
   },
   message: "User Status found successfully.",
 };
+
+export const memberGroupRoleList: memberGroupRole[] = [
+  { userid: "XXXX", roleid: "XXXX" },
+  { userid: "YYYY", roleid: "YYYY" },
+  { userid: "ZZZZ", roleid: "ZZZZ" },
+];
+
+export const memberGroupRoleResponseList = [
+  { userid: "XXXX", roleid: "XXXX", success: true },
+  { userid: "YYYY", roleid: "YYYY", success: true },
+  { userid: "ZZZZ", roleid: "ZZZZ", success: true },
+];
