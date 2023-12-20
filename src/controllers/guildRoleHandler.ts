@@ -14,6 +14,9 @@ import {
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
 import { verifyAuthToken } from "../utils/verifyAuthToken";
+import { batchDiscordRequests } from "../utils/batchDiscordRequests";
+import { DISCORD_BASE_URL } from "../constants/urls";
+import { GROUP_ROLE_ADD } from "../constants/requestsActions";
 
 export async function createGuildRoleHandler(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
@@ -43,6 +46,96 @@ export async function addGroupRoleHandler(request: IRequest, env: env) {
     return new JSONResponse(res);
   } catch (err) {
     return new JSONResponse(response.BAD_SIGNATURE);
+  }
+}
+
+export async function getGuildRolesPostHandler(request: IRequest, env: env) {
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader) {
+    return new JSONResponse(response.BAD_SIGNATURE);
+  }
+
+  try {
+    await verifyAuthToken(authHeader, env);
+    const { action } = request.query;
+
+    switch (action) {
+      case GROUP_ROLE_ADD.ADD_ROLE: {
+        const memberGroupRoleList = await request.json();
+        const res = await bulkAddGroupRoleHandler(memberGroupRoleList, env);
+        return res;
+      }
+      default: {
+        return new JSONResponse(response.BAD_SIGNATURE);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    return new JSONResponse(response.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function bulkAddGroupRoleHandler(
+  memberGroupRoleList: memberGroupRole[],
+  env: env
+): Promise<JSONResponse> {
+  try {
+    if (!Array.isArray(memberGroupRoleList)) {
+      return new JSONResponse(response.BAD_SIGNATURE, {
+        status: 400,
+        statusText: "Expecting an array for user id and role id as payload",
+      });
+    }
+    if (memberGroupRoleList.length < 1) {
+      return new JSONResponse(response.BAD_SIGNATURE, {
+        status: 400,
+        statusText: "Minimum length of request is 1",
+      });
+    }
+    if (memberGroupRoleList.length > 25) {
+      return new JSONResponse(response.BAD_SIGNATURE, {
+        status: 400,
+        statusText: "Max requests length is 25",
+      });
+    }
+
+    const addGroupRoleRequests = [];
+    for (const memberGroupRole of memberGroupRoleList) {
+      const addRoleRequest = async () => {
+        const { userid, roleid } = memberGroupRole;
+        try {
+          const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
+          const options = {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bot ${env.DISCORD_TOKEN}`,
+            },
+          };
+          return await fetch(createGuildRoleUrl, options);
+        } catch (error) {
+          console.error(
+            `Error occurred while trying to add role: ${roleid} to user: ${userid}`,
+            error
+          );
+          throw error;
+        }
+      };
+      addGroupRoleRequests.push(addRoleRequest);
+    }
+    const responseList = await batchDiscordRequests(addGroupRoleRequests);
+
+    const responseBody = memberGroupRoleList.map((memberGroupRole, index) => {
+      return {
+        userid: memberGroupRole.userid,
+        roleid: memberGroupRole.roleid,
+        success: responseList[index].ok,
+      };
+    });
+    return new JSONResponse(responseBody);
+  } catch (e) {
+    console.error(e);
+    throw e;
   }
 }
 

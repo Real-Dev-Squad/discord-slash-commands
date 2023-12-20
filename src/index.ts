@@ -12,6 +12,7 @@ import {
   removeGuildRoleHandler,
   getGuildRoleByRoleNameHandler,
   getGuildRolesHandler,
+  getGuildRolesPostHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
@@ -32,6 +33,8 @@ router.patch("/guild/member", changeNickname);
 router.put("/roles/create", createGuildRoleHandler);
 
 router.put("/roles/add", addGroupRoleHandler);
+
+router.post("/roles", getGuildRolesPostHandler);
 
 router.delete("/roles", removeGuildRoleHandler);
 
@@ -71,7 +74,7 @@ router.all("*", async () => {
 
 export default {
   async fetch(request: Request, env: env): Promise<Response> {
-    const apiUrls = ["/invite"];
+    const apiUrls = ["/invite", "/roles"];
     const url = new URL(request.url);
     if (request.method === "POST" && !apiUrls.includes(url.pathname)) {
       const isVerifiedRequest = await verifyBot(request, env);
