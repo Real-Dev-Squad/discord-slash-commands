@@ -1,5 +1,9 @@
 import jwt from "@tsndr/cloudflare-worker-jwt";
 import { verifyAuthToken } from "../../../src/utils/verifyAuthToken";
+import {
+  AUTHENTICATION_ERROR,
+  INVALID_TOKEN_FORMAT,
+} from "../../../src/constants/responses";
 
 describe("verifyAuthToken", () => {
   const authToken = "validToken";
@@ -24,20 +28,20 @@ describe("verifyAuthToken", () => {
     const authHeader = "Bearer invalidToken";
     jwt.verify = jest.fn().mockResolvedValue(false);
     await expect(verifyAuthToken(authHeader, mockEnv)).rejects.toThrow(
-      "Invalid Authentication token"
+      AUTHENTICATION_ERROR
     );
   });
   it("should throw an error when Bearer is not passed", async () => {
     const authHeader = "Beaer invalidToken";
     await expect(verifyAuthToken(authHeader, mockEnv)).rejects.toThrow(
-      "Invalid Authentication header format. Expected 'Bearer <token>'"
+      INVALID_TOKEN_FORMAT
     );
   });
 
   it("should throw an error for a malformed auth header", async () => {
     const malformedHeader = "invalidformat";
     await expect(verifyAuthToken(malformedHeader, mockEnv)).rejects.toThrow(
-      "Invalid Authentication header format. Expected 'Bearer <token>'"
+      INVALID_TOKEN_FORMAT
     );
   });
 });
