@@ -5,6 +5,7 @@ import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { User } from "../typeDefinitions/user.types";
 import { getMembersInServer } from "../utils/getMembersInServer";
+import { verifyAuthToken } from "../utils/verifyAuthToken";
 
 export const getMembersInServerHandler = async (
   request: IRequest,
@@ -16,10 +17,7 @@ export const getMembersInServerHandler = async (
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    const authToken = authHeader.split(" ")[1];
-    await jwt.verify(authToken, env.RDS_SERVERLESS_PUBLIC_KEY, {
-      algorithm: "RS256",
-    });
+    await verifyAuthToken(authHeader, env);
 
     const users = (await getMembersInServer(env)) as User[];
 
