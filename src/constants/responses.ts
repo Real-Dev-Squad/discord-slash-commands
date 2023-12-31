@@ -72,3 +72,8 @@ export const OVERDUE_CUSTOM_MESSAGE =
 export const ONBOARDING_DEFAULT_MESSAGE = `You currently have an onboarding status. Please provide an update explaining any challenges you're facing in completing your tasks. If you're finished, consider assigning new tasks to Admin.`;
 
 export const ONBOARDING_CUSTOM_MESSAGE = `Please update your status explaining why you are unable to complete your onboarding tasks within {{days}} days.`;
+
+export const INVALID_TOKEN_FORMAT =
+  "Invalid Authentication header format. Expected 'Bearer <token>'";
+
+export const AUTHENTICATION_ERROR = "Invalid Authentication token";
