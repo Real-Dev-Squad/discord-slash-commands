@@ -37,6 +37,7 @@ describe("Test generateTaskResponseMessage function", () => {
 
   it("Should return a string with task details", () => {
     const formattedTasks = tasks.tasks.map((task: task) => formatTask(task));
+    console.log("format task frm fail", formattedTasks.length);
     const responseMessage = generateTaskResponseMessage(
       "sunny-s",
       formattedTasks,
@@ -62,6 +63,20 @@ describe("Test generateTaskResponseMessage function", () => {
     const allTaskURL = `[→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:sunny-s)`;
 
     const expectedResponseMessage = `${expectedMessage}\n${task1}\n\n${task2}\n${allTaskURL}\n`;
+    expect(responseMessage).toBe(expectedResponseMessage);
+  });
+
+  it("should return a string if user don't have any in-progress task", () => {
+    const formattedTasks: [] = [];
+    console.log("format task frm fail", formattedTasks.length);
+    const responseMessage = generateTaskResponseMessage(
+      "anish-pawaskar",
+      formattedTasks,
+      "IN_PROGRESS"
+    );
+    const expectedMessage = `## anish-pawaskar doesn't have any in-progress task`;
+    const allTaskURL = `[→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:anish-pawaskar)`;
+    const expectedResponseMessage = `${expectedMessage}\n\n${allTaskURL}\n`;
     expect(responseMessage).toBe(expectedResponseMessage);
   });
 });
