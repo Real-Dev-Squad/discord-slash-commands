@@ -37,7 +37,6 @@ describe("Test generateTaskResponseMessage function", () => {
 
   it("Should return a string with task details", () => {
     const formattedTasks = tasks.tasks.map((task: task) => formatTask(task));
-    console.log("format task frm fail", formattedTasks.length);
     const responseMessage = generateTaskResponseMessage(
       "sunny-s",
       formattedTasks,
