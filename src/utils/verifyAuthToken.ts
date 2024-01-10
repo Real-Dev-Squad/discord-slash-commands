@@ -32,11 +32,14 @@ export async function verifyAuthToken(authHeader: string, env: env) {
  */
 
 export async function verifyCronJobsToken(authHeader: string, env: env) {
-  const parts = authHeader.split(" ");
-  if (parts.length !== 2 || parts[0] !== "Bearer") {
+  if (!authHeader) {
     throw new Error(INVALID_TOKEN_FORMAT);
   }
-  const authToken = parts[1];
+  const authHeaderParts = authHeader.split(" ");
+  if (authHeaderParts.length !== 2 || authHeaderParts[0] !== "Bearer") {
+    throw new Error(INVALID_TOKEN_FORMAT);
+  }
+  const authToken = authHeaderParts[1];
   const isValid = await jwt.verify(authToken, env.CRON_JOBS_PUBLIC_KEY, {
     algorithm: "RS256",
   });
