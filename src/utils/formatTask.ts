@@ -21,7 +21,10 @@ export function generateTaskResponseMessage(
   formattedTasks: string[],
   status: string
 ) {
-  const title = `## ${formatStatusToTitleCase(status)} Tasks of ${nickName}`;
+  const title =
+    formattedTasks.length !== 0
+      ? `## ${formatStatusToTitleCase(status)} Tasks of ${nickName}`
+      : `## ${nickName} doesn't have any in-progress task`;
   const tasks = formattedTasks.join("\n\n");
   const allTaskLink = `[→ All Tasks](${RDS_STATUS_SITE_URL}/tasks?q=status:all+assignee:${nickName})
 `;
