@@ -37,7 +37,7 @@ export async function verifyCronJobsToken(authHeader: string, env: env) {
     throw new Error(INVALID_TOKEN_FORMAT);
   }
   const authToken = parts[1];
-  const isValid = await jwt.verify(authToken, env.CRON_JOBS_PRIVATE_KEY, {
+  const isValid = await jwt.verify(authToken, env.CRON_JOBS_PUBLIC_KEY, {
     algorithm: "RS256",
   });
   if (!isValid) {

@@ -51,7 +51,7 @@ describe("verifyAuthToken", () => {
 
 describe("verifyCronJobsToken", () => {
   const authToken = "validToken";
-  const mockEnv = { CRON_JOBS_PRIVATE_KEY: "publicKey" };
+  const mockEnv = { CRON_JOBS_PUBLIC_KEY: "publicKey" };
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -65,7 +65,7 @@ describe("verifyCronJobsToken", () => {
     ).resolves.not.toThrow();
     expect(jwt.verify).toHaveBeenCalledWith(
       authToken,
-      mockEnv.CRON_JOBS_PRIVATE_KEY,
+      mockEnv.CRON_JOBS_PUBLIC_KEY,
       { algorithm: "RS256" }
     );
   });
