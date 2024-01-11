@@ -64,4 +64,18 @@ describe("Test generateTaskResponseMessage function", () => {
     const expectedResponseMessage = `${expectedMessage}\n${task1}\n\n${task2}\n${allTaskURL}\n`;
     expect(responseMessage).toBe(expectedResponseMessage);
   });
+
+  it("should return a string if user don't have any in-progress task", () => {
+    const formattedTasks: [] = [];
+    console.log("format task frm fail", formattedTasks.length);
+    const responseMessage = generateTaskResponseMessage(
+      "anish-pawaskar",
+      formattedTasks,
+      "IN_PROGRESS"
+    );
+    const expectedMessage = `## anish-pawaskar doesn't have any in-progress task`;
+    const allTaskURL = `[→ All Tasks](https://status.realdevsquad.com/tasks?q=status:all+assignee:anish-pawaskar)`;
+    const expectedResponseMessage = `${expectedMessage}\n\n${allTaskURL}\n`;
+    expect(responseMessage).toBe(expectedResponseMessage);
+  });
 });

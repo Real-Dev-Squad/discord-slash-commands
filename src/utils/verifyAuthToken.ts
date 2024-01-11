@@ -30,7 +30,6 @@ export async function verifyAuthToken(authHeader: string, env: env) {
  * @param authHeader { string } : the auth header of request
  * @param env { env }: the ctx (context) which contains the secrets put in as wrangler secrets.
  */
-
 export async function verifyCronJobsToken(authHeader: string, env: env) {
   if (!authHeader) {
     throw new Error(INVALID_TOKEN_FORMAT);
