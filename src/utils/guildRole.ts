@@ -1,3 +1,4 @@
+import { HeadersInit } from "node-fetch";
 import {
   INTERNAL_SERVER_ERROR,
   ROLE_ADDED,
@@ -12,23 +13,26 @@ import {
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
 import { GuildRole, Role } from "../typeDefinitions/role.types";
+import createDiscordHeaders from "./createDiscordHeaders";
 
 export async function createGuildRole(
   body: createNewRole,
-  env: env
+  env: env,
+  reson?: string
 ): Promise<guildRoleResponse | string> {
   const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles`;
   const data = {
     ...body,
     name: body.rolename,
   };
+  const headers: HeadersInit = createDiscordHeaders({
+    reson,
+    token: env.DISCORD_TOKEN,
+  });
   try {
     const response = await fetch(createGuildRoleUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${env.DISCORD_TOKEN}`,
-      },
+      headers,
       body: JSON.stringify(data),
     });
     if (response.ok) {
@@ -41,16 +45,21 @@ export async function createGuildRole(
   }
 }
 
-export async function addGroupRole(body: memberGroupRole, env: env) {
+export async function addGroupRole(
+  body: memberGroupRole,
+  env: env,
+  reson?: string
+) {
   const { userid, roleid } = body;
   const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
   try {
+    const headers: HeadersInit = createDiscordHeaders({
+      reson,
+      token: env.DISCORD_TOKEN,
+    });
     const response = await fetch(createGuildRoleUrl, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${env.DISCORD_TOKEN}`,
-      },
+      headers,
     });
     if (response.ok) {
       return { message: ROLE_ADDED };
@@ -62,16 +71,21 @@ export async function addGroupRole(body: memberGroupRole, env: env) {
   }
 }
 
-export async function removeGuildRole(details: memberGroupRole, env: env) {
+export async function removeGuildRole(
+  details: memberGroupRole,
+  env: env,
+  reson?: string
+) {
   const { userid, roleid } = details;
   const removeGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
   try {
+    const headers: HeadersInit = createDiscordHeaders({
+      reson,
+      token: env.DISCORD_TOKEN,
+    });
     const response = await fetch(removeGuildRoleUrl, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${env.DISCORD_TOKEN}`,
-      },
+      headers,
     });
     if (response.ok) {
       return {
@@ -91,12 +105,12 @@ export async function getGuildRoles(env: env): Promise<Array<Role>> {
   const guildRolesUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles`;
 
   try {
+    const headers: HeadersInit = createDiscordHeaders({
+      token: env.DISCORD_TOKEN,
+    });
     const response = await fetch(guildRolesUrl, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${env.DISCORD_TOKEN}`,
-      },
+      headers,
     });
 
     if (!response.ok) {

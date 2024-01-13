@@ -13,8 +13,10 @@ export async function generateInviteLink(request: IRequest, env: env) {
   }
   try {
     await verifyAuthToken(authHeader, env);
+    const reson = request.headers.get("X-Audit-Log-Reason");
+
     const body: inviteLinkBody = await request.json();
-    const res = await generateDiscordLink(body, env);
+    const res = await generateDiscordLink(body, env, reson);
     return new JSONResponse(res);
   } catch (err) {
     return new JSONResponse(response.BAD_SIGNATURE);

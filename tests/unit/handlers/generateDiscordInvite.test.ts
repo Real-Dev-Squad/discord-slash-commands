@@ -1,3 +1,9 @@
+const generateDiscordLink = jest
+  .fn()
+  .mockReturnValue({ data: {}, message: "Invite created successfully!" });
+jest.mock("../../../src/utils/generateDiscordInvite", () => ({
+  generateDiscordLink,
+}));
 import { generateInviteLink } from "../../../src/controllers/generateDiscordInvite";
 import JSONResponse from "../../../src/utils/JsonResponse";
 import { generateDummyRequestObject, guildEnv } from "../../fixtures/fixture";
@@ -8,13 +14,34 @@ jest.mock("../../../src/utils/verifyAuthToken", () => ({
   verifyAuthToken: jest.fn().mockReturnValue(true),
 }));
 
-jest.mock("../../../src/utils/generateDiscordInvite", () => ({
-  generateDiscordLink: jest
-    .fn()
-    .mockReturnValue({ data: {}, message: "Invite created successfully!" }),
-}));
-
 describe("generate discord link", () => {
+  it("should return data object with message on success ", async () => {
+    const mockRequest = generateDummyRequestObject({
+      method: "PUT",
+      url: "/invite",
+      headers: {
+        Authorization: "Bearer testtoken",
+        "Content-Type": "application/json",
+        "X-Audit-Log-Reason": "This is a reson",
+      },
+      json: async () => {
+        return { channelId: "xyz" };
+      },
+    });
+
+    const response: JSONResponse = await generateInviteLink(
+      mockRequest,
+      guildEnv
+    );
+
+    await response.json();
+    const body = await mockRequest.json();
+    expect(generateDiscordLink).toHaveBeenLastCalledWith(
+      body,
+      guildEnv,
+      "This is a reson"
+    );
+  });
   it("should return 🚫 Bad Request Signature' if authtoken is there in the header", async () => {
     const mockRequest = generateDummyRequestObject({
       url: "/invite",

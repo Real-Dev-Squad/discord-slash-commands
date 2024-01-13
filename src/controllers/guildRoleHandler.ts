@@ -17,6 +17,7 @@ import { verifyAuthToken, verifyCronJobsToken } from "../utils/verifyAuthToken";
 import { batchDiscordRequests } from "../utils/batchDiscordRequests";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { GROUP_ROLE_ADD } from "../constants/requestsActions";
+import createDiscordHeaders from "../utils/createDiscordHeaders";
 
 export async function createGuildRoleHandler(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
@@ -26,11 +27,13 @@ export async function createGuildRoleHandler(request: IRequest, env: env) {
   try {
     await verifyAuthToken(authHeader, env);
     const body: createNewRole = await request.json();
-
-    const res = await createGuildRole(body, env);
+    const reson = request.headers.get("X-Audit-Log-Reason");
+    const res = await createGuildRole(body, env, reson);
     return new JSONResponse(res);
   } catch (err) {
-    return new JSONResponse(response.BAD_SIGNATURE);
+    return new JSONResponse({
+      error: err,
+    });
   }
 }
 export async function addGroupRoleHandler(request: IRequest, env: env) {
@@ -41,8 +44,9 @@ export async function addGroupRoleHandler(request: IRequest, env: env) {
   try {
     await verifyAuthToken(authHeader, env);
     const body: memberGroupRole = await request.json();
+    const reson = request.headers.get("X-Audit-Log-Reason");
 
-    const res = await addGroupRole(body, env);
+    const res = await addGroupRole(body, env, reson);
     return new JSONResponse(res);
   } catch (err) {
     return new JSONResponse(response.BAD_SIGNATURE);
@@ -54,6 +58,7 @@ export async function getGuildRolesPostHandler(request: IRequest, env: env) {
   if (!authHeader) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
+  const reson = request.headers.get("X-Audit-Log-Reason");
 
   try {
     await verifyCronJobsToken(authHeader, env);
@@ -62,7 +67,11 @@ export async function getGuildRolesPostHandler(request: IRequest, env: env) {
     switch (action) {
       case GROUP_ROLE_ADD.ADD_ROLE: {
         const memberGroupRoleList = await request.json();
-        const res = await bulkAddGroupRoleHandler(memberGroupRoleList, env);
+        const res = await bulkAddGroupRoleHandler(
+          memberGroupRoleList,
+          env,
+          reson
+        );
         return res;
       }
       default: {
@@ -77,7 +86,8 @@ export async function getGuildRolesPostHandler(request: IRequest, env: env) {
 
 export async function bulkAddGroupRoleHandler(
   memberGroupRoleList: memberGroupRole[],
-  env: env
+  env: env,
+  reson?: string
 ): Promise<JSONResponse> {
   try {
     if (!Array.isArray(memberGroupRoleList)) {
@@ -105,12 +115,13 @@ export async function bulkAddGroupRoleHandler(
         const { userid, roleid } = memberGroupRole;
         try {
           const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
+          const headers: HeadersInit = createDiscordHeaders({
+            reson,
+            token: env.DISCORD_TOKEN,
+          });
           const options = {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bot ${env.DISCORD_TOKEN}`,
-            },
+            headers,
           };
           return await fetch(createGuildRoleUrl, options);
         } catch (error) {
@@ -141,13 +152,15 @@ export async function bulkAddGroupRoleHandler(
 
 export async function removeGuildRoleHandler(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
+  const reson = request.headers.get("X-Audit-Log-Reason");
+
   if (!authHeader) {
     return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
   }
   try {
     await verifyAuthToken(authHeader, env);
     const body: memberGroupRole = await request.json();
-    const res = await removeGuildRole(body, env);
+    const res = await removeGuildRole(body, env, reson);
     return new JSONResponse(res, {
       status: 200,
       headers: {
