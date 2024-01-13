@@ -31,9 +31,7 @@ export async function createGuildRoleHandler(request: IRequest, env: env) {
     const res = await createGuildRole(body, env, reason);
     return new JSONResponse(res);
   } catch (err) {
-    return new JSONResponse({
-      error: err,
-    });
+    return new JSONResponse(response.BAD_SIGNATURE);
   }
 }
 export async function addGroupRoleHandler(request: IRequest, env: env) {
