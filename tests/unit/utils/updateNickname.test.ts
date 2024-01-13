@@ -14,7 +14,7 @@ describe("Update nickname", () => {
   };
 
   const mockData = { discordId: "12345678910111213", nickname: "jhon" };
-  it("should pass the reson to discord as a X-Audit-Log-Reason header if provided", async () => {
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
     jest
       .spyOn(global, "fetch")
       .mockRejectedValue(() =>
@@ -24,7 +24,7 @@ describe("Update nickname", () => {
       mockData.discordId,
       "",
       mockEnv,
-      "This is reson for this action"
+      "This is reason for this action"
     );
 
     expect(global.fetch).toHaveBeenCalledWith(
@@ -34,7 +34,7 @@ describe("Update nickname", () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-          "X-Audit-Log-Reason": "This is reson for this action",
+          "X-Audit-Log-Reason": "This is reason for this action",
         },
         body: JSON.stringify({ nick: "" }),
       }

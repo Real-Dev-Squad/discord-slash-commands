@@ -1,16 +1,16 @@
 const createDiscordHeaders = ({
-  reson,
+  reason,
   token,
 }: {
-  reson?: string;
+  reason?: string;
   token: string;
 }) => {
   const headers: HeadersInit = {
     "Content-Type": "application/json",
     Authorization: `Bot ${token}`,
   };
-  if (reson) {
-    headers["X-Audit-Log-Reason"] = reson;
+  if (reason) {
+    headers["X-Audit-Log-Reason"] = reason;
   }
   return headers;
 };

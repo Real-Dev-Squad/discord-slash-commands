@@ -22,7 +22,7 @@ describe("generate discord link", () => {
       headers: {
         Authorization: "Bearer testtoken",
         "Content-Type": "application/json",
-        "X-Audit-Log-Reason": "This is a reson",
+        "X-Audit-Log-Reason": "This is a reason",
       },
       json: async () => {
         return { channelId: "xyz" };
@@ -39,7 +39,7 @@ describe("generate discord link", () => {
     expect(generateDiscordLink).toHaveBeenLastCalledWith(
       body,
       guildEnv,
-      "This is a reson"
+      "This is a reason"
     );
   });
   it("should return 🚫 Bad Request Signature' if authtoken is there in the header", async () => {

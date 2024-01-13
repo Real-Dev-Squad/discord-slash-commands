@@ -6,8 +6,8 @@ describe("createDiscordHeaders", () => {
     expect(header.Authorization).toBe("Bot 1234567890");
     expect(header["X-Audit-Log-Reason"]).toBeFalsy();
   });
-  it("should return an object with both prop Authorization and X-Audit-Log-Reason if resona and token prop are passed", () => {
-    const header = createDiscordHeaders({ token: "1234567890", reson: "456" });
+  it("should return an object with both prop Authorization and X-Audit-Log-Reason if reason and token prop are passed", () => {
+    const header = createDiscordHeaders({ token: "1234567890", reason: "456" });
     expect(header.Authorization).toBe("Bot 1234567890");
     expect(header["X-Audit-Log-Reason"]).toBe("456");
   });

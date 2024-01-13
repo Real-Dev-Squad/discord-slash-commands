@@ -7,12 +7,12 @@ export async function updateNickName(
   discordId: string,
   nickname: string,
   env: env,
-  reson?: string
+  reason?: string
 ) {
   const changeNickNameURL = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${discordId}`;
   const data = { nick: nickname };
   const headers: HeadersInit = createDiscordHeaders({
-    reson,
+    reason,
     token: env.DISCORD_TOKEN,
   });
   try {

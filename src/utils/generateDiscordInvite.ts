@@ -15,7 +15,7 @@ import createDiscordHeaders from "./createDiscordHeaders";
 export async function generateDiscordLink(
   body: inviteLinkBody,
   env: env,
-  reson?: string
+  reason?: string
 ) {
   const { channelId } = body;
   const generateInviteUrl = `${DISCORD_BASE_URL}/channels/${channelId}/invites`;
@@ -26,7 +26,7 @@ export async function generateDiscordLink(
   };
   try {
     const headers: HeadersInit = createDiscordHeaders({
-      reson,
+      reason,
       token: env.DISCORD_TOKEN,
     });
     const response = await fetch(generateInviteUrl, {

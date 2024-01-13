@@ -18,7 +18,7 @@ import createDiscordHeaders from "./createDiscordHeaders";
 export async function createGuildRole(
   body: createNewRole,
   env: env,
-  reson?: string
+  reason?: string
 ): Promise<guildRoleResponse | string> {
   const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles`;
   const data = {
@@ -26,7 +26,7 @@ export async function createGuildRole(
     name: body.rolename,
   };
   const headers: HeadersInit = createDiscordHeaders({
-    reson,
+    reason,
     token: env.DISCORD_TOKEN,
   });
   try {
@@ -48,13 +48,13 @@ export async function createGuildRole(
 export async function addGroupRole(
   body: memberGroupRole,
   env: env,
-  reson?: string
+  reason?: string
 ) {
   const { userid, roleid } = body;
   const createGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
   try {
     const headers: HeadersInit = createDiscordHeaders({
-      reson,
+      reason,
       token: env.DISCORD_TOKEN,
     });
     const response = await fetch(createGuildRoleUrl, {
@@ -74,13 +74,13 @@ export async function addGroupRole(
 export async function removeGuildRole(
   details: memberGroupRole,
   env: env,
-  reson?: string
+  reason?: string
 ) {
   const { userid, roleid } = details;
   const removeGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/members/${userid}/roles/${roleid}`;
   try {
     const headers: HeadersInit = createDiscordHeaders({
-      reson,
+      reason,
       token: env.DISCORD_TOKEN,
     });
     const response = await fetch(removeGuildRoleUrl, {

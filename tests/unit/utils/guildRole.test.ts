@@ -15,7 +15,7 @@ import {
 } from "../../fixtures/fixture";
 
 describe("createGuildRole", () => {
-  it("should pass the reson to discord as a X-Audit-Log-Reason header if provided", async () => {
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementation((inp) => Promise.resolve(new JSONResponse(inp)));
@@ -23,7 +23,7 @@ describe("createGuildRole", () => {
     await createGuildRole(
       dummyCreateBody,
       guildEnv,
-      "This is reson for this action"
+      "This is reason for this action"
     );
 
     expect(global.fetch).toHaveBeenCalledWith(
@@ -33,7 +33,7 @@ describe("createGuildRole", () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
-          "X-Audit-Log-Reason": "This is reson for this action",
+          "X-Audit-Log-Reason": "This is reason for this action",
         },
         body: JSON.stringify({
           ...dummyCreateBody,
@@ -98,7 +98,7 @@ describe("createGuildRole", () => {
 });
 
 describe("addGroupRole", () => {
-  it("should pass the reson to discord as a X-Audit-Log-Reason header if provided", async () => {
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
     const mockResponse = {
       ok: true,
     };
@@ -111,7 +111,7 @@ describe("addGroupRole", () => {
     const result = await addGroupRole(
       dummyAddRoleBody,
       guildEnv,
-      "This is a reson"
+      "This is a reason"
     );
 
     expect(result).toEqual({ message: "Role added successfully" });
@@ -122,7 +122,7 @@ describe("addGroupRole", () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
-          "X-Audit-Log-Reason": "This is a reson",
+          "X-Audit-Log-Reason": "This is a reason",
         },
       }
     );
@@ -182,7 +182,7 @@ describe("removeGuildRole", () => {
       },
     });
   });
-  test("should pass the reson to discord as a X-Audit-Log-Reason header if provided", async () => {
+  test("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
     const mockResponse = {
       ok: true,
     };
@@ -194,7 +194,7 @@ describe("removeGuildRole", () => {
     const result = await removeGuildRole(
       dummyAddRoleBody,
       guildEnv,
-      "this is reson"
+      "this is reason"
     );
     expect(global.fetch).toHaveBeenCalledWith(
       `https://discord.com/api/v10/guilds/${guildEnv.DISCORD_GUILD_ID}/members/${dummyAddRoleBody.userid}/roles/${dummyAddRoleBody.roleid}`,
@@ -203,7 +203,7 @@ describe("removeGuildRole", () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
-          "X-Audit-Log-Reason": "this is reson",
+          "X-Audit-Log-Reason": "this is reason",
         },
       }
     );

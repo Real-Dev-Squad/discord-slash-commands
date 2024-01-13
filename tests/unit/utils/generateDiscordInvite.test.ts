@@ -5,14 +5,14 @@ import { generateDiscordLink } from "../../../src/utils/generateDiscordInvite";
 import { dummyInviteBody, guildEnv } from "../../fixtures/fixture";
 
 describe("generate invite link", () => {
-  it("should pass the reson to discord as a X-Audit-Log-Reason header if provided", async () => {
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
     jest
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse({})));
 
     await generateDiscordLink(dummyInviteBody, guildEnv);
 
-    await generateDiscordLink(dummyInviteBody, guildEnv, "This is a reson");
+    await generateDiscordLink(dummyInviteBody, guildEnv, "This is a reason");
 
     expect(global.fetch).toHaveBeenCalledWith(
       `https://discord.com/api/v10/channels/${dummyInviteBody.channelId}/invites`,
@@ -21,7 +21,7 @@ describe("generate invite link", () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
-          "X-Audit-Log-Reason": "This is a reson",
+          "X-Audit-Log-Reason": "This is a reason",
         },
         body: JSON.stringify({
           max_uses: INVITE_OPTIONS.MAX_USE,
