@@ -10,8 +10,13 @@ import {
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { env } from "../typeDefinitions/default.types";
 import { inviteLinkBody } from "../typeDefinitions/discordLink.types";
+import createDiscordHeaders from "./createDiscordHeaders";
 
-export async function generateDiscordLink(body: inviteLinkBody, env: env) {
+export async function generateDiscordLink(
+  body: inviteLinkBody,
+  env: env,
+  reason?: string
+) {
   const { channelId } = body;
   const generateInviteUrl = `${DISCORD_BASE_URL}/channels/${channelId}/invites`;
 
@@ -20,13 +25,14 @@ export async function generateDiscordLink(body: inviteLinkBody, env: env) {
     unique: INVITE_OPTIONS.UNIQUE, // Whether to create a unique invite or not
   };
   try {
+    const headers: HeadersInit = createDiscordHeaders({
+      reason,
+      token: env.DISCORD_TOKEN,
+    });
     const response = await fetch(generateInviteUrl, {
       method: "POST",
       body: JSON.stringify(inviteOptions),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${env.DISCORD_TOKEN}`,
-      },
+      headers,
     });
 
     if (response.ok) {

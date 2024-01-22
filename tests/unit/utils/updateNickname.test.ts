@@ -14,7 +14,32 @@ describe("Update nickname", () => {
   };
 
   const mockData = { discordId: "12345678910111213", nickname: "jhon" };
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockRejectedValue(() =>
+        Promise.resolve(new JSONResponse({ INTERNAL_SERVER_ERROR }))
+      );
+    await updateNickName(
+      mockData.discordId,
+      "",
+      mockEnv,
+      "This is reason for this action"
+    );
 
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${DISCORD_BASE_URL}/guilds/${mockEnv.DISCORD_GUILD_ID}/members/${mockData.discordId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+          "X-Audit-Log-Reason": "This is reason for this action",
+        },
+        body: JSON.stringify({ nick: "" }),
+      }
+    );
+  });
   test("updatenickname fetch is called with expected parameters", async () => {
     const data = { nick: mockData.nickname };
 

@@ -5,6 +5,31 @@ import { generateDiscordLink } from "../../../src/utils/generateDiscordInvite";
 import { dummyInviteBody, guildEnv } from "../../fixtures/fixture";
 
 describe("generate invite link", () => {
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse({})));
+
+    await generateDiscordLink(dummyInviteBody, guildEnv);
+
+    await generateDiscordLink(dummyInviteBody, guildEnv, "This is a reason");
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      `https://discord.com/api/v10/channels/${dummyInviteBody.channelId}/invites`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
+          "X-Audit-Log-Reason": "This is a reason",
+        },
+        body: JSON.stringify({
+          max_uses: INVITE_OPTIONS.MAX_USE,
+          unique: INVITE_OPTIONS.UNIQUE,
+        }),
+      }
+    );
+  });
   test("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
     const mockResponse = new Response(null, { status: 500 });
     jest
