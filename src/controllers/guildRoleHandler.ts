@@ -56,8 +56,13 @@ export async function getGuildRolesPostHandler(request: IRequest, env: env) {
   }
 
   try {
-    await verifyCronJobsToken(authHeader, env);
-    const { action } = request.query;
+    const { action, dev } = request.query;
+    //TODO(@Ajeyakrishna-k): remove dev flag https://github.com/Real-Dev-Squad/discord-slash-commands/issues/193
+    if (dev) {
+      await verifyCronJobsToken(authHeader, env);
+    } else {
+      await verifyAuthToken(authHeader, env);
+    }
 
     switch (action) {
       case GROUP_ROLE_ADD.ADD_ROLE: {
