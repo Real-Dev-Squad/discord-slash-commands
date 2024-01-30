@@ -34,6 +34,7 @@ jobs:
             DISCORD_GUILD_ID
             CURRENT_ENVIRONMENT
             BOT_PRIVATE_KEY
+            CRON_JOBS_PUBLIC_KEY
         env:
           CURRENT_ENVIRONMENT: staging
           CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
@@ -41,3 +42,4 @@ jobs:
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
           BOT_PRIVATE_KEY: ${{secrets.BOT_PRIVATE_KEY}}
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
+          CRON_JOBS_PUBLIC_KEY: ${{secrets.CRON_JOBS_PUBLIC_KEY}}
