@@ -13,7 +13,7 @@ import {
   createNewRole,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
-import { verifyAuthToken, verifyCronJobsToken } from "../utils/verifyAuthToken";
+import { verifyAuthToken } from "../utils/verifyAuthToken";
 import { batchDiscordRequests } from "../utils/batchDiscordRequests";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { GROUP_ROLE_ADD } from "../constants/requestsActions";
@@ -59,7 +59,7 @@ export async function getGuildRolesPostHandler(request: IRequest, env: env) {
   const reason = request.headers.get("X-Audit-Log-Reason");
 
   try {
-    await verifyCronJobsToken(authHeader, env);
+    await verifyAuthToken(authHeader, env);
     const { action } = request.query;
 
     switch (action) {
