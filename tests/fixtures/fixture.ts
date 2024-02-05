@@ -54,6 +54,7 @@ export const dummyAddRoleBody: memberGroupRole = {
 export const guildEnv = {
   DISCORD_GUILD_ID: "1234",
   DISCORD_TOKEN: "abcd",
+  CRON_JOBS_PUBLIC_KEY: "test",
 };
 
 export const dummyInviteBody = {

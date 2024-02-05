@@ -18,6 +18,7 @@ import { GROUP_ROLE_ADD } from "../../../src/constants/requestsActions";
 
 jest.mock("../../../src/utils/verifyAuthToken", () => ({
   verifyAuthToken: jest.fn().mockReturnValue(true),
+  verifyCronJobsToken: jest.fn().mockReturnValue(true),
 }));
 
 const getGuildRolesSpy = jest.spyOn(guildRoleUtils, "getGuildRoles");
