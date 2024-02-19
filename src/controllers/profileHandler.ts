@@ -10,7 +10,7 @@ export const sendProfileBlockedMessage = async (request: any, env: env) => {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env)
+    await verifyAuthToken(authHeader, env);
     const messageRequest: any = await request.json();
     const { userId, reason } = messageRequest;
     await sendProfileServiceBlockedMessage(userId, reason, env);
