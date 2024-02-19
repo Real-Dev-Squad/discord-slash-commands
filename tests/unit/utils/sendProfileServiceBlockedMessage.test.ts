@@ -20,15 +20,18 @@ describe("Send Profile Service Blocked Message", () => {
   };
 
   test("should send the message if both userId and reason provided", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const helpGroupRoleId = config(mockEnv).PROFILE_SERVICE_HELP_GROUP_ID;
     const data = {
       content:
-        "Hey <@" +
+        "Hello <@" +
         mockData.discordId +
-        ">,\nYour Profile Service is **BLOCKED** because of the below-mentioned reason. Please visit the [MY SITE](https://my.realdevsquad.com/identity) to fix this.\n**Reason:** `" +
+        ">,\nYour Profile Service is **BLOCKED** because of the below-mentioned reason. Please visit the [MY SITE](https://my.realdevsquad.com/identity) to fix this.\nIf you have any issue related to profile service, you can tag <@&" +
+        helpGroupRoleId +
+        "> and ask for help.\n\n**Reason:** `" +
         mockData.reason +
         "`",
     };
-    const url = config(mockEnv).TRACKING_CHANNEL_URL;
 
     jest
       .spyOn(global, "fetch")
@@ -55,7 +58,7 @@ describe("Send Profile Service Blocked Message", () => {
   test("should send the message if userId not present", async () => {
     const data = {
       content:
-        "Hey,\nSomeone's Profile Service is **BLOCKED** because of the below-mentioned reason.\n**Reason:** `" +
+        "Hello,\nSomeone's Profile Service is **BLOCKED** because of the below-mentioned reason.\n\n**Reason:** `" +
         mockData.reason +
         "`",
     };
@@ -86,7 +89,7 @@ describe("Send Profile Service Blocked Message", () => {
   test("should send the message if both are not present", async () => {
     const data = {
       content:
-        "Hey,\nSomeone's Profile Service is **BLOCKED** because of the below-mentioned reason.\n**Reason:** `No reason provided`",
+        "Hello,\nSomeone's Profile Service is **BLOCKED** because of the below-mentioned reason.\n\n**Reason:** `No reason provided`",
     };
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
 
@@ -108,12 +111,15 @@ describe("Send Profile Service Blocked Message", () => {
     });
   });
 
-  test("should send the message if reason is not not present", async () => {
+  test("should send the message if reason is not present", async () => {
+    const helpGroupRoleId = config(mockEnv).PROFILE_SERVICE_HELP_GROUP_ID;
     const data = {
       content:
-        "Hey <@" +
+        "Hello <@" +
         mockData.discordId +
-        ">,\nYour Profile Service is **BLOCKED** because of the below-mentioned reason. Please visit the [MY SITE](https://my.realdevsquad.com/identity) to fix this.\n**Reason:** `No reason provided`",
+        ">,\nYour Profile Service is **BLOCKED** because of the below-mentioned reason. Please visit the [MY SITE](https://my.realdevsquad.com/identity) to fix this.\nIf you have any issue related to profile service, you can tag <@&" +
+        helpGroupRoleId +
+        "> and ask for help.\n\n**Reason:** `No reason provided`",
     };
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
 

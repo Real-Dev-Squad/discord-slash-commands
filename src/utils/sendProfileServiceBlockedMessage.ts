@@ -6,13 +6,14 @@ export async function sendProfileServiceBlockedMessage(
   reason: string,
   env: env
 ): Promise<void> {
-  const stringToBeSent = `Hey${userId ? ` <@${userId}>` : ""},\n${
+  const helpGroupRoleId = config(env).PROFILE_SERVICE_HELP_GROUP_ID;
+  const stringToBeSent = `Hello${userId ? ` <@${userId}>` : ""},\n${
     userId ? "Your" : "Someone's"
   } Profile Service is **BLOCKED** because of the below-mentioned reason.${
     userId
-      ? " Please visit the [MY SITE](https://my.realdevsquad.com/identity) to fix this."
+      ? ` Please visit the [MY SITE](https://my.realdevsquad.com/identity) to fix this.\nIf you have any issue related to profile service, you can tag <@&${helpGroupRoleId}> and ask for help.`
       : ""
-  }\n**Reason:** \`${reason ? reason : "No reason provided"}\``;
+  }\n\n**Reason:** \`${reason ? reason : "No reason provided"}\``;
 
   const bodyObj = {
     content: stringToBeSent,
