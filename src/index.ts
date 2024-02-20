@@ -19,6 +19,7 @@ import { changeNickname } from "./controllers/changeNickname";
 import { getGuildMemberDetailsHandler } from "./controllers/getGuildMemberDetailsHandler";
 import { send } from "./handlers/scheduledEventHandler";
 import { generateInviteLink } from "./controllers/generateDiscordInvite";
+import { sendProfileBlockedMessage } from "./controllers/profileHandler";
 
 const router = Router();
 
@@ -54,6 +55,8 @@ router.put("/roles/add", addGroupRoleHandler);
 
 router.delete("/roles", removeGuildRoleHandler);
 
+router.post("/profile/blocked", sendProfileBlockedMessage);
+
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
 
@@ -76,7 +79,7 @@ router.all("*", async () => {
 
 export default {
   async fetch(request: Request, env: env): Promise<Response> {
-    const apiUrls = ["/invite", "/roles"];
+    const apiUrls = ["/invite", "/roles", "/profile/blocked"];
     const url = new URL(request.url);
     if (request.method === "POST" && !apiUrls.includes(url.pathname)) {
       const isVerifiedRequest = await verifyBot(request, env);
