@@ -2,7 +2,7 @@ import { env } from "../typeDefinitions/default.types";
 import { sendProfileServiceBlockedMessage } from "../utils/sendProfileServiceBlockedMessage";
 import JSONResponse from "../utils/JsonResponse";
 import * as response from "../constants/responses";
-import { verifyAuthToken } from "../utils/verifyAuthToken";
+import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 
 export const sendProfileBlockedMessage = async (request: any, env: env) => {
   const authHeader = request.headers.get("Authorization");
@@ -10,7 +10,7 @@ export const sendProfileBlockedMessage = async (request: any, env: env) => {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const messageRequest: { userId: string; reason: string } =
       await request.json();
     const { userId, reason } = messageRequest;

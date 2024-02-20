@@ -2,7 +2,7 @@ import { IRequest } from "itty-router";
 import * as response from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
-import { verifyAuthToken } from "../utils/verifyAuthToken";
+import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 import { generateDiscordLink } from "../utils/generateDiscordInvite";
 import { inviteLinkBody } from "../typeDefinitions/discordLink.types";
 
@@ -12,7 +12,7 @@ export async function generateInviteLink(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const reason = request.headers.get("X-Audit-Log-Reason");
 
     const body: inviteLinkBody = await request.json();

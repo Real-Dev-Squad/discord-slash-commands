@@ -17,7 +17,7 @@ import * as guildRoleUtils from "../../../src/utils/guildRole";
 import { GROUP_ROLE_ADD } from "../../../src/constants/requestsActions";
 
 jest.mock("../../../src/utils/verifyAuthToken", () => ({
-  verifyAuthToken: jest.fn().mockReturnValue(true),
+  verifyNodejsBackendAuthToken: jest.fn().mockReturnValue(true),
   verifyCronJobsToken: jest.fn().mockReturnValue(true),
 }));
 
