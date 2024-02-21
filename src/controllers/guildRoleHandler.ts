@@ -13,7 +13,10 @@ import {
   createNewRole,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
-import { verifyAuthToken, verifyCronJobsToken } from "../utils/verifyAuthToken";
+import {
+  verifyNodejsBackendAuthToken,
+  verifyCronJobsToken,
+} from "../utils/verifyAuthToken";
 import { batchDiscordRequests } from "../utils/batchDiscordRequests";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { GROUP_ROLE_ADD } from "../constants/requestsActions";
@@ -25,7 +28,7 @@ export async function createGuildRoleHandler(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const body: createNewRole = await request.json();
     const reason = request.headers.get("X-Audit-Log-Reason");
     const res = await createGuildRole(body, env, reason);
@@ -40,7 +43,7 @@ export async function addGroupRoleHandler(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const body: memberGroupRole = await request.json();
     const reason = request.headers.get("X-Audit-Log-Reason");
 
@@ -64,7 +67,7 @@ export async function getGuildRolesPostHandler(request: IRequest, env: env) {
     if (dev === "true") {
       await verifyCronJobsToken(authHeader, env);
     } else {
-      await verifyAuthToken(authHeader, env);
+      await verifyNodejsBackendAuthToken(authHeader, env);
     }
 
     switch (action) {
@@ -161,7 +164,7 @@ export async function removeGuildRoleHandler(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const body: memberGroupRole = await request.json();
     const res = await removeGuildRole(body, env, reason);
     return new JSONResponse(res, {
@@ -186,7 +189,7 @@ export async function getGuildRolesHandler(request: IRequest, env: env) {
     return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const roles = await getGuildRoles(env);
     return new JSONResponse({ roles });
   } catch (err: any) {
@@ -223,7 +226,7 @@ export async function getGuildRoleByRoleNameHandler(
     return new JSONResponse(response.BAD_REQUEST, { status: 404 });
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const role = await getGuildRoleByName(roleName, env);
     if (!role) {
       return new JSONResponse(response.NOT_FOUND, {

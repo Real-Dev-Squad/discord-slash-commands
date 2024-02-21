@@ -5,7 +5,7 @@ import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { User } from "../typeDefinitions/user.types";
 import { getMembersInServer } from "../utils/getMembersInServer";
-import { verifyAuthToken } from "../utils/verifyAuthToken";
+import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 
 export const getMembersInServerHandler = async (
   request: IRequest,
@@ -17,7 +17,7 @@ export const getMembersInServerHandler = async (
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
 
     const users = (await getMembersInServer(env)) as User[];
 
