@@ -44,6 +44,23 @@ export async function verifyNodejsBackendAuthToken(
  * @param authHeader { string } : the auth header of request
  * @param env { env }: the ctx (context) which contains the secrets put in as wrangler secrets.
  */
+
+export async function verifyIdentityServiceAuthToken(
+  authHeader: string,
+  env: env
+) {
+  try {
+    await verifyAuthToken(authHeader, env.IDENTITY_SERVICE_PUBLIC_KEY);
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+}
+
+/**
+ *
+ * @param authHeader { string } : the auth header of request
+ * @param env { env }: the ctx (context) which contains the secrets put in as wrangler secrets.
+ */
 export async function verifyCronJobsToken(authHeader: string, env: env) {
   try {
     await verifyAuthToken(authHeader, env.CRON_JOBS_PUBLIC_KEY);
