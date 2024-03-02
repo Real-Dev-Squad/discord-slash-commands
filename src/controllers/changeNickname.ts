@@ -2,7 +2,7 @@ import { IRequest } from "itty-router";
 import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import * as response from "../constants/responses";
-import { verifyAuthToken } from "../utils/verifyAuthToken";
+import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 import { updateNickName } from "../utils/updateNickname";
 
 export async function changeNickname(request: IRequest, env: env) {
@@ -14,7 +14,7 @@ export async function changeNickname(request: IRequest, env: env) {
   }
 
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
     const { discordId, userName } = await request.json();
     const res = await updateNickName(discordId, userName, env, reason);
     return new JSONResponse(res);

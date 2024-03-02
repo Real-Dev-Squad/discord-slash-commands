@@ -2,7 +2,7 @@ import * as response from "../constants/responses";
 import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { IRequest } from "itty-router";
-import { verifyAuthToken } from "../utils/verifyAuthToken";
+import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 import { getGuildMemberDetails } from "../utils/getGuildMemberDetails";
 
 export async function getGuildMemberDetailsHandler(
@@ -14,7 +14,7 @@ export async function getGuildMemberDetailsHandler(
     return new JSONResponse(response.BAD_SIGNATURE);
   }
   try {
-    await verifyAuthToken(authHeader, env);
+    await verifyNodejsBackendAuthToken(authHeader, env);
 
     const { id: discordId } = request.params;
 

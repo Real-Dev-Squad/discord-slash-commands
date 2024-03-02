@@ -11,7 +11,7 @@ import * as responseConstants from "../../../src/constants/responses";
 import { inviteResponseType } from "../../../src/typeDefinitions/discordLink.types";
 
 jest.mock("../../../src/utils/verifyAuthToken", () => ({
-  verifyAuthToken: jest.fn().mockReturnValue(true),
+  verifyNodejsBackendAuthToken: jest.fn().mockReturnValue(true),
 }));
 
 describe("generate discord link", () => {

@@ -10,6 +10,7 @@ export interface variables {
   RDS_BASE_API_URL: string;
   VERIFICATION_SITE_URL: string;
   TRACKING_CHANNEL_URL: string;
+  PROFILE_SERVICE_HELP_GROUP_ID: string;
 }
 
 export interface discordCommand {

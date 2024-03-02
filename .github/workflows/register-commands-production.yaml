@@ -36,6 +36,7 @@ jobs:
             BOT_PRIVATE_KEY
             RDS_SERVERLESS_PUBLIC_KEY
             CRON_JOBS_PUBLIC_KEY
+            IDENTITY_SERVICE_PUBLIC_KEY
         env:
           CURRENT_ENVIRONMENT: production
           CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
@@ -45,3 +46,4 @@ jobs:
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
           RDS_SERVERLESS_PUBLIC_KEY: ${{secrets.RDS_SERVERLESS_PUBLIC_KEY}}
           CRON_JOBS_PUBLIC_KEY: ${{secrets.CRON_JOBS_PUBLIC_KEY}}
+          IDENTITY_SERVICE_PUBLIC_KEY: ${{secrets.IDENTITY_SERVICE_PUBLIC_KEY}}
