@@ -42,7 +42,8 @@ import {
 
 export async function baseHandler(
   message: discordMessageRequest,
-  env: env
+  env: env,
+  ctx: ExecutionContext
 ): Promise<JSONResponse> {
   const command = lowerCaseMessageCommands(message);
 
@@ -66,8 +67,9 @@ export async function baseHandler(
       const transformedArgument = {
         roleToBeTaggedObj: data[0],
         displayMessageObj: data[1] ?? {},
+        channelId: message.channel_id,
       };
-      return await mentionEachUser(transformedArgument, env);
+      return await mentionEachUser(transformedArgument, env, ctx);
     }
 
     case getCommandName(LISTENING): {

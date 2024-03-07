@@ -6,13 +6,19 @@ import {
   removeGuildRole,
   getGuildRoles,
   getGuildRoleByName,
+  mentionEachUserInMessage,
 } from "../../../src/utils/guildRole";
 import {
   dummyAddRoleBody,
   dummyCreateBody,
   guildEnv,
+  mockMessageResponse,
   rolesMock,
 } from "../../fixtures/fixture";
+import {
+  DiscordMessageResponse,
+  discordMessageRequest,
+} from "../../../src/typeDefinitions/discordMessage.types";
 
 describe("createGuildRole", () => {
   it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
@@ -307,5 +313,46 @@ describe("getGuildRolesByName", () => {
       );
     const role = await getGuildRoleByName("everyone", guildEnv);
     expect(role).toBeUndefined();
+  });
+});
+describe("mentionEachUserInMessage", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+  it("should send messages to users in batches", async () => {
+    const mockResponse: DiscordMessageResponse = mockMessageResponse;
+    jest
+      .spyOn(global, "fetch")
+      .mockReturnValueOnce(Promise.resolve(new JSONResponse(mockResponse)));
+
+    const message = "Test message";
+    const userIds = ["user1", "user2", "user3"];
+    const channelId = 123;
+    const env = { DISCORD_TOKEN: "your_token_here" };
+
+    await mentionEachUserInMessage({ message, userIds, channelId, env });
+    expect(fetch).toHaveBeenCalledTimes(3);
+  });
+  it("should send a message of failed api calls at the end", async () => {
+    let fetchCallCount = 0;
+    jest.spyOn(global, "fetch").mockImplementation(async () => {
+      if (fetchCallCount < 3) {
+        fetchCallCount++;
+        return Promise.resolve(new JSONResponse({ message: "404: Not Found" }));
+      } else {
+        return Promise.resolve(new JSONResponse({ ok: true }));
+      }
+    });
+    const message = "Test message";
+    const userIds = ["user1", "user2", "user3"];
+    const channelId = 123;
+    const env = { DISCORD_TOKEN: "your_token_here" };
+
+    await mentionEachUserInMessage({ message, userIds, channelId, env });
+    expect(fetch).toHaveBeenCalledTimes(4); // should send a message of failed api calls at the end
   });
 });
