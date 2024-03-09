@@ -39,6 +39,7 @@ import {
   REMOVED_LISTENING_MESSAGE,
   RETRY_COMMAND,
 } from "../constants/responses";
+import { DevFlag } from "../typeDefinitions/filterUsersByRole";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -66,8 +67,9 @@ export async function baseHandler(
       // data[1] is message obj
       const transformedArgument = {
         roleToBeTaggedObj: data[0],
-        displayMessageObj: data[1] ?? {},
+        displayMessageObj: data.find((item) => item.name === "message"),
         channelId: message.channel_id,
+        dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
       };
       return await mentionEachUser(transformedArgument, env, ctx);
     }

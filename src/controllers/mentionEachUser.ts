@@ -6,14 +6,17 @@ import { env } from "../typeDefinitions/default.types";
 import {
   UserArray,
   MentionEachUserOptions,
+  DevFlag,
 } from "../typeDefinitions/filterUsersByRole";
 import { mentionEachUserInMessage } from "../utils/guildRole";
+import { checkDisplayType } from "../utils/checkDisplayType";
 
 export async function mentionEachUser(
   transformedArgument: {
     roleToBeTaggedObj: MentionEachUserOptions;
     displayMessageObj?: MentionEachUserOptions;
     channelId: number;
+    dev?: DevFlag;
   },
   env: env,
   ctx: ExecutionContext
@@ -21,6 +24,7 @@ export async function mentionEachUser(
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
+  const dev = transformedArgument?.dev?.value || false;
   // optional chaining here only because display message obj is optional argument
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
@@ -32,8 +36,12 @@ export async function mentionEachUser(
     message: msgToBeSent,
     usersWithMatchingRole,
   };
-  if (usersWithMatchingRole.length === 0) {
-    return discordTextResponse("Sorry no user found under this role.");
+  if (!dev || usersWithMatchingRole.length === 0) {
+    const responseData = checkDisplayType({
+      usersWithMatchingRole,
+      msgToBeSent,
+    });
+    return discordTextResponse(responseData);
   } else {
     ctx.waitUntil(
       mentionEachUserInMessage({

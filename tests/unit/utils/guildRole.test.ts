@@ -15,10 +15,7 @@ import {
   mockMessageResponse,
   rolesMock,
 } from "../../fixtures/fixture";
-import {
-  DiscordMessageResponse,
-  discordMessageRequest,
-} from "../../../src/typeDefinitions/discordMessage.types";
+import { DiscordMessageResponse } from "../../../src/typeDefinitions/discordMessage.types";
 
 describe("createGuildRole", () => {
   it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {

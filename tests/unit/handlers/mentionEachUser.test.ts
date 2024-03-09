@@ -19,6 +19,33 @@ describe("Test mention each function", () => {
     expect(response).toBeInstanceOf(Promise);
   });
 
+  it("should run without displayMessageObj argument in dev mode", async () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+    const response = mentionEachUser(
+      {
+        ...onlyRoleToBeTagged,
+        dev: {
+          name: "dev",
+          type: 4,
+          value: true,
+        },
+      },
+      env,
+      ctx
+    );
+    expect(response).toBeInstanceOf(Promise);
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+    expect(textMessage.data.content).toBe(
+      "Sorry no user found under this role."
+    );
+  });
+
   it("should run without displayMessageObj argument", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",

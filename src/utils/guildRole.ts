@@ -6,9 +6,13 @@ import {
   ROLE_REMOVED,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
+import {
+  parseRateLimitRemaining,
+  parseResetAfter,
+} from "../utils/batchDiscordRequests";
+
 import { env } from "../typeDefinitions/default.types";
 import {
-  DiscordMessageResponse,
   createNewRole,
   discordMessageError,
   discordMessageRequest,
@@ -150,9 +154,10 @@ export async function mentionEachUserInMessage({
   channelId: number;
   env: env;
 }) {
-  const batchSize = 10;
-  let failedAPICalls = 0;
+  const batchSize = 5;
+  let waitTillNextAPICall = 0;
   try {
+    const failedUsers: Array<string> = [];
     for (let i = 0; i < userIds.length; i += batchSize) {
       const batchwiseUserIds = userIds.slice(i, i + batchSize);
       const messageRequest = batchwiseUserIds.map((userId) => {
@@ -165,24 +170,30 @@ export async function mentionEachUserInMessage({
           body: JSON.stringify({
             content: `${message ? message + " " : ""} ${userId}`,
           }),
-        }).then((response) => response.json()) as Promise<
-          discordMessageRequest | discordMessageError
-        >;
+        }).then((response) => {
+          const rateLimitRemaining = parseRateLimitRemaining(response);
+          if (rateLimitRemaining === 0) {
+            waitTillNextAPICall = Math.max(
+              parseResetAfter(response),
+              waitTillNextAPICall
+            );
+          }
+          return response.json();
+        }) as Promise<discordMessageRequest | discordMessageError>;
       });
       const responses = await Promise.all(messageRequest);
-      responses.forEach((response) => {
-        if (
-          response &&
-          "message" in response &&
-          response.message === "404: Not Found"
-        ) {
-          failedAPICalls += 1;
+      responses.forEach((response, i) => {
+        if (response && "message" in response) {
+          failedUsers.push(batchwiseUserIds[i]);
           console.error(`Failed to mention a user`);
         }
       });
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, waitTillNextAPICall * 1000)
+      );
+      waitTillNextAPICall = 0;
     }
-    if (failedAPICalls > 0) {
+    if (failedUsers.length > 0) {
       await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
         method: "POST",
         headers: {
@@ -190,7 +201,7 @@ export async function mentionEachUserInMessage({
           Authorization: `Bot ${env.DISCORD_TOKEN}`,
         },
         body: JSON.stringify({
-          content: `Failed to tag ${failedAPICalls} users`,
+          content: `Failed to tag ${failedUsers} individually.`,
         }),
       });
     }

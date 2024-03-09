@@ -107,6 +107,11 @@ export const onlyRoleToBeTagged = {
     value: "1118201414078976192",
   },
   channelId: 1244,
+  dev: {
+    name: "dev",
+    type: 4,
+    value: false,
+  },
 };
 
 export const ctx = {
