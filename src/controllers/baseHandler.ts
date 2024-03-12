@@ -6,7 +6,7 @@ import { taskCommand } from "./taskCommand";
 import { notifyCommand } from "./notifyCommand";
 import { oooCommand } from "./oooCommand";
 import { userCommand } from "./userCommand";
-
+import { muteUser, unmuteUser } from "../utils/userMuteUnmuteActions";
 import { getCommandName } from "../utils/getCommandName";
 import JSONResponse from "../utils/JsonResponse";
 import { lowerCaseMessageCommands } from "../utils/lowerCaseMessageCommand";
@@ -39,6 +39,7 @@ import {
   REMOVED_LISTENING_MESSAGE,
   RETRY_COMMAND,
 } from "../constants/responses";
+import { DISCORD_BASE_URL } from "../constants/urls";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -67,47 +68,32 @@ export async function baseHandler(
         roleToBeTaggedObj: data[0],
         displayMessageObj: data[1] ?? {},
       };
+
       return await mentionEachUser(transformedArgument, env);
     }
 
     case getCommandName(LISTENING): {
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
+      const memberId = message.member.user.id.toString();
       const nickname = removeListening(message.member.nick || "");
       let discordEphemeral;
       let updateNickNameData = "";
       try {
         if (setter) {
-          if (
-            message.member.nick &&
-            !message.member.nick.includes(NICKNAME_SUFFIX)
-          ) {
+          if (!message.member.nick?.includes(NICKNAME_SUFFIX)) {
             updateNickNameData =
-              NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX;
+              NICKNAME_PREFIX + message.member.user.username + NICKNAME_SUFFIX;
             discordEphemeral = LISTENING_SUCCESS_MESSAGE;
-          } else if (!message.member.nick) {
-            (updateNickNameData = NICKNAME_PREFIX + "" + NICKNAME_SUFFIX),
-              (discordEphemeral = LISTENING_SUCCESS_MESSAGE);
+            await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
           } else {
             updateNickNameData = message.member.nick;
             discordEphemeral = ALREADY_LISTENING;
           }
-        } else if (
-          !setter &&
-          !message.member.nick &&
-          message.member.user.username.includes(NICKNAME_SUFFIX)
-        ) {
-          updateNickNameData = message.member.user.username + NICKNAME_SUFFIX;
-
-          discordEphemeral = REMOVED_LISTENING_MESSAGE;
         } else {
-          if (message.member.nick?.includes(NICKNAME_SUFFIX)) {
-            updateNickNameData = nickname;
-            discordEphemeral = REMOVED_LISTENING_MESSAGE;
-          } else {
-            updateNickNameData = nickname;
-            discordEphemeral = NOTHING_CHANGED;
-          }
+          updateNickNameData = nickname;
+          discordEphemeral = REMOVED_LISTENING_MESSAGE;
+          await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
         }
         await updateNickName(
           message.member.user.id.toString(),
@@ -135,7 +121,6 @@ export async function baseHandler(
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await oooCommand(data[0].value);
     }
-
     case getCommandName(USER): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await userCommand(data[0].value, env);

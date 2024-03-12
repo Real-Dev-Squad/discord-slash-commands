@@ -23,6 +23,7 @@ export const dummyHelloMessage: discordMessageRequest = {
     },
   },
   guild_id: 123456,
+  guild: undefined,
 };
 
 export const dummyVerifyMessage: discordMessageRequest = {
@@ -39,6 +40,7 @@ export const dummyVerifyMessage: discordMessageRequest = {
     },
   },
   guild_id: 123456,
+  guild: undefined,
 };
 
 export const dummyCreateBody: createNewRole = {
