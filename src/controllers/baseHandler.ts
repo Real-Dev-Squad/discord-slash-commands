@@ -142,20 +142,9 @@ export async function baseHandler(
       let updateNickNameData = "";
       try {
         if (setter) {
-          if (
-            message.member.nick &&
-            !message.member.nick.includes(NICKNAME_SUFFIX)
-          ) {
+          if (!message.member.nick?.includes(NICKNAME_SUFFIX)) {
             updateNickNameData =
-              (message.member.nick.endsWith(NICKNAME_SUFFIX)
-                ? ""
-                : NICKNAME_PREFIX) +
-              message.member.nick +
-              NICKNAME_SUFFIX;
-            discordEphemeral = LISTENING_SUCCESS_MESSAGE;
-            await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
-          } else if (!message.member.nick) {
-            updateNickNameData = NICKNAME_PREFIX + NICKNAME_SUFFIX;
+              NICKNAME_PREFIX + message.member.user.username + NICKNAME_SUFFIX;
             discordEphemeral = LISTENING_SUCCESS_MESSAGE;
             await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
           } else {
