@@ -71,6 +71,7 @@ export async function baseHandler(
 
       return await mentionEachUser(transformedArgument, env);
     }
+
     case getCommandName(LISTENING): {
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
