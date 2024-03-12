@@ -6,17 +6,15 @@ import { taskCommand } from "./taskCommand";
 import { notifyCommand } from "./notifyCommand";
 import { oooCommand } from "./oooCommand";
 import { userCommand } from "./userCommand";
-
+import { muteUser, unmuteUser } from "../utils/userMuteUnmuteActions";
 import { getCommandName } from "../utils/getCommandName";
 import JSONResponse from "../utils/JsonResponse";
 import { lowerCaseMessageCommands } from "../utils/lowerCaseMessageCommand";
-
 import { env } from "../typeDefinitions/default.types";
 import {
   discordMessageRequest,
   messageRequestDataOptions,
 } from "../typeDefinitions/discordMessage.types";
-
 import {
   HELLO,
   LISTENING,
@@ -41,68 +39,6 @@ import {
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 
-async function muteUser(
-  userId: string,
-  guildId: string,
-  token: string
-): Promise<void> {
-  try {
-    const response = await fetch(
-      `${DISCORD_BASE_URL}/guilds/${guildId}/members/${userId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bot ${token}`,
-        },
-        body: JSON.stringify({
-          mute: true,
-          channel_id: null,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      console.log("User muted successfully");
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-    }
-  } catch (error) {
-    console.error("Error occurred:", error);
-  }
-}
-
-async function unmuteUser(
-  userId: string,
-  guildId: string,
-  token: string
-): Promise<void> {
-  try {
-    const response = await fetch(
-      `${DISCORD_BASE_URL}/guilds/${guildId}/members/${userId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bot ${token}`,
-        },
-        body: JSON.stringify({
-          mute: false,
-          channel_id: null,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      console.log("User unmuted successfully");
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-    }
-  } catch (error) {
-    console.error("Error occurred:", error);
-  }
-}
-
 export async function baseHandler(
   message: discordMessageRequest,
   env: env
@@ -124,15 +60,12 @@ export async function baseHandler(
     }
     case getCommandName(MENTION_EACH): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      // data[0] is role obj
-      // data[1] is message obj
       const transformedArgument = {
         roleToBeTaggedObj: data[0],
         displayMessageObj: data[1] ?? {},
       };
       return await mentionEachUser(transformedArgument, env);
     }
-
     case getCommandName(LISTENING): {
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
@@ -182,7 +115,6 @@ export async function baseHandler(
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await oooCommand(data[0].value);
     }
-
     case getCommandName(USER): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await userCommand(data[0].value, env);
