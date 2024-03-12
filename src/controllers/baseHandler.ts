@@ -39,6 +39,69 @@ import {
   REMOVED_LISTENING_MESSAGE,
   RETRY_COMMAND,
 } from "../constants/responses";
+import { DISCORD_BASE_URL } from "../constants/urls";
+
+async function muteUser(
+  userId: string,
+  guildId: string,
+  token: string
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `${DISCORD_BASE_URL}/guilds/${guildId}/members/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bot ${token}`,
+        },
+        body: JSON.stringify({
+          mute: true,
+          channel_id: null,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      console.log("User muted successfully");
+    } else {
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+}
+
+async function unmuteUser(
+  userId: string,
+  guildId: string,
+  token: string
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `${DISCORD_BASE_URL}/guilds/${guildId}/members/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bot ${token}`,
+        },
+        body: JSON.stringify({
+          mute: false,
+          channel_id: null,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      console.log("User unmuted successfully");
+    } else {
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+}
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -73,6 +136,7 @@ export async function baseHandler(
     case getCommandName(LISTENING): {
       const data = message.data?.options;
       const setter = data ? data[0].value : false;
+      const memberId = message.member.user.id.toString();
       const nickname = removeListening(message.member.nick || "");
       let discordEphemeral;
       let updateNickNameData = "";
@@ -83,31 +147,25 @@ export async function baseHandler(
             !message.member.nick.includes(NICKNAME_SUFFIX)
           ) {
             updateNickNameData =
-              NICKNAME_PREFIX + message.member.nick + NICKNAME_SUFFIX;
+              (message.member.nick.endsWith(NICKNAME_SUFFIX)
+                ? ""
+                : NICKNAME_PREFIX) +
+              message.member.nick +
+              NICKNAME_SUFFIX;
             discordEphemeral = LISTENING_SUCCESS_MESSAGE;
+            await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
           } else if (!message.member.nick) {
-            (updateNickNameData = NICKNAME_PREFIX + "" + NICKNAME_SUFFIX),
-              (discordEphemeral = LISTENING_SUCCESS_MESSAGE);
+            updateNickNameData = NICKNAME_PREFIX + NICKNAME_SUFFIX;
+            discordEphemeral = LISTENING_SUCCESS_MESSAGE;
+            await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
           } else {
             updateNickNameData = message.member.nick;
             discordEphemeral = ALREADY_LISTENING;
           }
-        } else if (
-          !setter &&
-          !message.member.nick &&
-          message.member.user.username.includes(NICKNAME_SUFFIX)
-        ) {
-          updateNickNameData = message.member.user.username + NICKNAME_SUFFIX;
-
-          discordEphemeral = REMOVED_LISTENING_MESSAGE;
         } else {
-          if (message.member.nick?.includes(NICKNAME_SUFFIX)) {
-            updateNickNameData = nickname;
-            discordEphemeral = REMOVED_LISTENING_MESSAGE;
-          } else {
-            updateNickNameData = nickname;
-            discordEphemeral = NOTHING_CHANGED;
-          }
+          updateNickNameData = nickname;
+          discordEphemeral = REMOVED_LISTENING_MESSAGE;
+          await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
         }
         await updateNickName(
           message.member.user.id.toString(),
