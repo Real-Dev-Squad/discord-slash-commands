@@ -21,6 +21,7 @@ import {
 } from "../typeDefinitions/discordMessage.types";
 import { GuildRole, Role } from "../typeDefinitions/role.types";
 import createDiscordHeaders from "./createDiscordHeaders";
+import { sleep } from "./sleep";
 
 export async function createGuildRole(
   body: createNewRole,
@@ -188,9 +189,7 @@ export async function mentionEachUserInMessage({
           console.error(`Failed to mention a user`);
         }
       });
-      await new Promise((resolve) =>
-        setTimeout(resolve, waitTillNextAPICall * 1000)
-      );
+      await sleep(waitTillNextAPICall * 1000);
       waitTillNextAPICall = 0;
     }
     if (failedUsers.length > 0) {
