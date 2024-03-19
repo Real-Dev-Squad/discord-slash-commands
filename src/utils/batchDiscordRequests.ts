@@ -19,7 +19,7 @@ interface ResponseDetails {
   data: RequestDetails;
 }
 
-const parseRateLimitRemaining = (response: Response) => {
+export const parseRateLimitRemaining = (response: Response) => {
   let rateLimitRemaining = Number.parseInt(
     response.headers.get(DISCORD_HEADERS.RATE_LIMIT_REMAINING) || "0"
   );
@@ -27,7 +27,7 @@ const parseRateLimitRemaining = (response: Response) => {
   return rateLimitRemaining;
 };
 
-const parseResetAfter = (response: Response) => {
+export const parseResetAfter = (response: Response) => {
   let resetAfter = Number.parseFloat(
     response.headers.get(DISCORD_HEADERS.RATE_LIMIT_RESET_AFTER) || "0"
   );

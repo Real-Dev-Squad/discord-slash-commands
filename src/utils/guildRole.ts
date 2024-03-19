@@ -6,14 +6,22 @@ import {
   ROLE_REMOVED,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
+import {
+  parseRateLimitRemaining,
+  parseResetAfter,
+} from "../utils/batchDiscordRequests";
+
 import { env } from "../typeDefinitions/default.types";
 import {
   createNewRole,
+  discordMessageError,
+  discordMessageRequest,
   guildRoleResponse,
   memberGroupRole,
 } from "../typeDefinitions/discordMessage.types";
 import { GuildRole, Role } from "../typeDefinitions/role.types";
 import createDiscordHeaders from "./createDiscordHeaders";
+import { sleep } from "./sleep";
 
 export async function createGuildRole(
   body: createNewRole,
@@ -134,4 +142,69 @@ export async function getGuildRoleByName(
 ): Promise<Role | undefined> {
   const roles = await getGuildRoles(env);
   return roles?.find((role) => role.name === roleName);
+}
+
+export async function mentionEachUserInMessage({
+  message,
+  userIds,
+  channelId,
+  env,
+}: {
+  message?: string;
+  userIds: string[];
+  channelId: number;
+  env: env;
+}) {
+  const batchSize = 5;
+  let waitTillNextAPICall = 0;
+  try {
+    const failedUsers: Array<string> = [];
+    for (let i = 0; i < userIds.length; i += batchSize) {
+      const batchwiseUserIds = userIds.slice(i, i + batchSize);
+      const messageRequest = batchwiseUserIds.map((userId) => {
+        return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bot ${env.DISCORD_TOKEN}`,
+          },
+          body: JSON.stringify({
+            content: `${message ? message + " " : ""} ${userId}`,
+          }),
+        }).then((response) => {
+          const rateLimitRemaining = parseRateLimitRemaining(response);
+          if (rateLimitRemaining === 0) {
+            waitTillNextAPICall = Math.max(
+              parseResetAfter(response),
+              waitTillNextAPICall
+            );
+          }
+          return response.json();
+        }) as Promise<discordMessageRequest | discordMessageError>;
+      });
+      const responses = await Promise.all(messageRequest);
+      responses.forEach((response, i) => {
+        if (response && "message" in response) {
+          failedUsers.push(batchwiseUserIds[i]);
+          console.error(`Failed to mention a user`);
+        }
+      });
+      await sleep(waitTillNextAPICall * 1000);
+      waitTillNextAPICall = 0;
+    }
+    if (failedUsers.length > 0) {
+      await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bot ${env.DISCORD_TOKEN}`,
+        },
+        body: JSON.stringify({
+          content: `Failed to tag ${failedUsers} individually.`,
+        }),
+      });
+    }
+  } catch (error) {
+    console.log("Error occured while running mentionEachUserInMessage", error);
+  }
 }
