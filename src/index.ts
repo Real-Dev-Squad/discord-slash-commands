@@ -20,6 +20,7 @@ import { getGuildMemberDetailsHandler } from "./controllers/getGuildMemberDetail
 import { send } from "./handlers/scheduledEventHandler";
 import { generateInviteLink } from "./controllers/generateDiscordInvite";
 import { sendProfileBlockedMessage } from "./controllers/profileHandler";
+import { sendTaskUpdatesHandler } from "./controllers/taskUpdatesHandler";
 
 const router = Router();
 
@@ -56,6 +57,8 @@ router.put("/roles/add", addGroupRoleHandler);
 router.delete("/roles", removeGuildRoleHandler);
 
 router.post("/profile/blocked", sendProfileBlockedMessage);
+
+router.post("/task/update", sendTaskUpdatesHandler);
 
 router.post("/", async (request, env) => {
   const message: discordMessageRequest = await request.json();
