@@ -21,6 +21,7 @@ export const dummyHelloMessage: discordMessageRequest = {
       avatar: "d1eaa8f8ab5e8235e08e659aef5dfeac",
       discriminator: "1234",
     },
+    joined_at: "2021-07-25T19:25:16.172000+00:00",
   },
   guild_id: 123456,
   channel_id: 123456,
@@ -38,6 +39,7 @@ export const dummyVerifyMessage: discordMessageRequest = {
       avatar: "d1eaa8f8ab5e8235e08e659aef5dfeac",
       discriminator: "1234",
     },
+    joined_at: "2021-07-25T19:25:16.172000+00:00",
   },
   guild_id: 123456,
   channel_id: 123456,
@@ -175,6 +177,7 @@ export const discordUserData = {
     userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
     userName: "userName",
     discriminator: "discriminator",
+    discordJoinedAt: "2021-07-25T19:25:16.172000+00:00",
     expiry: mockDateNow + 1000 * 60 * 2,
   },
 };
