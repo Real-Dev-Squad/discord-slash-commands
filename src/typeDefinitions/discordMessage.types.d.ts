@@ -73,6 +73,7 @@ export interface messageRequestDataOptions {
 export interface messageRequestMember {
   user: messageMember;
   nick?: string;
+  joined_at: string;
 }
 
 export interface messageMember {

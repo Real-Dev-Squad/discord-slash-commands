@@ -40,6 +40,7 @@ describe("verifyCommand", () => {
       "userAvatarHash",
       "userName",
       "discriminator",
+      "2021-07-25T19:25:16.172000+00:00",
       env
     );
 
@@ -77,6 +78,7 @@ describe("verifyCommand", () => {
       "sjkhdkjashdksjh",
       "test user",
       "sndbhsbgdj",
+      "2021-07-25T19:25:16.172000+00:00",
       env
     );
 

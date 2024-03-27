@@ -14,6 +14,7 @@ export async function verifyCommand(
   userAvatarHash: string,
   userName: string,
   discriminator: string,
+  discordJoinedAt: string,
   env: env
 ) {
   const token = await generateUniqueToken();
@@ -24,6 +25,7 @@ export async function verifyCommand(
     userAvatarHash,
     userName,
     discriminator,
+    discordJoinedAt,
     env
   );
   if (response?.status === 201 || response?.status === 200) {

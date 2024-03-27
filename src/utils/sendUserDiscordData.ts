@@ -9,6 +9,7 @@ export const sendUserDiscordData = async (
   userAvatarHash: string,
   userName: string,
   discriminator: string,
+  discordJoinedAt: string,
   env: env
 ) => {
   const authToken = await jwt.sign(
@@ -24,6 +25,7 @@ export const sendUserDiscordData = async (
       userAvatar: `${DISCORD_AVATAR_BASE_URL}/${discordId}/${userAvatarHash}.jpg`,
       userName: userName,
       discriminator: discriminator,
+      discordJoinedAt: discordJoinedAt,
       expiry: Date.now() + 1000 * 60 * 2,
     },
   };
