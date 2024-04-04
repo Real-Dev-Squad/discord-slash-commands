@@ -58,6 +58,7 @@ export async function baseHandler(
         message.member.user.avatar,
         message.member.user.username,
         message.member.user.discriminator,
+        message.member.joined_at,
         env
       );
     }
