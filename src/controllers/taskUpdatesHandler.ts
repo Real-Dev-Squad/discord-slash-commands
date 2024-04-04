@@ -2,6 +2,7 @@ import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import * as response from "../constants/responses";
 import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
+import { sendTaskUpdate } from "../utils/sendTaskUpdates";
 
 export const sendTaskUpdatesHandler = async (request: any, env: env) => {
   try {
@@ -10,12 +11,15 @@ export const sendTaskUpdatesHandler = async (request: any, env: env) => {
       return new JSONResponse(response.BAD_SIGNATURE);
     }
     await verifyNodejsBackendAuthToken(authHeader, env);
-    const update: string = await request.json();
-    // await sendTaskUpdate(update);
+    const updates: {
+      content: { completed: string; planned: string; blockers: string };
+    } = await request.json();
+    const { completed, planned, blockers } = updates.content;
+    await sendTaskUpdate(completed, planned, blockers, env);
     return new JSONResponse(
-      "updates send on discord tracking updates channel."
+      "Task update sent on discord tracking updates channel."
     );
   } catch (error) {
-    return new JSONResponse(response.BAD_SIGNATURE);
+    return new JSONResponse({ res: response.BAD_SIGNATURE, message: error });
   }
 };
