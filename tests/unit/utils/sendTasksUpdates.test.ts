@@ -8,7 +8,11 @@ describe("sendTaskUpdate function", () => {
   const planned = "Plan for the next phase";
   const blockers = "No blockers";
 
-  test("should send the task update to discord tracking channel.", async () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("should send the task update to discord tracking channel when all fields are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString = `**Completed**: ${completed}\n\n**Planned**: ${planned}\n\n**Blockers**: ${blockers}`;
     const bodyObj = {
@@ -30,4 +34,143 @@ describe("sendTaskUpdate function", () => {
       body: JSON.stringify(bodyObj),
     });
   });
+
+  test("should send the task update to discord tracking channel when only completed is present", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString = `**Completed**: ${completed}\n\n**Planned**: \n\n**Blockers**: `;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate(completed, "", "", mockEnv);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  });
+
+  test("should send the task update to discord tracking channel when only planned is present", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString = `**Completed**: \n\n**Planned**: ${planned}\n\n**Blockers**: `;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate("", planned, "", mockEnv);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  });
+
+  test("should send the task update to discord tracking channel when only blockers is present", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString = `**Completed**: \n\n**Planned**: \n\n**Blockers**: ${blockers}`;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate("", "", blockers, mockEnv);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  });
+
+  test("should send the task update to discord tracking channel when only completed and planned are present", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString = `**Completed**: ${completed}\n\n**Planned**: ${planned}\n\n**Blockers**: `;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate(completed, planned, "", mockEnv);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  });
+
+  test("should send the task update to discord tracking channel when only completed and blockers are present", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString = `**Completed**: ${completed}\n\n**Planned**: \n\n**Blockers**: ${blockers}`;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate(completed, "", blockers, mockEnv);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  });
+
+  test("should send the task update to discord tracking channel when only planned and blockers are present", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString = `**Completed**: \n\n**Planned**: ${planned}\n\n**Blockers**: ${blockers}`;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate("", planned, blockers, mockEnv);
+
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  });
+
 });
