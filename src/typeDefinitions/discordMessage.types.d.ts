@@ -3,6 +3,59 @@ export interface discordMessageRequest {
   data: messageRequestData;
   member: messageRequestMember;
   guild_id: number;
+  channel_id: number;
+}
+
+export interface DiscordMessageResponse {
+  id: string;
+  type: number;
+  content: string;
+  channel_id: string;
+  author: {
+    id: string;
+    username: string;
+    avatar: string | null;
+    discriminator: string;
+    public_flags: number;
+    premium_type: number;
+    flags: number;
+    bot: boolean;
+    banner: string | null;
+    accent_color: string | null;
+    global_name: string | null;
+    avatar_decoration_data: string | null;
+    banner_color: string | null;
+  };
+  attachments: Array<string>;
+  embeds: Array<string>;
+  mentions: {
+    id: string;
+    username: string;
+    avatar: string | null;
+    discriminator: string;
+    public_flags: number;
+    premium_type: number;
+    flags: number;
+    banner: string | null;
+    accent_color: string | null;
+    global_name: string | null;
+    avatar_decoration_data: string | null;
+    banner_color: string | null;
+  }[];
+  mention_roles: Array<string>;
+  pinned: boolean;
+  mention_everyone: boolean;
+  tts: boolean;
+  timestamp: string;
+  edited_timestamp: string | null;
+  flags: number;
+  components: Array<string>;
+  referenced_message: Arra<string> | null;
+}
+
+export interface discordMessageError {
+  code: number;
+  message: string;
 }
 
 export interface messageRequestData {
@@ -20,6 +73,7 @@ export interface messageRequestDataOptions {
 export interface messageRequestMember {
   user: messageMember;
   nick?: string;
+  joined_at: string;
 }
 
 export interface messageMember {

@@ -39,10 +39,12 @@ import {
   REMOVED_LISTENING_MESSAGE,
   RETRY_COMMAND,
 } from "../constants/responses";
+import { DevFlag } from "../typeDefinitions/filterUsersByRole";
 
 export async function baseHandler(
   message: discordMessageRequest,
-  env: env
+  env: env,
+  ctx: ExecutionContext
 ): Promise<JSONResponse> {
   const command = lowerCaseMessageCommands(message);
 
@@ -56,6 +58,7 @@ export async function baseHandler(
         message.member.user.avatar,
         message.member.user.username,
         message.member.user.discriminator,
+        message.member.joined_at,
         env
       );
     }
@@ -65,9 +68,11 @@ export async function baseHandler(
       // data[1] is message obj
       const transformedArgument = {
         roleToBeTaggedObj: data[0],
-        displayMessageObj: data[1] ?? {},
+        displayMessageObj: data.find((item) => item.name === "message"),
+        channelId: message.channel_id,
+        dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
       };
-      return await mentionEachUser(transformedArgument, env);
+      return await mentionEachUser(transformedArgument, env, ctx);
     }
 
     case getCommandName(LISTENING): {

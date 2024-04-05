@@ -58,9 +58,11 @@ router.delete("/roles", removeGuildRoleHandler);
 
 router.post("/profile/blocked", sendProfileBlockedMessage);
 
+
 router.post("/task/update", sendTaskUpdatesHandler);
 
-router.post("/", async (request, env) => {
+
+router.post("/", async (request, env, ctx: ExecutionContext) => {
   const message: discordMessageRequest = await request.json();
 
   if (message.type === InteractionType.PING) {
@@ -69,7 +71,7 @@ router.post("/", async (request, env) => {
     });
   }
   if (message.type === InteractionType.APPLICATION_COMMAND) {
-    return baseHandler(message, env);
+    return baseHandler(message, env, ctx);
   }
   return new JSONResponse(response.UNKNOWN_INTERACTION, { status: 400 });
 });
@@ -81,7 +83,11 @@ router.all("*", async () => {
 });
 
 export default {
-  async fetch(request: Request, env: env): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: env,
+    ctx: ExecutionContext
+  ): Promise<Response> {
     const apiUrls = ["/invite", "/roles", "/profile/blocked", "/task/update"];
     const url = new URL(request.url);
     if (request.method === "POST" && !apiUrls.includes(url.pathname)) {
@@ -90,7 +96,7 @@ export default {
         return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
       }
     }
-    return router.handle(request, env);
+    return router.handle(request, env, ctx);
   },
 
   async scheduled(req: Request, env: env, ctx: ExecutionContext) {

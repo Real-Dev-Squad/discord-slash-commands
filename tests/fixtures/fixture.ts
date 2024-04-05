@@ -21,8 +21,10 @@ export const dummyHelloMessage: discordMessageRequest = {
       avatar: "d1eaa8f8ab5e8235e08e659aef5dfeac",
       discriminator: "1234",
     },
+    joined_at: "2021-07-25T19:25:16.172000+00:00",
   },
   guild_id: 123456,
+  channel_id: 123456,
 };
 
 export const dummyVerifyMessage: discordMessageRequest = {
@@ -37,8 +39,10 @@ export const dummyVerifyMessage: discordMessageRequest = {
       avatar: "d1eaa8f8ab5e8235e08e659aef5dfeac",
       discriminator: "1234",
     },
+    joined_at: "2021-07-25T19:25:16.172000+00:00",
   },
   guild_id: 123456,
+  channel_id: 123456,
 };
 
 export const dummyCreateBody: createNewRole = {
@@ -95,6 +99,7 @@ export const transformedArgument = {
     value: "1118201414078976192",
   },
   displayMessageObj: { name: "message", type: 3, value: "hello" },
+  channelId: 1244,
 };
 
 export const onlyRoleToBeTagged = {
@@ -103,8 +108,19 @@ export const onlyRoleToBeTagged = {
     type: 8,
     value: "1118201414078976192",
   },
+  channelId: 1244,
+  dev: {
+    name: "dev",
+    type: 4,
+    value: false,
+  },
 };
 
+export const ctx = {
+  /* eslint-disable @typescript-eslint/no-empty-function */
+  waitUntil: (promise: void | Promise<void>): void => {},
+  passThroughOnException: (): void => {},
+};
 export const generateDummyRequestObject = ({
   url,
   method,
@@ -161,8 +177,58 @@ export const discordUserData = {
     userAvatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
     userName: "userName",
     discriminator: "discriminator",
+    discordJoinedAt: "2021-07-25T19:25:16.172000+00:00",
     expiry: mockDateNow + 1000 * 60 * 2,
   },
+};
+
+export const mockMessageResponse = {
+  id: "1215369965792665620",
+  type: 0,
+  content: "<@849364584674492426>",
+  channel_id: "868936963456126991",
+  author: {
+    id: "1205843978088620144",
+    username: "Joy Bot",
+    avatar: null,
+    discriminator: "7363",
+    public_flags: 524288,
+    premium_type: 0,
+    flags: 524288,
+    bot: true,
+    banner: null,
+    accent_color: null,
+    global_name: null,
+    avatar_decoration_data: null,
+    banner_color: null,
+  },
+  attachments: [],
+  embeds: [],
+  mentions: [
+    {
+      id: "849364584674492426",
+      username: "Aniket",
+      avatar: null,
+      discriminator: "1514",
+      public_flags: 0,
+      premium_type: 0,
+      flags: 0,
+      banner: null,
+      accent_color: null,
+      global_name: null,
+      avatar_decoration_data: null,
+      banner_color: null,
+    },
+  ],
+  mention_roles: [],
+  pinned: false,
+  mention_everyone: false,
+  tts: false,
+  timestamp: "2024-03-07T18:46:20.327000+00:00",
+  edited_timestamp: null,
+  flags: 0,
+  components: [],
+  referenced_message: null,
 };
 
 export const userBackendMock: UserBackend = {
