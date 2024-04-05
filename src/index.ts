@@ -58,9 +58,7 @@ router.delete("/roles", removeGuildRoleHandler);
 
 router.post("/profile/blocked", sendProfileBlockedMessage);
 
-
 router.post("/task/update", sendTaskUpdatesHandler);
-
 
 router.post("/", async (request, env, ctx: ExecutionContext) => {
   const message: discordMessageRequest = await request.json();
