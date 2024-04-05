@@ -172,5 +172,4 @@ describe("sendTaskUpdate function", () => {
       body: JSON.stringify(bodyObj),
     });
   });
-
 });
