@@ -20,6 +20,9 @@ export const sendTaskUpdatesHandler = async (request: any, env: env) => {
       "Task update sent on discord tracking updates channel."
     );
   } catch (error) {
-    return new JSONResponse({ res: response.BAD_SIGNATURE, message: error });
+    return new JSONResponse({
+      res: response.INTERNAL_SERVER_ERROR,
+      message: error,
+    });
   }
 };
