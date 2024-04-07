@@ -27,6 +27,7 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
+  KICK,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -40,6 +41,7 @@ import {
   RETRY_COMMAND,
 } from "../constants/responses";
 import { DevFlag } from "../typeDefinitions/filterUsersByRole";
+import { kickEachUser } from "./kickEachUser";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -48,6 +50,8 @@ export async function baseHandler(
 ): Promise<JSONResponse> {
   const command = lowerCaseMessageCommands(message);
 
+  console.log("Message: ", JSON.stringify(message.data));
+  console.log("Envior:", env);
   switch (command) {
     case getCommandName(HELLO): {
       return helloCommand(message.member.user.id);
@@ -73,6 +77,14 @@ export async function baseHandler(
         dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
       };
       return await mentionEachUser(transformedArgument, env, ctx);
+    }
+
+    case getCommandName(KICK): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      const transformedArgument = {
+        roleToBeRemovedObj: data[0],
+      };
+      return await kickEachUser(transformedArgument, env, ctx);
     }
 
     case getCommandName(LISTENING): {

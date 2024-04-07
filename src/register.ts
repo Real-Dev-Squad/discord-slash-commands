@@ -8,6 +8,7 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
+  KICK,
 } from "./constants/commands";
 import { config } from "dotenv";
 import { DISCORD_BASE_URL } from "./constants/urls";
@@ -37,6 +38,7 @@ async function registerGuildCommands(
     USER,
     NOTIFY_OVERDUE,
     NOTIFY_ONBOARDING,
+    KICK,
   ];
 
   try {

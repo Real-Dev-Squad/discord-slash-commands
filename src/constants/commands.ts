@@ -34,6 +34,19 @@ export const MENTION_EACH = {
   ],
 };
 
+export const KICK = {
+  name: "kick",
+  description: "Kick a user from the server",
+  options: [
+    {
+      name: "role",
+      description: "The role to kick",
+      type: 8, // User type
+      required: false,
+    },
+  ],
+};
+
 export const LISTENING = {
   name: "listening",
   description: "mark user as listening",
