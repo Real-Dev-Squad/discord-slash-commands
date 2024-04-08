@@ -3,6 +3,7 @@ import JSONResponse from "../utils/JsonResponse";
 import * as response from "../constants/responses";
 import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 import { sendTaskUpdate } from "../utils/sendTaskUpdates";
+import { TaskUpdates } from "../typeDefinitions/taskUpdate";
 
 export const sendTaskUpdatesHandler = async (request: any, env: env) => {
   try {
@@ -12,9 +13,7 @@ export const sendTaskUpdatesHandler = async (request: any, env: env) => {
       return new JSONResponse(response.UNAUTHORIZED, { status: 401 });
     }
     await verifyNodejsBackendAuthToken(authHeader, env);
-    const updates: {
-      content: { completed: string; planned: string; blockers: string };
-    } = await request.json();
+    const updates: TaskUpdates = await request.json();
     const { completed, planned, blockers } = updates.content;
     await sendTaskUpdate(completed, planned, blockers, env);
     return new JSONResponse(
