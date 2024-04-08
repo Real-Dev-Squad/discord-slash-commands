@@ -7,8 +7,9 @@ import { sendTaskUpdate } from "../utils/sendTaskUpdates";
 export const sendTaskUpdatesHandler = async (request: any, env: env) => {
   try {
     const authHeader = request.headers.get("Authorization");
+    console.log(authHeader);
     if (!authHeader) {
-      return new JSONResponse(response.BAD_SIGNATURE);
+      return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
     }
     await verifyNodejsBackendAuthToken(authHeader, env);
     const updates: {
@@ -19,10 +20,11 @@ export const sendTaskUpdatesHandler = async (request: any, env: env) => {
     return new JSONResponse(
       "Task update sent on discord tracking updates channel."
     );
-  } catch (error) {
+  } catch (error: any) {
     return new JSONResponse({
       res: response.INTERNAL_SERVER_ERROR,
-      message: error,
+      message: error.message,
+      status: 500,
     });
   }
 };
