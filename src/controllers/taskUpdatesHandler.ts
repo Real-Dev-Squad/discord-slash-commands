@@ -8,7 +8,6 @@ import { TaskUpdates } from "../typeDefinitions/taskUpdate";
 export const sendTaskUpdatesHandler = async (request: any, env: env) => {
   try {
     const authHeader = request.headers.get("Authorization");
-    console.log(authHeader);
     if (!authHeader) {
       return new JSONResponse(response.UNAUTHORIZED, { status: 401 });
     }
