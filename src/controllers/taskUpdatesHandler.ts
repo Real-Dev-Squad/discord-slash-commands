@@ -9,7 +9,7 @@ export const sendTaskUpdatesHandler = async (request: any, env: env) => {
     const authHeader = request.headers.get("Authorization");
     console.log(authHeader);
     if (!authHeader) {
-      return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
+      return new JSONResponse(response.UNAUTHORIZED, { status: 401 });
     }
     await verifyNodejsBackendAuthToken(authHeader, env);
     const updates: {
