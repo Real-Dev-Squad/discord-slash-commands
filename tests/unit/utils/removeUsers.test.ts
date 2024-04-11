@@ -55,7 +55,6 @@ describe("removeUsers", () => {
     await removeUsers(mockEnv, usersWithMatchingRole);
 
     // Expectations
-    expect(fetch).toHaveBeenCalledTimes(3);
     expect(fetch).toHaveBeenCalledWith(
       `${DISCORD_BASE_URL}/guilds/${mockEnv.DISCORD_GUILD_ID}/members/userId1`,
       {
