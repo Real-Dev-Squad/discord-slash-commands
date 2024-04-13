@@ -8,6 +8,17 @@ describe("sendTaskUpdate function", () => {
   const planned = "Plan for the next phase";
   const blockers = "No blockers";
 
+  const assertFetchCall = (url: string, bodyObj: any, mockEnv: any) => {
+    expect(global.fetch).toHaveBeenCalledWith(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify(bodyObj),
+    });
+  };
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -25,14 +36,7 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate(completed, planned, blockers, mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only completed is present", async () => {
@@ -48,14 +52,7 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate(completed, "", "", mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only planned is present", async () => {
@@ -71,14 +68,7 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate("", planned, "", mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only blockers is present", async () => {
@@ -94,14 +84,7 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate("", "", blockers, mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only completed and planned are present", async () => {
@@ -117,14 +100,7 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate(completed, planned, "", mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only completed and blockers are present", async () => {
@@ -140,14 +116,7 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate(completed, "", blockers, mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only planned and blockers are present", async () => {
@@ -163,13 +132,6 @@ describe("sendTaskUpdate function", () => {
 
     await sendTaskUpdate("", planned, blockers, mockEnv);
 
-    expect(global.fetch).toHaveBeenCalledWith(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${mockEnv.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify(bodyObj),
-    });
+    assertFetchCall(url, bodyObj, mockEnv);
   });
 });
