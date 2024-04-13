@@ -23,12 +23,19 @@ export async function kickEachUser(
     roleId
   );
 
+  const usersText = usersWithMatchingRole
+    .map((user) => {
+      return user;
+    })
+    .join("\n");
+
   if (usersWithMatchingRole.length === 0) {
-    return discordTextResponse(`Found no users with the matched role.`);
+    return discordTextResponse(
+      `We couldn't find any user(s) assigned to <@&${roleId}> role.`
+    );
   } else {
     ctx.waitUntil(removeUsers(env, usersWithMatchingRole));
-    return discordTextResponse(
-      `Found ${usersWithMatchingRole.length} users with the matched role, removing them shortly...`
-    );
+    const responseText = `Following users are removed:\n${usersText}`;
+    return discordTextResponse(responseText);
   }
 }

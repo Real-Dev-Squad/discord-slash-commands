@@ -16,13 +16,15 @@ describe("kickEachUser", () => {
       ctx
     );
 
+    const roleID = roleToBeTaggedObj.value;
+
     expect(response).toBeInstanceOf(Promise);
 
     const textMessage: { data: { content: string } } = await response.then(
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Found no users with the matched role."
+      `We couldn't find any user(s) assigned to <@&${roleID}> role.`
     );
   });
 });

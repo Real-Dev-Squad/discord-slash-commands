@@ -34,15 +34,15 @@ export const MENTION_EACH = {
   ],
 };
 
-export const KICK = {
-  name: "kick",
-  description: "Kick a user from the server",
+export const REMOVE = {
+  name: "remove",
+  description: "remove user/users from the server",
   options: [
     {
       name: "role",
-      description: "The role to kick",
+      description: "remove developers with specific role",
       type: 8, // User type
-      required: false,
+      required: true,
     },
   ],
 };

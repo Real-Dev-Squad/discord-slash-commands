@@ -27,7 +27,7 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
-  KICK,
+  REMOVE,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -79,7 +79,7 @@ export async function baseHandler(
       return await mentionEachUser(transformedArgument, env, ctx);
     }
 
-    case getCommandName(KICK): {
+    case getCommandName(REMOVE): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       const transformedArgument = {
         roleToBeRemovedObj: data[0],
