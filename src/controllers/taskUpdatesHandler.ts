@@ -4,13 +4,14 @@ import * as response from "../constants/responses";
 import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 import { sendTaskUpdate } from "../utils/sendTaskUpdates";
 import { TaskUpdates } from "../typeDefinitions/taskUpdate";
+import { IRequest } from "itty-router";
 
-export const sendTaskUpdatesHandler = async (request: Request, env: env) => {
+export const sendTaskUpdatesHandler = async (request: IRequest, env: env) => {
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader) {
+    return new JSONResponse(response.UNAUTHORIZED, { status: 401 });
+  }
   try {
-    const authHeader = request.headers.get("Authorization");
-    if (!authHeader) {
-      return new JSONResponse(response.UNAUTHORIZED, { status: 401 });
-    }
     await verifyNodejsBackendAuthToken(authHeader, env);
     const updates: TaskUpdates = await request.json();
     const { completed, planned, blockers } = updates.content;
