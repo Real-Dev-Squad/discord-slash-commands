@@ -17,7 +17,7 @@ export const sendTaskUpdatesHandler = async (request: IRequest, env: env) => {
     const { completed, planned, blockers } = updates.content;
     await sendTaskUpdate(completed, planned, blockers, env);
     return new JSONResponse(
-      "Task update sent on discord tracking updates channel."
+      "Task update sent on Discord's tracking-updates channel."
     );
   } catch (error: any) {
     return new JSONResponse({
