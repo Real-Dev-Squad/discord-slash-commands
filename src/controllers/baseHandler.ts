@@ -50,8 +50,6 @@ export async function baseHandler(
 ): Promise<JSONResponse> {
   const command = lowerCaseMessageCommands(message);
 
-  console.log("Message: ", JSON.stringify(message.data));
-  console.log("Envior:", env);
   switch (command) {
     case getCommandName(HELLO): {
       return helloCommand(message.member.user.id);
