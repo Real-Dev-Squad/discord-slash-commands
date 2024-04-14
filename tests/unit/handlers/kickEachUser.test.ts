@@ -11,7 +11,7 @@ describe("kickEachUser", () => {
 
     const { roleToBeTaggedObj } = transformedArgument; // Extracting roleToBeTaggedObj
     const response = kickEachUser(
-      { roleToBeRemovedObj: roleToBeTaggedObj },
+      { roleToBeRemovedObj: roleToBeTaggedObj, channelId: 12345 },
       env,
       ctx
     );

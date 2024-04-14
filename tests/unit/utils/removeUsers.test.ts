@@ -9,6 +9,14 @@ describe("removeUsers", () => {
     DISCORD_TOKEN: "abc",
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
   test("removes users successfully", async () => {
     const usersWithMatchingRole = ["<@userId1>", "<@userId2>"];
 
@@ -17,7 +25,7 @@ describe("removeUsers", () => {
       .mockImplementation(() =>
         Promise.resolve(new Response(null, { status: 204 }))
       );
-    await removeUsers(mockEnv, usersWithMatchingRole);
+    await removeUsers(mockEnv, usersWithMatchingRole, 21121);
 
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch).toHaveBeenCalledWith(
@@ -52,7 +60,7 @@ describe("removeUsers", () => {
       );
 
     // Calling the function under test
-    await removeUsers(mockEnv, usersWithMatchingRole);
+    await removeUsers(mockEnv, usersWithMatchingRole, 23231);
 
     // Expectations
     expect(fetch).toHaveBeenCalledWith(
@@ -65,5 +73,22 @@ describe("removeUsers", () => {
         },
       }
     );
+  });
+
+  it("should send a message of failed api calls at the end", async () => {
+    let fetchCallCount = 0;
+    const usersWithMatchingRole = ["<@userId1>", "<@userId2>", "<@userId3>"];
+
+    jest.spyOn(global, "fetch").mockImplementation(async () => {
+      if (fetchCallCount < 3) {
+        fetchCallCount++;
+        return Promise.resolve(new JSONResponse({ message: "404: Not Found" }));
+      } else {
+        return Promise.resolve(new JSONResponse({ ok: true }));
+      }
+    });
+
+    await removeUsers(mockEnv, usersWithMatchingRole, 23231);
+    expect(fetch).toHaveBeenCalledTimes(4); // should send a message of failed api calls at the end
   });
 });

@@ -83,6 +83,7 @@ export async function baseHandler(
       const data = message.data?.options as Array<messageRequestDataOptions>;
       const transformedArgument = {
         roleToBeRemovedObj: data[0],
+        channelId: message.channel_id,
       };
       return await kickEachUser(transformedArgument, env, ctx);
     }

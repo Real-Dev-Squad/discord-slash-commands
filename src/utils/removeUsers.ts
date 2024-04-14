@@ -4,12 +4,21 @@ import {
   parseRateLimitRemaining,
   parseResetAfter,
 } from "./batchDiscordRequests";
+import {
+  discordMessageRequest,
+  discordMessageError,
+} from "../typeDefinitions/discordMessage.types";
 
-export async function removeUsers(env: env, usersWithMatchingRole: string[]) {
+export async function removeUsers(
+  env: env,
+  usersWithMatchingRole: string[],
+  channelId: number
+) {
   const batchSize = 4;
   let waitTillNextAPICall = 0;
 
   try {
+    const failedUsers: Array<string> = [];
     for (let i = 0; i < usersWithMatchingRole.length; i += batchSize) {
       const batchwiseUsers = usersWithMatchingRole.slice(i, i + batchSize);
       const deleteRequests = batchwiseUsers.map((mention) => {
@@ -22,31 +31,40 @@ export async function removeUsers(env: env, usersWithMatchingRole: string[]) {
             "Content-Type": "application/json",
             Authorization: `Bot ${env.DISCORD_TOKEN}`,
           },
-        }).then(async (response) => {
+        }).then((response) => {
           const rateLimitRemaining = parseRateLimitRemaining(response);
-
           if (rateLimitRemaining === 0) {
             waitTillNextAPICall = Math.max(
               parseResetAfter(response),
               waitTillNextAPICall
             );
           }
-
-          // Check if response status is 204 (No Content) indicating success
-          if (response.status === 204) {
-            return { success: true };
-          } else {
-            throw new Error(`Failed to remove user ${userId}.`);
-          }
-        });
+          return response.json();
+        }) as Promise<discordMessageRequest | discordMessageError>;
       });
 
-      // Wait for all delete requests in the batch to complete
-      await Promise.all(deleteRequests);
-
-      // Wait until the next API call is allowed based on rate limits
+      const responses = await Promise.all(deleteRequests);
+      responses.forEach((response, i) => {
+        if (response && "message" in response) {
+          failedUsers.push(batchwiseUsers[i]);
+          console.error(`Failed to remove a user`);
+        }
+      });
       await sleep(waitTillNextAPICall * 1000);
       waitTillNextAPICall = 0;
+    }
+
+    if (failedUsers.length > 0) {
+      await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bot ${env.DISCORD_TOKEN}`,
+        },
+        body: JSON.stringify({
+          content: `Failed to remove ${failedUsers}.`,
+        }),
+      });
     }
   } catch (error) {
     console.error("Error occurred while removing users:", error);

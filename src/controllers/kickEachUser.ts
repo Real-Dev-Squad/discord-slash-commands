@@ -11,6 +11,7 @@ import { removeUsers } from "../utils/removeUsers";
 export async function kickEachUser(
   transformedArgument: {
     roleToBeRemovedObj: MentionEachUserOptions;
+    channelId: number;
   },
   env: env,
   ctx: ExecutionContext
@@ -34,8 +35,10 @@ export async function kickEachUser(
       `We couldn't find any user(s) assigned to <@&${roleId}> role.`
     );
   } else {
-    ctx.waitUntil(removeUsers(env, usersWithMatchingRole));
-    const responseText = `Following users are removed:\n${usersText}`;
+    ctx.waitUntil(
+      removeUsers(env, usersWithMatchingRole, transformedArgument.channelId)
+    );
+    const responseText = `Following users will be removed shortly ..... :\n${usersText}`;
     return discordTextResponse(responseText);
   }
 }
