@@ -34,6 +34,19 @@ export const MENTION_EACH = {
   ],
 };
 
+export const REMOVE = {
+  name: "remove",
+  description: "remove user/users from the server",
+  options: [
+    {
+      name: "role",
+      description: "remove developers with specific role",
+      type: 8, // User type
+      required: true,
+    },
+  ],
+};
+
 export const LISTENING = {
   name: "listening",
   description: "mark user as listening",
