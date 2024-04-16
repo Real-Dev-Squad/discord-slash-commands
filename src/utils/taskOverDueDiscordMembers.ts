@@ -1,9 +1,7 @@
 import { RDS_BASE_API_URL } from "../constants/urls";
 import { UserOverdueTaskResponseType } from "../typeDefinitions/rdsUser";
 
-export const taskOverDueDiscordMembers = async (): Promise<
-  string[] | string
-> => {
+export const taskOverDueDiscordMembers = async (): Promise<string[]> => {
   try {
     const overDueUrl = `${RDS_BASE_API_URL}/users?query=filterBy:overdue_tasks`;
 

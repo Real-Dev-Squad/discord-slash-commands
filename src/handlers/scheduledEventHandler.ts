@@ -5,14 +5,14 @@ import { SUPER_USER_ONE, SUPER_USER_TWO } from "../constants/variables";
 
 export async function send(env: env): Promise<void> {
   try {
-    let discordIds: string[] | string = await taskOverDueDiscordMembers();
+    const discordIds: string[] = await taskOverDueDiscordMembers();
 
-    if (!Array.isArray(discordIds)) {
-      // If it's not an array, convert it to an array with a single element
-      discordIds = [discordIds];
-    }
+    const superUsers = [SUPER_USER_ONE, SUPER_USER_TWO];
+    const filteredDiscordIds = discordIds.filter(
+      (id) => !superUsers.includes(id)
+    );
 
-    if (discordIds.length === 0) {
+    if (filteredDiscordIds.length === 0) {
       return;
     }
 
@@ -20,7 +20,7 @@ export async function send(env: env): Promise<void> {
     let stringToBeSent = `<@${SUPER_USER_ONE}> <@${SUPER_USER_TWO}>\nThese people have their task running red:\n`;
 
     let forFormatting = 0;
-    discordIds.forEach((id: string) => {
+    filteredDiscordIds.forEach((id: string) => {
       const discordUser = `<@${id}> `;
       stringToBeSent += discordUser;
       forFormatting++;
