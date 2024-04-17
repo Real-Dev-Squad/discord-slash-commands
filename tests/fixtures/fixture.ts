@@ -245,30 +245,6 @@ export const userBackendMock: UserBackend = {
   },
 };
 
-export const taskOverdueMock: TaskOverdueResponse = {
-  message: "Tasks returned Successfully",
-  tasks: [
-    {
-      id: "1234567",
-      percentCompleted: 60,
-      endsOn: "1686528000",
-      isNoteworthy: false,
-      createdBy: "random",
-      assignee: "vineeeet",
-      title: "task dependsOn",
-      type: "feature",
-      status: "SMOKE_TESTING",
-      assigneeId: "12345",
-      dependsOn: [
-        "1NtgKz4lzyiGMHSyBWje",
-        " HdRj3T603v0L5Pn80GUq",
-        " C29GgTuPWK32UqcyImsA",
-      ],
-      startedOn: "1686527000",
-    },
-  ],
-};
-
 export const userStatusMock: UserStatus = {
   id: "someId",
   userId: "someUserId",
@@ -327,3 +303,45 @@ export const memberGroupRoleResponseList = [
   { userid: "YYYY", roleid: "YYYY", success: true },
   { userid: "ZZZZ", roleid: "ZZZZ", success: true },
 ];
+
+export const overdueTaskUsers = {
+  message: "Users returned successfully!",
+  count: 7,
+  users: [
+    {
+      id: "XAF7rSUvk4p0d098qWYS",
+      discordId: "154585730465660929",
+      username: "ankush",
+    },
+    {
+      id: "C2XUDSTtDooWLJ44iBYr",
+      discordId: "875289457589379102",
+      username: "vinayak-g",
+    },
+    {
+      id: "DU3gRW3xQY8lRt3DmF6i",
+      discordId: "987654321098765432",
+      username: "random_user1",
+    },
+    {
+      id: "wH5f1kuYp3vRZydF70sA",
+      discordId: "123456789012345678",
+      username: "random_user2",
+    },
+    {
+      id: "jV8d5ZbEDJc7Mnq6a2g9",
+      discordId: "567890123456789012",
+      username: "random_user3",
+    },
+    {
+      id: "qX2zOyB1n7PmIv6TcR8w",
+      discordId: "890123456789012345",
+      username: "random_user4",
+    },
+    {
+      id: "pY6cVuA2b5sHgNq9fJ3m",
+      discordId: "345678901234567890",
+      username: "random_user5",
+    },
+  ],
+};

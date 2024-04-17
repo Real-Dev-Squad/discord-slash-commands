@@ -13,6 +13,7 @@
     "lint-fix": "eslint --fix .",
     "format-check": "echo 'Checking the formatting of your code 👨‍💻' && prettier --check . && echo '✅ code matches prettier formatting'",
     "format-fix": "prettier --write .",
+    "fix": "npm run lint-fix && npm run format-fix",
     "ngrok": "ngrok http 8787",
     "register": "ts-node-esm src/register.ts"
   },

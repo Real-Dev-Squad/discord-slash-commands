@@ -1,22 +1,23 @@
 import { taskOverDueDiscordMembers } from "../../../src/utils/taskOverDueDiscordMembers";
-import { taskOverdueMock } from "../../fixtures/fixture";
+import { overdueTaskUsers } from "../../fixtures/fixture";
 import JSONResponse from "../../../src/utils/JsonResponse";
 import { RDS_BASE_API_URL } from "../../../src/constants/urls";
 
 describe("taskOverDueDiscordMembers()", () => {
   test("should return all the tasks which are overdue", async () => {
-    const mockResponse = taskOverdueMock;
+    const mockResponse = overdueTaskUsers;
     jest
       .spyOn(global, "fetch")
       .mockImplementation(() =>
         Promise.resolve(new JSONResponse(mockResponse))
       );
     const result = await taskOverDueDiscordMembers();
+    const discordIds = mockResponse.users.map((user) => user.discordId);
 
-    expect(result).toEqual([taskOverdueMock.tasks[0].assigneeId]);
+    expect(result).toEqual(discordIds);
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${RDS_BASE_API_URL}/tasks?dev=true&status=overdue&size=100`
+      `${RDS_BASE_API_URL}/users?query=filterBy:overdue_tasks`
     );
 
     expect(global.fetch).toBeCalledTimes(1);
@@ -34,7 +35,7 @@ describe("taskOverDueDiscordMembers()", () => {
     }
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `${RDS_BASE_API_URL}/tasks?dev=true&status=overdue&size=100`
+      `${RDS_BASE_API_URL}/users?query=filterBy:overdue_tasks`
     );
   });
 });

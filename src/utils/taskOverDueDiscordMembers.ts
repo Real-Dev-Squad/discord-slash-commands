@@ -1,24 +1,18 @@
 import { RDS_BASE_API_URL } from "../constants/urls";
-import {
-  TaskOverdue,
-  TaskOverdueResponse,
-} from "../typeDefinitions/taskOverdue.types";
-import * as errors from "../constants/responses";
+import { UserOverdueTaskResponseType } from "../typeDefinitions/rdsUser";
 
-export const taskOverDueDiscordMembers = async (): Promise<
-  string[] | string
-> => {
+export const taskOverDueDiscordMembers = async (): Promise<string[]> => {
   try {
-    const overDueUrl = `${RDS_BASE_API_URL}/tasks?dev=true&status=overdue&size=100`;
+    const overDueUrl = `${RDS_BASE_API_URL}/users?query=filterBy:overdue_tasks`;
 
     const response: Response = await fetch(overDueUrl);
-    const responseObj: TaskOverdueResponse = await response.json();
+    const responseObj: UserOverdueTaskResponseType = await response.json();
 
-    const assigneeIds: string[] = responseObj.tasks.map(
-      (task: TaskOverdue) => task.assigneeId
+    const discordIds: string[] = responseObj.users.map(
+      (user) => user.discordId
     );
 
-    return assigneeIds;
+    return discordIds;
   } catch (e) {
     console.log(e);
     throw e;
