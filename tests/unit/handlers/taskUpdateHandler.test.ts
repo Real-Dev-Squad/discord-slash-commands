@@ -19,7 +19,7 @@ describe("sendTaskUpdatesHandler", () => {
       completed: "Wrote test cases",
       planned: "Will test the feature at staging.",
       blockers: "NA",
-      discordId: "12345678910",
+      userName: "12345678910",
       taskId: "79wMEIek990",
     },
   };
@@ -28,13 +28,12 @@ describe("sendTaskUpdatesHandler", () => {
   });
 
   it("sendTaskUpdate function should return undefined after successfully sending the message", async () => {
-    const { completed, planned, blockers, discordId, taskId } =
-      mockData.content;
+    const { completed, planned, blockers, userName, taskId } = mockData.content;
     const response = await sendTaskUpdate(
       completed,
       planned,
       blockers,
-      discordId,
+      userName,
       taskId,
       mockEnv
     );

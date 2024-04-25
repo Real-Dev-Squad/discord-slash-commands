@@ -3,7 +3,7 @@ export interface TaskUpdates {
     completed: string;
     planned: string;
     blockers: string;
-    discordId: string;
+    userName: string;
     taskId: string;
   };
 }

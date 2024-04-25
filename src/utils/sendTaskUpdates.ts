@@ -5,17 +5,16 @@ export async function sendTaskUpdate(
   completed: string,
   planned: string,
   blockers: string,
-  discordId: string,
+  userName: string,
   taskId: string,
   env: env
 ): Promise<void> {
-  const taskUrl = "https://status.realdevsquad.com/tasks/" + taskId;
+  const taskUrl = config(env).RDS_STATUS_SITE_URL + `/tasks/${taskId}`;
   const formattedString =
-    `<@${discordId}> added an update to his task: <${taskUrl}>\n` +
+    `${userName} added an update to his task: <${taskUrl}>\n` +
     `**Completed**\n${completed}\n\n` +
     `**Planned**\n${planned}\n\n` +
     `**Blockers**\n${blockers}`;
-  console.log(formattedString);
   const bodyObj = {
     content: formattedString,
   };
