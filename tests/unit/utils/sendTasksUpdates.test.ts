@@ -29,7 +29,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n${completed}\n\n` +
+      `\n**Completed**\n${completed}\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n${blockers}`;
     const bodyObj = {
@@ -56,7 +56,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n${completed}\n\n` +
+      `\n**Completed**\n${completed}\n\n` +
       `**Planned**\n\n\n` +
       `**Blockers**\n`;
     const bodyObj = {
@@ -76,7 +76,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n\n\n` +
+      `\n**Completed**\n\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n`;
     const bodyObj = {
@@ -96,7 +96,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n\n\n` +
+      `\n**Completed**\n\n\n` +
       `**Planned**\n\n\n` +
       `**Blockers**\n${blockers}`;
     const bodyObj = {
@@ -116,7 +116,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n${completed}\n\n` +
+      `\n**Completed**\n${completed}\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n`;
     const bodyObj = {
@@ -136,7 +136,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n${completed}\n\n` +
+      `\n**Completed**\n${completed}\n\n` +
       `**Planned**\n\n\n` +
       `**Blockers**\n${blockers}`;
     const bodyObj = {
@@ -156,7 +156,7 @@ describe("sendTaskUpdate function", () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
       `${userName} added an update to their task: <${taskUrl}>\n` +
-      `**Completed**\n\n\n` +
+      `\n**Completed**\n\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n${blockers}`;
     const bodyObj = {
