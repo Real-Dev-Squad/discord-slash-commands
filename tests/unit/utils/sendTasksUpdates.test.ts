@@ -28,7 +28,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when all fields are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n${completed}\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n${blockers}`;
@@ -55,7 +55,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when only completed is present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n${completed}\n\n` +
       `**Planned**\n\n\n` +
       `**Blockers**\n`;
@@ -75,7 +75,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when only planned is present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n`;
@@ -95,7 +95,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when only blockers is present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n\n\n` +
       `**Planned**\n\n\n` +
       `**Blockers**\n${blockers}`;
@@ -115,7 +115,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when only completed and planned are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n${completed}\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n`;
@@ -135,7 +135,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when only completed and blockers are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n${completed}\n\n` +
       `**Planned**\n\n\n` +
       `**Blockers**\n${blockers}`;
@@ -155,7 +155,7 @@ describe("sendTaskUpdate function", () => {
   test("should send the task update to discord tracking channel when only planned and blockers are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
     const formattedString =
-      `${userName} added an update to the task: <${taskUrl}>\n` +
+      `${userName} added an update to their task: <${taskUrl}>\n` +
       `**Completed**\n\n\n` +
       `**Planned**\n${planned}\n\n` +
       `**Blockers**\n${blockers}`;
