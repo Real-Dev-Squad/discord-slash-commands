@@ -20,3 +20,5 @@ export const DEVELOPMENT_RDS_TRACKING_CHANNEL_URL =
   "https://discord.com/api/v10/channels/1136583634845962261/messages";
 
 export const RDS_STATUS_SITE_URL = "https://status.realdevsquad.com";
+export const RDS_STAGING_STATUS_SITE_URL =
+  "https://staging-status.realdevsquad.com";

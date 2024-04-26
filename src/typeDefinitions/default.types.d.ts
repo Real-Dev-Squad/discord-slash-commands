@@ -11,6 +11,7 @@ export interface variables {
   VERIFICATION_SITE_URL: string;
   TRACKING_CHANNEL_URL: string;
   PROFILE_SERVICE_HELP_GROUP_ID: string;
+  RDS_STATUS_SITE_URL: string;
 }
 
 export interface discordCommand {
