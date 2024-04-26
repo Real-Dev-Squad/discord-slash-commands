@@ -7,7 +7,9 @@ describe("sendTaskUpdate function", () => {
   const completed = "Task completed successfully";
   const planned = "Plan for the next phase";
   const blockers = "No blockers";
-
+  const userName = "Tejas";
+  const taskId = "69nduIn210";
+  const taskUrl = config(mockEnv).RDS_STATUS_SITE_URL + `/tasks/${taskId}`;
   const assertFetchCall = (url: string, bodyObj: any, mockEnv: any) => {
     expect(global.fetch).toHaveBeenCalledWith(url, {
       method: "POST",
@@ -25,7 +27,11 @@ describe("sendTaskUpdate function", () => {
 
   test("should send the task update to discord tracking channel when all fields are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: ${completed}\n\n**Planned**: ${planned}\n\n**Blockers**: ${blockers}`;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n${completed}\n\n` +
+      `**Planned**\n${planned}\n\n` +
+      `**Blockers**\n${blockers}`;
     const bodyObj = {
       content: formattedString,
     };
@@ -34,14 +40,25 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate(completed, planned, blockers, mockEnv);
+    await sendTaskUpdate(
+      completed,
+      planned,
+      blockers,
+      userName,
+      taskId,
+      mockEnv
+    );
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only completed is present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: ${completed}\n\n**Planned**: \n\n**Blockers**: `;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n${completed}\n\n` +
+      `**Planned**\n\n\n` +
+      `**Blockers**\n`;
     const bodyObj = {
       content: formattedString,
     };
@@ -50,14 +67,18 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate(completed, "", "", mockEnv);
+    await sendTaskUpdate(completed, "", "", userName, taskId, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only planned is present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: \n\n**Planned**: ${planned}\n\n**Blockers**: `;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n\n\n` +
+      `**Planned**\n${planned}\n\n` +
+      `**Blockers**\n`;
     const bodyObj = {
       content: formattedString,
     };
@@ -66,14 +87,18 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate("", planned, "", mockEnv);
+    await sendTaskUpdate("", planned, "", userName, taskId, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only blockers is present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: \n\n**Planned**: \n\n**Blockers**: ${blockers}`;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n\n\n` +
+      `**Planned**\n\n\n` +
+      `**Blockers**\n${blockers}`;
     const bodyObj = {
       content: formattedString,
     };
@@ -82,14 +107,18 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate("", "", blockers, mockEnv);
+    await sendTaskUpdate("", "", blockers, userName, taskId, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only completed and planned are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: ${completed}\n\n**Planned**: ${planned}\n\n**Blockers**: `;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n${completed}\n\n` +
+      `**Planned**\n${planned}\n\n` +
+      `**Blockers**\n`;
     const bodyObj = {
       content: formattedString,
     };
@@ -98,14 +127,18 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate(completed, planned, "", mockEnv);
+    await sendTaskUpdate(completed, planned, "", userName, taskId, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only completed and blockers are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: ${completed}\n\n**Planned**: \n\n**Blockers**: ${blockers}`;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n${completed}\n\n` +
+      `**Planned**\n\n\n` +
+      `**Blockers**\n${blockers}`;
     const bodyObj = {
       content: formattedString,
     };
@@ -114,14 +147,18 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate(completed, "", blockers, mockEnv);
+    await sendTaskUpdate(completed, "", blockers, userName, taskId, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
 
   test("should send the task update to discord tracking channel when only planned and blockers are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
-    const formattedString = `**Completed**: \n\n**Planned**: ${planned}\n\n**Blockers**: ${blockers}`;
+    const formattedString =
+      `${userName} added an update to their task: <${taskUrl}>\n` +
+      `\n**Completed**\n\n\n` +
+      `**Planned**\n${planned}\n\n` +
+      `**Blockers**\n${blockers}`;
     const bodyObj = {
       content: formattedString,
     };
@@ -130,7 +167,7 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate("", planned, blockers, mockEnv);
+    await sendTaskUpdate("", planned, blockers, userName, taskId, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });

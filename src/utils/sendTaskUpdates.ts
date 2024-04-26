@@ -5,9 +5,16 @@ export async function sendTaskUpdate(
   completed: string,
   planned: string,
   blockers: string,
+  userName: string,
+  taskId: string,
   env: env
 ): Promise<void> {
-  const formattedString = `**Completed**: ${completed}\n\n**Planned**: ${planned}\n\n**Blockers**: ${blockers}`;
+  const taskUrl = config(env).RDS_STATUS_SITE_URL + `/tasks/${taskId}`;
+  const formattedString =
+    `${userName} added an update to their task: <${taskUrl}>\n` +
+    `\n**Completed**\n${completed}\n\n` +
+    `**Planned**\n${planned}\n\n` +
+    `**Blockers**\n${blockers}`;
   const bodyObj = {
     content: formattedString,
   };
