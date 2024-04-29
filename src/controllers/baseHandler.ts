@@ -41,6 +41,14 @@ import {
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
 
+// Import necessary functions from DiscordAPI.ts
+import {
+  createMutedRole,
+  assignRoleToUser,
+  removeRoleFromUser,
+  getMutedRoleId,
+} from "../utils/discordAPI";
+
 export async function baseHandler(
   message: discordMessageRequest,
   env: env
@@ -62,8 +70,6 @@ export async function baseHandler(
     }
     case getCommandName(MENTION_EACH): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      // data[0] is role obj
-      // data[1] is message obj
       const transformedArgument = {
         roleToBeTaggedObj: data[0],
         displayMessageObj: data[1] ?? {},
@@ -85,7 +91,25 @@ export async function baseHandler(
             updateNickNameData =
               NICKNAME_PREFIX + message.member.user.username + NICKNAME_SUFFIX;
             discordEphemeral = LISTENING_SUCCESS_MESSAGE;
-            await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
+            // Create the muted role if it doesn't exist
+            const mutedRoleId = await createMutedRole(
+              message.guild.id,
+              env.DISCORD_TOKEN
+            );
+            if (mutedRoleId) {
+              // Assign the muted role to the user
+              await assignRoleToUser(
+                message.guild.id,
+                memberId,
+                mutedRoleId,
+                env.DISCORD_TOKEN
+              );
+              // Mute the user
+              await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
+            } else {
+              console.error("Failed to create muted role.");
+              return commandNotFound(); // Return an error response
+            }
           } else {
             updateNickNameData = message.member.nick;
             discordEphemeral = ALREADY_LISTENING;
@@ -93,7 +117,24 @@ export async function baseHandler(
         } else {
           updateNickNameData = nickname;
           discordEphemeral = REMOVED_LISTENING_MESSAGE;
-          await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
+          // Remove the muted role from the user
+          const mutedRoleId = await getMutedRoleId(
+            message.guild.id,
+            env.DISCORD_TOKEN
+          );
+          if (mutedRoleId) {
+            await removeRoleFromUser(
+              message.guild.id,
+              memberId,
+              mutedRoleId,
+              env.DISCORD_TOKEN
+            );
+            // Unmute the user
+            await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
+          } else {
+            console.error("Muted role not found.");
+            return commandNotFound(); // Return an error response
+          }
         }
         await updateNickName(
           message.member.user.id.toString(),
@@ -102,9 +143,11 @@ export async function baseHandler(
         );
         return discordEphemeralResponse(discordEphemeral);
       } catch (err) {
+        console.error("Error:", err);
         return discordEphemeralResponse(RETRY_COMMAND);
       }
     }
+
     case getCommandName(TASK): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await taskCommand(data[0].value);
