@@ -87,33 +87,27 @@ export async function baseHandler(
       let updateNickNameData = "";
       try {
         if (setter) {
-          if (!message.member.nick?.includes(NICKNAME_SUFFIX)) {
-            updateNickNameData =
-              NICKNAME_PREFIX + message.member.user.username + NICKNAME_SUFFIX;
-            discordEphemeral = LISTENING_SUCCESS_MESSAGE;
-            // Create the muted role if it doesn't exist
-            const mutedRoleId = await createMutedRole(
-              message.guild.id,
-              env.DISCORD_TOKEN
-            );
-            if (mutedRoleId) {
-              // Assign the muted role to the user
-              await assignRoleToUser(
-                message.guild.id,
-                memberId,
-                mutedRoleId,
-                env.DISCORD_TOKEN
-              );
-              // Mute the user
-              await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
-            } else {
-              console.error("Failed to create muted role.");
-              return commandNotFound(); // Return an error response
-            }
-          } else {
-            updateNickNameData = message.member.nick;
-            discordEphemeral = ALREADY_LISTENING;
+          updateNickNameData =
+            NICKNAME_PREFIX + message.member.user.username + NICKNAME_SUFFIX;
+          discordEphemeral = LISTENING_SUCCESS_MESSAGE;
+          // Create the muted role if it doesn't exist
+          const mutedRoleId = await getMutedRoleId(
+            message.guild.id,
+            env.DISCORD_TOKEN
+          );
+          if (!mutedRoleId) {
+            console.error("Muted role not found.");
+            return commandNotFound(); // Return an error response
           }
+          // Assign the muted role to the user
+          await assignRoleToUser(
+            message.guild.id,
+            memberId,
+            mutedRoleId,
+            env.DISCORD_TOKEN
+          );
+          // Mute the user
+          await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
         } else {
           updateNickNameData = nickname;
           discordEphemeral = REMOVED_LISTENING_MESSAGE;
@@ -122,25 +116,20 @@ export async function baseHandler(
             message.guild.id,
             env.DISCORD_TOKEN
           );
-          if (mutedRoleId) {
-            await removeRoleFromUser(
-              message.guild.id,
-              memberId,
-              mutedRoleId,
-              env.DISCORD_TOKEN
-            );
-            // Unmute the user
-            await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
-          } else {
+          if (!mutedRoleId) {
             console.error("Muted role not found.");
             return commandNotFound(); // Return an error response
           }
+          await removeRoleFromUser(
+            message.guild.id,
+            memberId,
+            mutedRoleId,
+            env.DISCORD_TOKEN
+          );
+          // Unmute the user
+          await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
         }
-        await updateNickName(
-          message.member.user.id.toString(),
-          updateNickNameData,
-          env
-        );
+        await updateNickName(memberId, updateNickNameData, env);
         return discordEphemeralResponse(discordEphemeral);
       } catch (err) {
         console.error("Error:", err);
