@@ -40,8 +40,6 @@ import {
   RETRY_COMMAND,
 } from "../constants/responses";
 import { DISCORD_BASE_URL } from "../constants/urls";
-
-// Import necessary functions from DiscordAPI.ts
 import {
   createMutedRole,
   assignRoleToUser,
@@ -90,35 +88,31 @@ export async function baseHandler(
           updateNickNameData =
             NICKNAME_PREFIX + message.member.user.username + NICKNAME_SUFFIX;
           discordEphemeral = LISTENING_SUCCESS_MESSAGE;
-          // Create the muted role if it doesn't exist
           const mutedRoleId = await getMutedRoleId(
             message.guild.id,
             env.DISCORD_TOKEN
           );
           if (!mutedRoleId) {
             console.error("Muted role not found.");
-            return commandNotFound(); // Return an error response
+            return commandNotFound();
           }
-          // Assign the muted role to the user
           await assignRoleToUser(
             message.guild.id,
             memberId,
             mutedRoleId,
             env.DISCORD_TOKEN
           );
-          // Mute the user
           await muteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
         } else {
           updateNickNameData = nickname;
           discordEphemeral = REMOVED_LISTENING_MESSAGE;
-          // Remove the muted role from the user
           const mutedRoleId = await getMutedRoleId(
             message.guild.id,
             env.DISCORD_TOKEN
           );
           if (!mutedRoleId) {
             console.error("Muted role not found.");
-            return commandNotFound(); // Return an error response
+            return commandNotFound();
           }
           await removeRoleFromUser(
             message.guild.id,
@@ -126,7 +120,6 @@ export async function baseHandler(
             mutedRoleId,
             env.DISCORD_TOKEN
           );
-          // Unmute the user
           await unmuteUser(memberId, message.guild.id, env.DISCORD_TOKEN);
         }
         await updateNickName(memberId, updateNickNameData, env);

@@ -2,7 +2,6 @@ import { DISCORD_BASE_URL } from "../constants/urls";
 
 interface CreateRoleResponse {
   id: string;
-  // Add other properties as needed
 }
 
 export async function createMutedRole(
@@ -29,7 +28,7 @@ export async function createMutedRole(
     );
 
     if (response.ok) {
-      const data: CreateRoleResponse = await response.json(); // Specify the type as CreateRoleResponse
+      const data: CreateRoleResponse = await response.json();
       return data.id;
     } else {
       console.error(
@@ -86,14 +85,11 @@ export async function removeRoleFromUser(
   }
 }
 
-// Define the type of 'data' and 'roles'
 interface Role {
   id: string;
   name: string;
-  // Add other properties as needed
 }
 
-// Use the defined interface for 'roles' and 'data'
 export async function getMutedRoleId(
   guildId: string,
   token: string
@@ -111,7 +107,7 @@ export async function getMutedRoleId(
     );
 
     if (response.ok) {
-      const roles: Role[] = await response.json(); // Specify the type as Role[]
+      const roles: Role[] = await response.json();
       const mutedRole = roles.find(
         (role) => role.name.toLowerCase() === "muted"
       );
