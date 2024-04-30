@@ -25,6 +25,25 @@ export const MENTION_EACH = {
       type: 3,
       require: false,
     },
+    {
+      name: "dev",
+      description: "want to tag them individually?",
+      type: 5,
+      require: false,
+    },
+  ],
+};
+
+export const REMOVE = {
+  name: "remove",
+  description: "remove user/users from the server",
+  options: [
+    {
+      name: "role",
+      description: "remove developers with specific role",
+      type: 8, // User type
+      required: true,
+    },
   ],
 };
 

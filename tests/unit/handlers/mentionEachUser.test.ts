@@ -4,6 +4,7 @@ import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
 import {
   onlyRoleToBeTagged,
   transformedArgument,
+  ctx,
 } from "../../fixtures/fixture";
 
 describe("Test mention each function", () => {
@@ -14,19 +15,52 @@ describe("Test mention each function", () => {
       DISCORD_TOKEN: "abc",
     };
 
-    const response = mentionEachUser(transformedArgument, env);
+    const response = mentionEachUser(transformedArgument, env, ctx);
     expect(response).toBeInstanceOf(Promise);
   });
 
-  it("should run without displayMessageObj argument", () => {
+  it("should run without displayMessageObj argument in dev mode", async () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+    const response = mentionEachUser(
+      {
+        ...onlyRoleToBeTagged,
+        dev: {
+          name: "dev",
+          type: 4,
+          value: true,
+        },
+      },
+      env,
+      ctx
+    );
+    expect(response).toBeInstanceOf(Promise);
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+    expect(textMessage.data.content).toBe(
+      "Sorry no user found under this role."
+    );
+  });
+
+  it("should run without displayMessageObj argument", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
 
-    const response = mentionEachUser(onlyRoleToBeTagged, env);
+    const response = mentionEachUser(onlyRoleToBeTagged, env, ctx);
     expect(response).toBeInstanceOf(Promise);
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+    expect(textMessage.data.content).toBe(
+      "Sorry no user found under this role."
+    );
   });
 
   it("should return users with matching roles", () => {

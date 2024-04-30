@@ -27,6 +27,7 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
+  REMOVE,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -39,6 +40,7 @@ import {
   REMOVED_LISTENING_MESSAGE,
   RETRY_COMMAND,
 } from "../constants/responses";
+
 import { DISCORD_BASE_URL } from "../constants/urls";
 import {
   createMutedRole,
@@ -46,10 +48,13 @@ import {
   removeRoleFromUser,
   getMutedRoleId,
 } from "../utils/discordAPI";
+import { DevFlag } from "../typeDefinitions/filterUsersByRole";
+import { kickEachUser } from "./kickEachUser";
 
 export async function baseHandler(
   message: discordMessageRequest,
-  env: env
+  env: env,
+  ctx: ExecutionContext
 ): Promise<JSONResponse> {
   const command = lowerCaseMessageCommands(message);
 
@@ -63,6 +68,7 @@ export async function baseHandler(
         message.member.user.avatar,
         message.member.user.username,
         message.member.user.discriminator,
+        message.member.joined_at,
         env
       );
     }
@@ -70,10 +76,21 @@ export async function baseHandler(
       const data = message.data?.options as Array<messageRequestDataOptions>;
       const transformedArgument = {
         roleToBeTaggedObj: data[0],
-        displayMessageObj: data[1] ?? {},
+        displayMessageObj: data.find((item) => item.name === "message"),
+        channelId: message.channel_id,
+        dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
       };
-
       return await mentionEachUser(transformedArgument, env);
+      return await mentionEachUser(transformedArgument, env, ctx);
+    }
+
+    case getCommandName(REMOVE): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      const transformedArgument = {
+        roleToBeRemovedObj: data[0],
+        channelId: message.channel_id,
+      };
+      return await kickEachUser(transformedArgument, env, ctx);
     }
 
     case getCommandName(LISTENING): {
