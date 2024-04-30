@@ -1,12 +1,9 @@
 import { DISCORD_BASE_URL } from "../../../src/constants/urls";
 import { muteUser, unmuteUser } from "../../../src/utils/userMuteUnmuteActions";
-import fetchMock from "jest-fetch-mock"; // Import jest-fetch-mock
-
-jest.mock("node-fetch", () => fetchMock); // Mock node-fetch module
-
-// Mock environment variables
+import fetchMock from "jest-fetch-mock";
+jest.mock("node-fetch", () => fetchMock);
 const mockEnv = {
-  DISCORD_BASE_URL: DISCORD_BASE_URL, // Use the same Discord base URL as in the src/constants/urls file
+  DISCORD_BASE_URL: DISCORD_BASE_URL,
   DISCORD_TOKEN: "mockToken",
 };
 
@@ -20,7 +17,7 @@ describe("User Mute and Unmute Actions", () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks(); // Reset mock state after each test
+    jest.resetAllMocks();
   });
 
   const assertFetchCall = (url: string, bodyObj: any) => {
