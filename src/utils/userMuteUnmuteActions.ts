@@ -28,6 +28,7 @@ export async function muteUser(
     }
   } catch (error) {
     console.error("Error occurred:", error);
+    throw error;
   }
 }
 
@@ -59,5 +60,6 @@ export async function unmuteUser(
     }
   } catch (error) {
     console.error("Error occurred:", error);
+    throw error;
   }
 }
