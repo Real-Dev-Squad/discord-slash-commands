@@ -7,11 +7,12 @@ export async function sendTaskUpdate(
   blockers: string,
   userName: string,
   taskId: string,
+  taskTitle: string,
   env: env
 ): Promise<void> {
   const taskUrl = config(env).RDS_STATUS_SITE_URL + `/tasks/${taskId}`;
   const formattedString =
-    `${userName} added an update to their task: <${taskUrl}>\n` +
+    `**${userName}** added an update to their task: [${taskTitle}](<${taskUrl}>)\n` +
     `\n**Completed**\n${completed}\n\n` +
     `**Planned**\n${planned}\n\n` +
     `**Blockers**\n${blockers}`;

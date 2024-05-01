@@ -5,5 +5,6 @@ export interface TaskUpdates {
     blockers: string;
     userName: string;
     taskId: string;
+    taskTitle: string;
   };
 }
