@@ -21,6 +21,7 @@ describe("sendTaskUpdatesHandler", () => {
       blockers: "NA",
       userName: "12345678910",
       taskId: "79wMEIek990",
+      taskTitle: "Hyperlink as task Title",
     },
   };
   afterEach(() => {
@@ -28,13 +29,15 @@ describe("sendTaskUpdatesHandler", () => {
   });
 
   it("sendTaskUpdate function should return undefined after successfully sending the message", async () => {
-    const { completed, planned, blockers, userName, taskId } = mockData.content;
+    const { completed, planned, blockers, userName, taskId, taskTitle } =
+      mockData.content;
     const response = await sendTaskUpdate(
       completed,
       planned,
       blockers,
       userName,
       taskId,
+      taskTitle,
       mockEnv
     );
     expect(response).toBe(undefined);
