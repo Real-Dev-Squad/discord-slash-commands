@@ -25,6 +25,37 @@ describe("sendTaskUpdate function", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  test("should throw an error if response status is not OK", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString =
+      `**${userName}** added an update to their task: [${taskTitle}](<${taskUrl}>)\n` +
+      `\n**Completed**\n${completed}\n\n` +
+      `**Planned**\n${planned}\n\n` +
+      `**Blockers**\n${blockers}`;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockResolvedValueOnce(
+        new JSONResponse("", { status: 400, statusText: "Bad Request" })
+      );
+
+    await expect(
+      sendTaskUpdate(
+        completed,
+        planned,
+        blockers,
+        userName,
+        taskId,
+        taskTitle,
+        mockEnv
+      )
+    ).rejects.toThrowError("Failed to send task update: 400 - Bad Request");
+
+    assertFetchCall(url, bodyObj, mockEnv);
+  });
 
   test("should send the task update to discord tracking channel when all fields are present", async () => {
     const url = config(mockEnv).TRACKING_CHANNEL_URL;
