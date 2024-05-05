@@ -77,3 +77,5 @@ export const INVALID_TOKEN_FORMAT =
   "Invalid Authentication header format. Expected 'Bearer <token>'";
 
 export const AUTHENTICATION_ERROR = "Invalid Authentication token";
+export const TASK_UPDATE_SENT_MESSAGE =
+  "Task update sent on Discord's tracking-updates channel.";

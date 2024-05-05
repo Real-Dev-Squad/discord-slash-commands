@@ -67,6 +67,6 @@ describe("sendTaskUpdatesHandler", () => {
     );
     expect(result.status).toBe(200);
     const res: JSONResponse = await result.json();
-    expect(res).toBe("Task update sent on Discord's tracking-updates channel.");
+    expect(res).toBe(response.TASK_UPDATE_SENT_MESSAGE);
   });
 });

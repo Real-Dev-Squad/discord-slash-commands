@@ -25,9 +25,7 @@ export const sendTaskUpdatesHandler = async (request: IRequest, env: env) => {
       taskTitle,
       env
     );
-    return new JSONResponse(
-      "Task update sent on Discord's tracking-updates channel."
-    );
+    return new JSONResponse(response.TASK_UPDATE_SENT_MESSAGE);
   } catch (error: any) {
     return new JSONResponse({
       res: response.INTERNAL_SERVER_ERROR,
