@@ -2,7 +2,6 @@ import { sendTaskUpdatesHandler } from "../../../src/controllers/taskUpdatesHand
 import JSONResponse from "../../../src/utils/JsonResponse";
 import * as response from "../../../src/constants/responses";
 import { sendTaskUpdate } from "../../../src/utils/sendTaskUpdates";
-import * as responseConstants from "../../../src/constants/responses";
 import { generateDummyRequestObject } from "../../fixtures/fixture";
 
 jest.mock("../../../src/utils/verifyAuthToken", () => ({
