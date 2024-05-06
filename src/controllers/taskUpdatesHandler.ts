@@ -14,11 +14,18 @@ export const sendTaskUpdatesHandler = async (request: IRequest, env: env) => {
   try {
     await verifyNodejsBackendAuthToken(authHeader, env);
     const updates: TaskUpdates = await request.json();
-    const { completed, planned, blockers, userName, taskId } = updates.content;
-    await sendTaskUpdate(completed, planned, blockers, userName, taskId, env);
-    return new JSONResponse(
-      "Task update sent on Discord's tracking-updates channel."
+    const { completed, planned, blockers, userName, taskId, taskTitle } =
+      updates.content;
+    await sendTaskUpdate(
+      completed,
+      planned,
+      blockers,
+      userName,
+      taskId,
+      taskTitle,
+      env
     );
+    return new JSONResponse(response.TASK_UPDATE_SENT_MESSAGE);
   } catch (error: any) {
     return new JSONResponse({
       res: response.INTERNAL_SERVER_ERROR,
