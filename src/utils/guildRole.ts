@@ -157,6 +157,7 @@ export async function mentionEachUserInMessage({
 }) {
   const batchSize = 5;
   let waitTillNextAPICall = 0;
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   try {
     const failedUsers: Array<string> = [];
     for (let i = 0; i < userIds.length; i += batchSize) {
