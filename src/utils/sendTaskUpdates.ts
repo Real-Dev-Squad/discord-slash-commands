@@ -1,18 +1,20 @@
 import { env } from "../typeDefinitions/default.types";
 import config from "../../config/config";
+import { TaskUpdates } from "../typeDefinitions/taskUpdate";
 
 export async function sendTaskUpdate(
-  completed: string,
-  planned: string,
-  blockers: string,
-  userName: string,
-  taskId: string,
-  taskTitle: string,
+  { completed, planned, blockers, userName, taskId, taskTitle }: TaskUpdates,
   env: env
 ): Promise<void> {
-  const taskUrl = config(env).RDS_STATUS_SITE_URL + `/tasks/${taskId}`;
+  const taskUrl = taskId
+    ? config(env).RDS_STATUS_SITE_URL + `/tasks/${taskId}`
+    : "";
+
+  const progressTitle = taskId
+    ? `**${userName}** added an update to their task: [${taskTitle}](<${taskUrl}>)`
+    : `**${userName}** added a standup update`;
   const formattedString =
-    `**${userName}** added an update to their task: [${taskTitle}](<${taskUrl}>)\n` +
+    `${progressTitle}\n` +
     `\n**Completed**\n${completed}\n\n` +
     `**Planned**\n${planned}\n\n` +
     `**Blockers**\n${blockers}`;

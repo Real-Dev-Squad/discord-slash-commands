@@ -29,12 +29,7 @@ describe("sendTaskUpdatesHandler", () => {
     const { completed, planned, blockers, userName, taskId, taskTitle } =
       mockData.content;
     const response = await sendTaskUpdate(
-      completed,
-      planned,
-      blockers,
-      userName,
-      taskId,
-      taskTitle,
+      { completed, planned, blockers, userName, taskId, taskTitle },
       mockEnv
     );
     expect(response).toBe(undefined);
