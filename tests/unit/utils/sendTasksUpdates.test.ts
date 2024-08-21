@@ -44,12 +44,7 @@ describe("sendTaskUpdate function", () => {
 
     await expect(
       sendTaskUpdate(
-        completed,
-        planned,
-        blockers,
-        userName,
-        taskId,
-        taskTitle,
+        { completed, planned, blockers, userName, taskId, taskTitle },
         mockEnv
       )
     ).rejects.toThrowError("Failed to send task update: 400 - Bad Request");
@@ -73,12 +68,7 @@ describe("sendTaskUpdate function", () => {
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
     await sendTaskUpdate(
-      completed,
-      planned,
-      blockers,
-      userName,
-      taskId,
-      taskTitle,
+      { completed, planned, blockers, userName, taskId, taskTitle },
       mockEnv
     );
 
@@ -101,12 +91,7 @@ describe("sendTaskUpdate function", () => {
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
     await sendTaskUpdate(
-      completed,
-      "",
-      "",
-      userName,
-      taskId,
-      taskTitle,
+      { completed, planned: "", blockers: "", userName, taskId, taskTitle },
       mockEnv
     );
 
@@ -128,7 +113,10 @@ describe("sendTaskUpdate function", () => {
       .spyOn(global, "fetch")
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
-    await sendTaskUpdate("", planned, "", userName, taskId, taskTitle, mockEnv);
+    await sendTaskUpdate(
+      { completed: "", planned, blockers: "", userName, taskId, taskTitle },
+      mockEnv
+    );
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
@@ -149,12 +137,7 @@ describe("sendTaskUpdate function", () => {
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
     await sendTaskUpdate(
-      "",
-      "",
-      blockers,
-      userName,
-      taskId,
-      taskTitle,
+      { completed: "", planned: "", blockers, userName, taskId, taskTitle },
       mockEnv
     );
 
@@ -177,12 +160,7 @@ describe("sendTaskUpdate function", () => {
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
     await sendTaskUpdate(
-      completed,
-      planned,
-      "",
-      userName,
-      taskId,
-      taskTitle,
+      { completed, planned, blockers: "", userName, taskId, taskTitle },
       mockEnv
     );
 
@@ -205,12 +183,7 @@ describe("sendTaskUpdate function", () => {
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
     await sendTaskUpdate(
-      completed,
-      "",
-      blockers,
-      userName,
-      taskId,
-      taskTitle,
+      { completed, planned: "", blockers, userName, taskId, taskTitle },
       mockEnv
     );
 
@@ -233,14 +206,29 @@ describe("sendTaskUpdate function", () => {
       .mockImplementation(() => Promise.resolve(new JSONResponse("")));
 
     await sendTaskUpdate(
-      "",
-      planned,
-      blockers,
-      userName,
-      taskId,
-      taskTitle,
+      { completed: "", planned, blockers, userName, taskId, taskTitle },
       mockEnv
     );
+
+    assertFetchCall(url, bodyObj, mockEnv);
+  });
+
+  test("should send the standup update to discord tracking channel when task id is absent", async () => {
+    const url = config(mockEnv).TRACKING_CHANNEL_URL;
+    const formattedString =
+      `**${userName}** added a standup update\n` +
+      `\n**Completed**\n${completed}\n\n` +
+      `**Planned**\n${planned}\n\n` +
+      `**Blockers**\n${blockers}`;
+    const bodyObj = {
+      content: formattedString,
+    };
+
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(new JSONResponse("")));
+
+    await sendTaskUpdate({ completed, planned, blockers, userName }, mockEnv);
 
     assertFetchCall(url, bodyObj, mockEnv);
   });
