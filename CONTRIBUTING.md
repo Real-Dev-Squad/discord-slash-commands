@@ -50,6 +50,7 @@ Next, you need to create your own bot. The idea here is that you will have your 
     - Embed links
     - Mention Everyone
     - Use slash commands
+    - Kick Members
 
 After providing all the permissions, a URL will be generated below.
 
