@@ -16,12 +16,12 @@ describe("formatUserDetails function", () => {
   it("should format user details correctly", () => {
     const formattedDetails = formatUserDetails(userResponse).trim();
 
-    const userFullName = `**Full Name :** Sunny Sahsi`;
+    const userFullName = `**Full Name :** John Doe`;
     const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userResponse
     )}`;
     const userState = `**State :** ACTIVE`;
-    const userName = `**UserName :** sunny`;
+    const userName = `**UserName :** johndoe`;
     const userId = `**UserId :** iODXB6ns8jaZB9p0XlBw`;
 
     const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
@@ -32,12 +32,13 @@ describe("formatUserDetails function", () => {
     const formattedDetails = formatUserDetails(
       userWithoutDiscordJoinedAtResponse
     ).trim();
-    const userFullName = `**Full Name :** Jyotsna Mehta`;
+
+    const userFullName = `**Full Name :** John Doe`;
     const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userWithoutDiscordJoinedAtResponse
     )}`;
     const userState = `**State :** IDLE`;
-    const userName = `**UserName :** jyotsna`;
+    const userName = `**UserName :** johndoe`;
     const userId = `**UserId :** DWcTUhbC5lRXfDjZRp06`;
     const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
     expect(formattedDetails).toEqual(expectedFormattedDetails);
