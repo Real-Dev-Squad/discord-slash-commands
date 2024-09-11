@@ -154,7 +154,10 @@ export async function baseHandler(
 
     case getCommandName(USER): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      return await userCommand(data[0].value, env);
+      const dev = data.find(
+        (item) => item.name === "dev"
+      ) as unknown as DevFlag;
+      return await userCommand(data[0].value, env, dev);
     }
     default: {
       return commandNotFound();
