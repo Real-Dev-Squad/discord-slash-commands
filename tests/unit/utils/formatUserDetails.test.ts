@@ -21,8 +21,8 @@ describe("formatUserDetails function", () => {
       userResponse
     )}`;
     const userState = `**State :** ACTIVE`;
-    const userName = `**UserName :** johndoe`;
-    const userId = `**UserId :** iODXB6ns8jaZB9p0XlBw`;
+    const userName = `**User Name :** johndoe`;
+    const userId = `**User Id :** iODXB6ns8jaZB9p0XlBw`;
 
     const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
     expect(formattedDetails).toEqual(expectedFormattedDetails);
@@ -38,8 +38,8 @@ describe("formatUserDetails function", () => {
       userWithoutDiscordJoinedAtResponse
     )}`;
     const userState = `**State :** IDLE`;
-    const userName = `**UserName :** johndoe`;
-    const userId = `**UserId :** DWcTUhbC5lRXfDjZRp06`;
+    const userName = `**User Name :** johndoe`;
+    const userId = `**User Id :** DWcTUhbC5lRXfDjZRp06`;
     const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
     expect(formattedDetails).toEqual(expectedFormattedDetails);
   });

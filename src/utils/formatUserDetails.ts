@@ -22,8 +22,8 @@ export function formatUserDetails(userDetails: UserResponseType) {
   const userFullName = `**Full Name :** ${userDetails.user?.first_name} ${userDetails.user?.last_name}`;
   const discordJoinedAt = `**Joined Server on :** ${convertedTimestamp}`;
   const userState = `**State :** ${userDetails.user?.state}`;
-  const userName = `**UserName :** ${userDetails.user?.username}`;
-  const userId = `**UserId :** ${userDetails.user?.id}`;
+  const userName = `**User Name :** ${userDetails.user?.username}`;
+  const userId = `**User Id :** ${userDetails.user?.id}`;
 
   return `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
 }
