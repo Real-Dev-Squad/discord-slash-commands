@@ -16,15 +16,15 @@ describe("formatUserDetails function", () => {
   it("should format user details correctly", () => {
     const formattedDetails = formatUserDetails(userResponse).trim();
 
+    const userId = `**User Id :** iODXB6ns8jaZB9p0XlBw`;
+    const userName = `**User Name :** johndoe`;
     const userFullName = `**Full Name :** John Doe`;
+    const userState = `**State :** ACTIVE`;
     const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userResponse
     )}`;
-    const userState = `**State :** ACTIVE`;
-    const userName = `**User Name :** johndoe`;
-    const userId = `**User Id :** iODXB6ns8jaZB9p0XlBw`;
 
-    const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
+    const expectedFormattedDetails = `## User Details\n${userId}\n${userName}\n${userFullName}\n${userState}\n${discordJoinedAt}`;
     expect(formattedDetails).toEqual(expectedFormattedDetails);
   });
 
@@ -33,14 +33,15 @@ describe("formatUserDetails function", () => {
       userWithoutDiscordJoinedAtResponse
     ).trim();
 
+    const userId = `**User Id :** DWcTUhbC5lRXfDjZRp06`;
+    const userName = `**User Name :** johndoe`;
     const userFullName = `**Full Name :** John Doe`;
+    const userState = `**State :** IDLE`;
     const discordJoinedAt = `**Joined Server on :** ${convertTimeStamp(
       userWithoutDiscordJoinedAtResponse
     )}`;
-    const userState = `**State :** IDLE`;
-    const userName = `**User Name :** johndoe`;
-    const userId = `**User Id :** DWcTUhbC5lRXfDjZRp06`;
-    const expectedFormattedDetails = `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}\n${userName}\n${userId}`;
+
+    const expectedFormattedDetails = `## User Details\n${userId}\n${userName}\n${userFullName}\n${userState}\n${discordJoinedAt}`;
     expect(formattedDetails).toEqual(expectedFormattedDetails);
   });
 });
