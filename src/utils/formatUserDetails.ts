@@ -16,12 +16,20 @@ export function convertTimeStamp(userDetails: UserResponseType) {
   return "N/A";
 }
 
-export function formatUserDetails(userDetails: UserResponseType) {
+export function formatUserDetails(
+  userDetails: UserResponseType,
+  flag: boolean
+) {
   const convertedTimestamp = convertTimeStamp(userDetails);
 
+  const userId = `**User Id :** ${userDetails.user?.id}`;
+  const userName = `**User Name :** ${userDetails.user?.username}`;
   const userFullName = `**Full Name :** ${userDetails.user?.first_name} ${userDetails.user?.last_name}`;
-  const discordJoinedAt = `**Joined Server on :** ${convertedTimestamp}`;
   const userState = `**State :** ${userDetails.user?.state}`;
+  const discordJoinedAt = `**Joined Server on :** ${convertedTimestamp}`;
 
-  return `## User Details\n${userFullName}\n${discordJoinedAt}\n${userState}`;
+  if (!flag)
+    return `## User Details\n${userFullName}\n${userState}\n${discordJoinedAt}`;
+
+  return `## User Details\n${userId}\n${userName}\n${userFullName}\n${userState}\n${discordJoinedAt}`;
 }

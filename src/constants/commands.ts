@@ -96,6 +96,12 @@ export const USER = {
       type: 6,
       required: true,
     },
+    {
+      name: "dev",
+      description: "want to see extra details?",
+      type: 5,
+      require: false,
+    },
   ],
 };
 
