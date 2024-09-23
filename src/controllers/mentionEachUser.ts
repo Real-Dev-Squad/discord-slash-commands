@@ -23,7 +23,7 @@ export async function mentionEachUser(
 ) {
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
-  const customMessage = transformedArgument?.displayMessageObj?.value; // Get custom message
+  const msgToBeSent = transformedArgument?.displayMessageObj?.value; // Get custom message
   const dev = transformedArgument?.dev?.value || false;
 
   const usersWithMatchingRole = filterUserByRoles(
@@ -34,7 +34,7 @@ export async function mentionEachUser(
   // Use the custom message if provided, otherwise construct the default message
   let responseMessage;
   if (usersWithMatchingRole.length === 0) {
-    responseMessage = customMessage || "Sorry no user found under this role."; // Use custom message if available
+    responseMessage = msgToBeSent || "Sorry no user found under this role."; // Use custom message if available
   } else {
     const roleTag = `<@&${roleId}>`;
     const userList = usersWithMatchingRole.join(", ");

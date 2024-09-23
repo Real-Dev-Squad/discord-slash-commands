@@ -127,8 +127,6 @@ describe("Test mention each function", () => {
     expect(response).toBe(expectedResponse);
   });
 
-  // New test cases in the same style
-
   it("should handle custom message when provided", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",
