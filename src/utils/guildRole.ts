@@ -44,7 +44,7 @@ export async function createGuildRole(
       body: JSON.stringify(data),
     });
     if (response.ok) {
-      return await response.json();
+      return (await response.json()) as string | guildRoleResponse;
     } else {
       return INTERNAL_SERVER_ERROR;
     }
@@ -125,7 +125,7 @@ export async function getGuildRoles(env: env): Promise<Array<Role>> {
       throw new Error(ROLE_FETCH_FAILED);
     }
 
-    const guildRoles: Array<GuildRole> = await response.json();
+    const guildRoles: Array<GuildRole> = (await response.json()) as GuildRole[];
 
     return guildRoles.map((role) => ({
       id: role.id,
@@ -143,6 +143,7 @@ export async function getGuildRoleByName(
   const roles = await getGuildRoles(env);
   return roles?.find((role) => role.name === roleName);
 }
+import { Response } from "@cloudflare/workers-types";
 
 export async function mentionEachUserInMessage({
   message,
@@ -173,10 +174,12 @@ export async function mentionEachUserInMessage({
             content: `${message ? message + " " : ""} ${userId}`,
           }),
         }).then((response) => {
-          const rateLimitRemaining = parseRateLimitRemaining(response);
+          const rateLimitRemaining = parseRateLimitRemaining(
+            response as unknown as Response
+          );
           if (rateLimitRemaining === 0) {
             waitTillNextAPICall = Math.max(
-              parseResetAfter(response),
+              parseResetAfter(response as unknown as Response),
               waitTillNextAPICall
             );
           }
