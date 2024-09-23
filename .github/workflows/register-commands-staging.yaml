@@ -34,6 +34,7 @@ jobs:
             DISCORD_GUILD_ID
             CURRENT_ENVIRONMENT
             BOT_PRIVATE_KEY
+            RDS_SERVERLESS_PUBLIC_KEY
             CRON_JOBS_PUBLIC_KEY
             IDENTITY_SERVICE_PUBLIC_KEY
         env:
@@ -43,5 +44,6 @@ jobs:
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
           BOT_PRIVATE_KEY: ${{secrets.BOT_PRIVATE_KEY}}
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
+          RDS_SERVERLESS_PUBLIC_KEY: ${{secrets.RDS_SERVERLESS_PUBLIC_KEY}}
           CRON_JOBS_PUBLIC_KEY: ${{secrets.CRON_JOBS_PUBLIC_KEY}}
           IDENTITY_SERVICE_PUBLIC_KEY: ${{secrets.IDENTITY_SERVICE_PUBLIC_KEY}}
