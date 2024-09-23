@@ -23,7 +23,7 @@ export async function mentionEachUser(
 ) {
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
-  const msgToBeSent = transformedArgument?.displayMessageObj?.value;
+  const customMessage = transformedArgument?.displayMessageObj?.value; // Get custom message
   const dev = transformedArgument?.dev?.value || false;
 
   const usersWithMatchingRole = filterUserByRoles(
@@ -31,19 +31,12 @@ export async function mentionEachUser(
     roleId
   );
 
-  const payload = {
-    channelId: transformedArgument.channelId,
-    roleId: roleId,
-    message: msgToBeSent,
-    usersWithMatchingRole,
-  };
-
-  // Construct the message with the role mention and user list
-  const roleTag = `<@&${roleId}>`;
+  // Use the custom message if provided, otherwise construct the default message
   let responseMessage;
   if (usersWithMatchingRole.length === 0) {
-    responseMessage = `No users found with the ${roleTag} role.`;
+    responseMessage = customMessage || "Sorry no user found under this role."; // Use custom message if available
   } else {
+    const roleTag = `<@&${roleId}>`;
     const userList = usersWithMatchingRole.join(", ");
     responseMessage = `The users with ${roleTag} roles are: ${userList}`;
   }
@@ -54,12 +47,12 @@ export async function mentionEachUser(
     ctx.waitUntil(
       mentionEachUserInMessage({
         message: responseMessage,
-        userIds: payload.usersWithMatchingRole,
-        channelId: payload.channelId,
+        userIds: usersWithMatchingRole,
+        channelId: transformedArgument.channelId,
         env,
       })
     );
-    
+
     return discordTextResponse(
       `Found ${usersWithMatchingRole.length} users with matched role, mentioning them shortly...`
     );

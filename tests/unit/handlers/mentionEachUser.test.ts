@@ -126,4 +126,42 @@ describe("Test mention each function", () => {
     const expectedResponse = `${returnString} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
   });
+
+  // New test cases in the same style
+
+  it("should handle custom message when provided", async () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+    const customArg = {
+      ...transformedArgument,
+      displayMessageObj: {
+        name: "displayMessage",
+        type: 3,
+        value: "Custom message:",
+      },
+    };
+    const response = mentionEachUser(customArg, env, ctx);
+    expect(response).toBeInstanceOf(Promise);
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+    expect(textMessage.data.content).toContain("Custom message:");
+  });
+
+  it("should handle empty user array", () => {
+    const roleId = "123456";
+    const optionsArray = [] as any[];
+    const response = filterUserByRoles(optionsArray, roleId);
+    expect(response).toStrictEqual([]);
+  });
+
+  it("should handle message with no matching users", () => {
+    const usersWithMatchingRole = [] as string[];
+    const msgToBeSent = "No users found:";
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
+    expect(response).toBe("Sorry no user found under this role.");
+  });
 });
