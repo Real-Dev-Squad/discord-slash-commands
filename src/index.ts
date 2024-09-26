@@ -22,7 +22,7 @@ import { generateInviteLink } from "./controllers/generateDiscordInvite";
 import { sendProfileBlockedMessage } from "./controllers/profileHandler";
 import { sendTaskUpdatesHandler } from "./controllers/taskUpdatesHandler";
 
-import config from "./config/config";
+import config from "./../config/config";
 
 const router = Router();
 
