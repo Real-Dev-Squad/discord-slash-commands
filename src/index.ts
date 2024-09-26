@@ -60,6 +60,13 @@ router.post("/profile/blocked", sendProfileBlockedMessage);
 
 router.post("/task/update", sendTaskUpdatesHandler);
 
+router.get("/ankush", async (request, env, ctx: ExecutionContext) => {
+  ctx.waitUntil(send(env));
+  
+  return new JSONResponse(`CURRENT_ENVIRONMENT: ${env.CURRENT_ENVIRONMENT}`, { status: 200 });
+});
+
+
 router.post("/", async (request, env, ctx: ExecutionContext) => {
   const message: discordMessageRequest = await request.json();
 
