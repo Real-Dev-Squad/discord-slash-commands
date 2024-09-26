@@ -24,11 +24,16 @@ import { sendTaskUpdatesHandler } from "./controllers/taskUpdatesHandler";
 
 const router = Router();
 
-router.get("/", async () => {
-  return new JSONResponse(response.STATUS_CHECK, {
+router.get("/", async (request, env, ctx) => {
+  return new JSONResponse(JSON.stringify(env), {
     status: 200,
   });
 });
+// router.get("/", async () => {
+//   return new JSONResponse(response.STATUS_CHECK, {
+//     status: 200,
+//   });
+// });
 
 router.patch("/guild/member", changeNickname);
 
