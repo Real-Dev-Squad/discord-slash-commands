@@ -28,6 +28,7 @@ import {
   OOO,
   USER,
   REMOVE,
+  GROUP_INVITE,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -42,6 +43,7 @@ import {
 } from "../constants/responses";
 import { DevFlag } from "../typeDefinitions/filterUsersByRole";
 import { kickEachUser } from "./kickEachUser";
+import { groupInvite } from "./groupInvite";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -155,6 +157,12 @@ export async function baseHandler(
     case getCommandName(USER): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       return await userCommand(data[0].value, env);
+    }
+
+    case getCommandName(GROUP_INVITE): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+
+      return await groupInvite(data[0].value, data[1].value, env);
     }
     default: {
       return commandNotFound();

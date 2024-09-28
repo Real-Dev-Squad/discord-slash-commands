@@ -9,6 +9,25 @@ export const VERIFY = {
     "Generate a link with user specific token to link with RDS backend.",
 };
 
+export const GROUP_INVITE = {
+  name: "group-invite",
+  description: "Send group invite link for the user.",
+  options: [
+    {
+      name: "name",
+      description: "User to send group invite link",
+      type: 6,
+      required: true,
+    },
+    {
+      name: "role",
+      description: "Role you want to invite to the user",
+      type: 8,
+      required: true,
+    },
+  ],
+};
+
 export const MENTION_EACH = {
   name: "mention-each",
   description: "mention each user with this role",

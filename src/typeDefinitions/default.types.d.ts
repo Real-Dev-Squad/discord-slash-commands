@@ -7,6 +7,7 @@ export interface environment {
 }
 
 export interface variables {
+  DASHBOARD_SITE_URL: string;
   RDS_BASE_API_URL: string;
   VERIFICATION_SITE_URL: string;
   TRACKING_CHANNEL_URL: string;
