@@ -2,8 +2,9 @@ export const user = {
   id: "iODXB6ns8jaZB9p0XlBw",
   incompleteUserDetails: false,
   discordJoinedAt: "2023-08-08T11:40:42.522000+00:00",
+  created_at: 1692748800000,
   discordId: "858838385330487336",
-  github_display_name: "Sunny Sahsi",
+  github_display_name: "John Doe",
   updated_at: 1694888822719,
   roles: {
     archived: false,
@@ -12,10 +13,10 @@ export const user = {
     super_user: false,
     archive: false,
   },
-  last_name: "Sahsi",
-  github_id: "sahsisunny",
-  first_name: "Sunny",
-  username: "sunny",
+  last_name: "Doe",
+  github_id: "johndoe",
+  first_name: "John",
+  username: "johndoe",
   state: "ACTIVE",
 };
 
@@ -178,8 +179,9 @@ export const userWithoutDiscordJoinedAt = {
   id: "DWcTUhbC5lRXfDjZRp06",
   incompleteUserDetails: false,
   discordJoinedAt: "",
+  created_at: 1692748800000,
   discordId: "504855562094247953",
-  github_display_name: "Jyotsna Mehta",
+  github_display_name: "John Doe",
   updated_at: 1694888822719,
   roles: {
     archived: false,
@@ -188,10 +190,10 @@ export const userWithoutDiscordJoinedAt = {
     super_user: false,
     archive: false,
   },
-  last_name: "Mehta",
-  github_id: "j24m",
-  first_name: "Jyotsna",
-  username: "jyotsna",
+  last_name: "Doe",
+  github_id: "johndoe",
+  first_name: "John",
+  username: "johndoe",
   state: "IDLE",
 };
 
