@@ -33,11 +33,14 @@ export async function mentionEachUser(
 
   // Use the custom message if provided, otherwise construct the default message
   let responseMessage;
+  const roleTag = `<@&${roleId}>`;
+  const userList = usersWithMatchingRole.join(", ");
   if (usersWithMatchingRole.length === 0) {
-    responseMessage = msgToBeSent || "Sorry no user found under this role."; // Use custom message if available
+    responseMessage =
+      msgToBeSent || `Sorry no user found under <@&${roleId}> role.`;
+  } else if (usersWithMatchingRole.length === 1) {
+    responseMessage = `The user with ${roleTag} roles is: ${userList}`;
   } else {
-    const roleTag = `<@&${roleId}>`;
-    const userList = usersWithMatchingRole.join(", ");
     responseMessage = `The users with ${roleTag} roles are: ${userList}`;
   }
 
