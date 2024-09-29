@@ -1,10 +1,15 @@
 import config from "../../config/config";
 import { env } from "../typeDefinitions/default.types";
 import { discordTextResponse } from "../utils/discordResponse";
-import { fetchDiscordGroups } from "../utils/fetchDiscordGroups";
+import * as DiscordGroups from "../utils/fetchDiscordGroups";
+import JSONResponse from "../utils/JsonResponse";
 
-export async function groupInvite(userId: string, roleId: string, env: env) {
-  const response = await fetchDiscordGroups(env);
+export async function groupInvite(
+  userId: string,
+  roleId: string,
+  env: env
+): Promise<JSONResponse> {
+  const response = await DiscordGroups.fetchDiscordGroups(env);
   const group = response.groups.find((group) => group.roleid === roleId);
 
   if (!group) {

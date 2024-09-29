@@ -13,6 +13,6 @@ export type GroupType = {
 };
 
 export type GroupResponseType = {
-  message?: string;
+  message: string;
   groups: GroupType[];
 };
