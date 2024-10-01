@@ -22,3 +22,7 @@ export const DEVELOPMENT_RDS_TRACKING_CHANNEL_URL =
 export const RDS_STATUS_SITE_URL = "https://status.realdevsquad.com";
 export const RDS_STAGING_STATUS_SITE_URL =
   "https://staging-status.realdevsquad.com";
+
+export const RDS_DASHBOARD_SITE_URL = "https://dashboard.realdevsquad.com";
+export const RDS_STAGING_DASHBOARD_SITE_URL =
+  "https://staging-dashboard.realdevsquad.com";
