@@ -1,39 +1,36 @@
 import { environment } from "../../fixtures/config";
-import * as DiscordGroups from "../../../src/utils/fetchDiscordGroups";
+import * as DiscordGroups from "../../../src/utils/fetchDiscordGroupById";
 import JSONResponse from "../../../src/utils/JsonResponse";
 import { groupInvite } from "../../../src/controllers/groupInvite";
-import { groups } from "../../fixtures/groups";
+import { group, invalidGroup } from "../../fixtures/groups";
 import { discordTextResponse } from "../../../src/utils/discordResponse";
 
 describe("Test /group-invite command", () => {
-  beforeEach(() => {
-    jest
-      .spyOn(DiscordGroups, "fetchDiscordGroups")
-      .mockImplementation(() => Promise.resolve(groups));
-  });
-
   afterEach(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();
   });
 
   it("Should be an instance of JSONResponse", async () => {
-    const response = await groupInvite(
-      "1",
-      groups.groups[0].roleid,
-      environment[0]
-    );
+    jest
+      .spyOn(DiscordGroups, "fetchDiscordGroupById")
+      .mockImplementation(() => Promise.resolve(group));
+
+    const response = await groupInvite("1", group.id, environment[0]);
 
     expect(response).toBeInstanceOf(JSONResponse);
   });
 
   it("Should return a discordTextResponse if group is not found", async () => {
-    const invalidRoleId = "invalidRoleId";
+    jest
+      .spyOn(DiscordGroups, "fetchDiscordGroupById")
+      .mockImplementation(() => Promise.resolve(invalidGroup));
+
     const expectedResponse = discordTextResponse(
-      `<@&${invalidRoleId}> is not a valid group.`
+      `<@&${invalidGroup.id}> is not a valid group.`
     );
 
-    const response = await groupInvite("1", invalidRoleId, environment[0]);
+    const response = await groupInvite("1", invalidGroup.id, environment[0]);
 
     expect(await response.json()).toEqual(await expectedResponse.json());
   });

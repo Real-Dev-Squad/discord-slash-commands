@@ -1,7 +1,7 @@
 import config from "../../config/config";
 import { env } from "../typeDefinitions/default.types";
 import { discordTextResponse } from "../utils/discordResponse";
-import * as DiscordGroups from "../utils/fetchDiscordGroups";
+import * as DiscordGroups from "../utils/fetchDiscordGroupById";
 import JSONResponse from "../utils/JsonResponse";
 
 export async function groupInvite(
@@ -9,14 +9,13 @@ export async function groupInvite(
   roleId: string,
   env: env
 ): Promise<JSONResponse> {
-  const response = await DiscordGroups.fetchDiscordGroups(env);
-  const group = response.groups.find((group) => group.roleid === roleId);
+  const group = await DiscordGroups.fetchDiscordGroupById(roleId, env);
 
-  if (!group) {
+  if (!group.name.startsWith("group-")) {
     return discordTextResponse(`<@&${roleId}> is not a valid group.`);
   }
 
-  const groupName = group.rolename.replace(/^group-/, "");
+  const groupName = group.name.replace(/^group-/, "");
 
   return discordTextResponse(
     `<@${userId}> join the group <@&${roleId}> via the link below:\n ${
