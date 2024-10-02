@@ -1,15 +1,15 @@
 import { environment } from "../../fixtures/config";
-import * as DiscordGroups from "../../../src/utils/fetchDiscordGroups";
+import * as DiscordGroups from "../../../src/utils/fetchDiscordGroupById";
 import JSONResponse from "../../../src/utils/JsonResponse";
 import { groupInvite } from "../../../src/controllers/groupInvite";
-import { groups } from "../../fixtures/groups";
+import { group } from "../../fixtures/groups";
 import { discordTextResponse } from "../../../src/utils/discordResponse";
 
 describe("Test /group-invite command", () => {
   beforeEach(() => {
     jest
-      .spyOn(DiscordGroups, "fetchDiscordGroups")
-      .mockImplementation(() => Promise.resolve(groups));
+      .spyOn(DiscordGroups, "fetchDiscordGroupById")
+      .mockImplementation(() => Promise.resolve(group));
   });
 
   afterEach(() => {
@@ -18,11 +18,7 @@ describe("Test /group-invite command", () => {
   });
 
   it("Should be an instance of JSONResponse", async () => {
-    const response = await groupInvite(
-      "1",
-      groups.groups[0].roleid,
-      environment[0]
-    );
+    const response = await groupInvite("1", group.id, environment[0]);
 
     expect(response).toBeInstanceOf(JSONResponse);
   });
