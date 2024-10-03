@@ -65,7 +65,8 @@ export const FAILED_TO_FETCH_TASKS = `Failed to fetch tasks for **{{assignee}}**
 export const USER_NOT_FOUND = `User Not Found`;
 export const USER_STATUS_NOT_FOUND = "No Status Found";
 
-export const FAILED_TO_FETCH_DISCORD_GROUPS = "Failed to fetch discord groups";
+export const FAILED_TO_FETCH_DISCORD_GUILD_ROLE =
+  "Failed to fetch discord guild role";
 
 export const OVERDUE_DEFAULT_MESSAGE = "You have overdue tasks.";
 export const OVERDUE_CUSTOM_MESSAGE =
