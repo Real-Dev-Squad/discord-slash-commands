@@ -15,11 +15,12 @@ export async function groupInvite(
     return discordTextResponse(`<@&${roleId}> is not a valid group.`);
   }
 
-  const groupName = group.name.replace(/^group-/, "");
+  const groupName = group.name.replace(/^group-/, "").replace(/-/g, " ");
+  const encodedGroupName = encodeURIComponent(groupName);
 
   return discordTextResponse(
     `<@${userId}> join the group <@&${roleId}> via the link below:\n ${
       config(env).DASHBOARD_SITE_URL
-    }/groups/?dev=true&name=${groupName}`
+    }/groups/?dev=true&name=${encodedGroupName}`
   );
 }
