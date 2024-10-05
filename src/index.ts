@@ -66,10 +66,12 @@ router.get("/ankush", async (request, env, ctx: ExecutionContext) => {
   ctx.waitUntil(send(env));
 
   const url = config(env).TRACKING_CHANNEL_URL;
-  
-  return new JSONResponse(`CURRENT_ENVIRONMENT: ${env.CURRENT_ENVIRONMENT}, tracking url - ${url}`, { status: 200 });
-});
 
+  return new JSONResponse(
+    `CURRENT_ENVIRONMENT: ${env.CURRENT_ENVIRONMENT}, tracking url - ${url}`,
+    { status: 200 }
+  );
+});
 
 router.post("/", async (request, env, ctx: ExecutionContext) => {
   const message: discordMessageRequest = await request.json();
