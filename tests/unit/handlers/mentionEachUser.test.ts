@@ -25,6 +25,7 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
+    const roleId = "1118201414078976192";
     const response = mentionEachUser(
       {
         ...onlyRoleToBeTagged,
@@ -42,7 +43,7 @@ describe("Test mention each function", () => {
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Sorry no user found under this role."
+      `Sorry no user found under <@&${roleId}> role.`
     );
   });
 
@@ -52,14 +53,14 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-
+    const roleId = "1118201414078976192";
     const response = mentionEachUser(onlyRoleToBeTagged, env, ctx);
     expect(response).toBeInstanceOf(Promise);
     const textMessage: { data: { content: string } } = await response.then(
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Sorry no user found under this role."
+      `Sorry no user found under <@&${roleId}> role.`
     );
   });
 
@@ -125,5 +126,58 @@ describe("Test mention each function", () => {
     const returnString = msgToBeSent ? msgToBeSent : "";
     const expectedResponse = `${returnString} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
+  });
+
+  it("should handle custom message when provided", async () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+    const customArg = {
+      ...transformedArgument,
+      displayMessageObj: {
+        name: "displayMessage",
+        type: 3,
+        value: "Custom message:",
+      },
+    };
+    const response = mentionEachUser(customArg, env, ctx);
+    expect(response).toBeInstanceOf(Promise);
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+    expect(textMessage.data.content).toContain("Custom message:");
+  });
+
+  it("should handle message with no matching users", () => {
+    const usersWithMatchingRole = [] as string[];
+    const roleId = "1118201414078976192";
+    const msgToBeSent = "No users found:";
+    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
+    const modifiedResponse = response.replace("this", `<@&${roleId}>`);
+    expect(modifiedResponse).toBe(
+      `Sorry no user found under <@&${roleId}> role.`
+    );
+  });
+  it("should handle case when only one user found", () => {
+    const roleId = "860900892193456149";
+    const optionsArray = [
+      {
+        roles: [
+          "890520255934377985",
+          "860900892193456149",
+          "845302148878565406",
+        ],
+        user: {
+          id: "282859044593598464",
+        },
+      },
+    ];
+    const response = filterUserByRoles(optionsArray, roleId);
+    const message = `The user with <@&${roleId}> roles is: ${response}`;
+    expect(message).toBe(
+      `The user with <@&${roleId}> roles is: <@${optionsArray[0].user.id}>`
+    );
   });
 });
