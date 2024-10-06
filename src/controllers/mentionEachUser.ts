@@ -21,6 +21,12 @@ export async function mentionEachUser(
   env: env,
   ctx: ExecutionContext
 ) {
+  const isFeatureEnabled = true;
+
+  if (!isFeatureEnabled) {
+    return discordTextResponse("This feature is currently disabled.");
+  }
+
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
   const msgToBeSent = transformedArgument?.displayMessageObj?.value; // Get custom message
