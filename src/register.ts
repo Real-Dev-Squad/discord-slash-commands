@@ -9,6 +9,7 @@ import {
   OOO,
   USER,
   REMOVE,
+  GROUP_INVITE,
 } from "./constants/commands";
 import { config } from "dotenv";
 import { DISCORD_BASE_URL } from "./constants/urls";
@@ -39,6 +40,7 @@ async function registerGuildCommands(
     NOTIFY_OVERDUE,
     NOTIFY_ONBOARDING,
     REMOVE,
+    GROUP_INVITE,
   ];
 
   try {
