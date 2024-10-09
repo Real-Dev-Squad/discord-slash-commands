@@ -27,7 +27,6 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
-  REMOVE,
   GROUP_INVITE,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
@@ -42,7 +41,7 @@ import {
   RETRY_COMMAND,
 } from "../constants/responses";
 import { DevFlag } from "../typeDefinitions/filterUsersByRole";
-import { kickEachUser } from "./kickEachUser";
+// import { kickEachUser } from "./kickEachUser";
 import { groupInvite } from "./groupInvite";
 
 export async function baseHandler(
