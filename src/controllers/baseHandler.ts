@@ -79,14 +79,14 @@ export async function baseHandler(
       return await mentionEachUser(transformedArgument, env, ctx);
     }
 
-    case getCommandName(REMOVE): {
-      const data = message.data?.options as Array<messageRequestDataOptions>;
-      const transformedArgument = {
-        roleToBeRemovedObj: data[0],
-        channelId: message.channel_id,
-      };
-      return await kickEachUser(transformedArgument, env, ctx);
-    }
+    // case getCommandName(REMOVE): {
+    //   const data = message.data?.options as Array<messageRequestDataOptions>;
+    //   const transformedArgument = {
+    //     roleToBeRemovedObj: data[0],
+    //     channelId: message.channel_id,
+    //   };
+    //   return await kickEachUser(transformedArgument, env, ctx);
+    // }
 
     case getCommandName(LISTENING): {
       const data = message.data?.options;
