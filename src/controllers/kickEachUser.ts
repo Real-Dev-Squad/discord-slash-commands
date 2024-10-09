@@ -12,15 +12,17 @@ import { messageRequestMember } from "../typeDefinitions/discordMessage.types";
 
 export async function kickEachUser(
   transformedArgument: {
-    member: messageRequestMember
+    member: messageRequestMember;
     roleToBeRemovedObj: MentionEachUserOptions;
     channelId: number;
   },
   env: env,
   ctx: ExecutionContext
 ) {
-  const isUserSuperUser = [SUPER_USER_ONE, SUPER_USER_TWO].includes(transformedArgument.member.user.id.toString())
-  
+  const isUserSuperUser = [SUPER_USER_ONE, SUPER_USER_TWO].includes(
+    transformedArgument.member.user.id.toString()
+  );
+
   if (!isUserSuperUser) {
     const responseText = `You're not authorized to make this request.`;
     return discordTextResponse(responseText);
