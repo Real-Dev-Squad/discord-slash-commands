@@ -10,11 +10,20 @@ describe("kickEachUser", () => {
     };
 
     const { roleToBeTaggedObj } = transformedArgument; // Extracting roleToBeTaggedObj
-    const response = kickEachUser(
-      { roleToBeRemovedObj: roleToBeTaggedObj, channelId: 12345 },
-      env,
-      ctx
-    );
+    const messageRequestMember = {
+      roleToBeRemovedObj: roleToBeTaggedObj,
+      channelId: 12345,
+      member: {
+        user: {
+          id: 123455,
+          username: "ankush",
+          avatar: "",
+          discriminator: "",
+        },
+        joined_at: "12345",
+      },
+    };
+    const response = kickEachUser(messageRequestMember, env, ctx);
 
     const roleID = roleToBeTaggedObj.value;
 
