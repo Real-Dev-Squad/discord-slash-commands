@@ -27,6 +27,7 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
+  REMOVE,
   GROUP_INVITE,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
@@ -41,7 +42,7 @@ import {
   RETRY_COMMAND,
 } from "../constants/responses";
 import { DevFlag } from "../typeDefinitions/filterUsersByRole";
-// import { kickEachUser } from "./kickEachUser";
+import { kickEachUser } from "./kickEachUser";
 import { groupInvite } from "./groupInvite";
 
 export async function baseHandler(
@@ -78,19 +79,16 @@ export async function baseHandler(
       return await mentionEachUser(transformedArgument, env, ctx);
     }
 
-    /**
-     * HOT FIX to prevent non superusers from running the /remove commmand.
-     * More info :- https://discord.com/channels/673083527624916993/729399523268624405/1293604361758441605
-     * ---
-     */
-    // case getCommandName(REMOVE): {
-    //   const data = message.data?.options as Array<messageRequestDataOptions>;
-    //   const transformedArgument = {
-    //     roleToBeRemovedObj: data[0],
-    //     channelId: message.channel_id,
-    //   };
-    //   return await kickEachUser(transformedArgument, env, ctx);
-    // }
+    case getCommandName(REMOVE): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      const transformedArgument = {
+        member: message.member,
+        roleToBeRemovedObj: data[0],
+        channelId: message.channel_id,
+      };
+
+      return await kickEachUser(transformedArgument, env, ctx);
+    }
 
     case getCommandName(LISTENING): {
       const data = message.data?.options;

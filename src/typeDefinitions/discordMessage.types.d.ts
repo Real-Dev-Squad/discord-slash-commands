@@ -77,7 +77,7 @@ export interface messageRequestMember {
 }
 
 export interface messageMember {
-  id: number;
+  id: number | bigint;
   username: string;
   avatar: string;
   discriminator: string;

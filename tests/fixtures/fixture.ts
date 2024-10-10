@@ -8,6 +8,7 @@ import { InteractionType } from "discord-interactions";
 import { UserBackend } from "../../src/typeDefinitions/userBackend.types";
 import { TaskOverdueResponse } from "../../src/typeDefinitions/taskOverdue.types";
 import { UserStatus } from "../../src/typeDefinitions/userStatus.type";
+import { SUPER_USER_ONE } from "../../src/constants/variables";
 
 export const dummyHelloMessage: discordMessageRequest = {
   type: InteractionType.APPLICATION_COMMAND,
@@ -290,6 +291,30 @@ export const userFutureStatusMock: UserStatus = {
     },
   },
   message: "User Status found successfully.",
+};
+
+export const messageRequestMemberMockNonSuperUser = {
+  member: {
+    user: {
+      id: 123455,
+      username: "ankush",
+      avatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
+      discriminator: "discriminator",
+    },
+    joined_at: "2024-03-07T18:46:20.327000+00:00",
+  },
+};
+
+export const messageRequestMemberMockSuperUser = {
+  member: {
+    user: {
+      id: 154585730465660929n,
+      username: "ankush",
+      avatar: "https://cdn.discordapp.com/avatars/1/userAvatarHash.jpg",
+      discriminator: "discriminator",
+    },
+    joined_at: "2024-03-07T18:46:20.327000+00:00",
+  },
 };
 
 export const memberGroupRoleList: memberGroupRole[] = [

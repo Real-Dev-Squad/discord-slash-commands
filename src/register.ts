@@ -8,6 +8,7 @@ import {
   NOTIFY_ONBOARDING,
   OOO,
   USER,
+  REMOVE,
   GROUP_INVITE,
 } from "./constants/commands";
 import { config } from "dotenv";
@@ -38,6 +39,7 @@ async function registerGuildCommands(
     USER,
     NOTIFY_OVERDUE,
     NOTIFY_ONBOARDING,
+    REMOVE,
     GROUP_INVITE,
   ];
 
