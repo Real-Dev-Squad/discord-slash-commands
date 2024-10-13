@@ -11,15 +11,15 @@ jobs:
       - run: bash environment-variables-validator.sh
         env:
           DISCORD_APPLICATION_ID: ${{secrets.DISCORD_APPLICATION_ID}}
-          CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
-          DISCORD_PUBLIC_KEY: ${{secrets.DISCORD_PUBLIC_KEY}}
-          DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
-          BOT_PRIVATE_KEY: ${{secrets.BOT_PRIVATE_KEY}}
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
+          DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
+          DISCORD_PUBLIC_KEY: ${{secrets.DISCORD_PUBLIC_KEY}}
+          CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
+          CLOUDFLARE_ACCOUNT_ID: ${{secrets.CLOUDFLARE_ACCOUNT_ID}}
+          BOT_PRIVATE_KEY: ${{secrets.BOT_PRIVATE_KEY}}
           RDS_SERVERLESS_PUBLIC_KEY: ${{secrets.RDS_SERVERLESS_PUBLIC_KEY}}
           CRON_JOBS_PUBLIC_KEY: ${{secrets.CRON_JOBS_PUBLIC_KEY}}
           IDENTITY_SERVICE_PUBLIC_KEY: ${{secrets.IDENTITY_SERVICE_PUBLIC_KEY}}
-          CLOUDFLARE_ACCOUNT_ID: ${{secrets.CLOUDFLARE_ACCOUNT_ID}}
   Register-Commands:
     needs: [Environment-Variables-Check]
     runs-on: ubuntu-latest

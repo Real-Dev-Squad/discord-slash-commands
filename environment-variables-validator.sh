@@ -13,7 +13,5 @@ while IFS= read -r var_name; do
   if [[ -z "${!var_name}" ]]; then
     echo "Environment variable $var_name is not set."
     exit 1  # Exit with error if any variable is not set
-  else
-    echo "Environment variable $var_name is set."
   fi
 done < "$ENV_VARS_FILE"
