@@ -10,6 +10,17 @@ jobs:
       - uses: actions/checkout@v2
       - run: bash environment-variables-validator.sh
         env:
+          ENV_VAR_NAMES: |
+            DISCORD_APPLICATION_ID
+            DISCORD_GUILD_ID
+            DISCORD_TOKEN
+            DISCORD_PUBLIC_KEY
+            CLOUDFLARE_API_TOKEN
+            CLOUDFLARE_ACCOUNT_ID
+            BOT_PRIVATE_KEY
+            RDS_SERVERLESS_PUBLIC_KEY
+            CRON_JOBS_PUBLIC_KEY
+            IDENTITY_SERVICE_PUBLIC_KEY
           DISCORD_APPLICATION_ID: ${{secrets.DISCORD_APPLICATION_ID}}
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
