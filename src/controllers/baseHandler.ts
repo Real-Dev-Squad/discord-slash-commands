@@ -82,9 +82,11 @@ export async function baseHandler(
     case getCommandName(REMOVE): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
       const transformedArgument = {
+        member: message.member,
         roleToBeRemovedObj: data[0],
         channelId: message.channel_id,
       };
+
       return await kickEachUser(transformedArgument, env, ctx);
     }
 
