@@ -21,49 +21,35 @@ export async function mentionEachUser(
   env: env,
   ctx: ExecutionContext
 ) {
-  const isFeatureEnabled = true;
-
-  if (!isFeatureEnabled) {
-    return discordTextResponse("This feature is currently disabled.");
-  }
-
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
-  const msgToBeSent = transformedArgument?.displayMessageObj?.value; // Get custom message
+  const msgToBeSent = transformedArgument?.displayMessageObj?.value;
   const dev = transformedArgument?.dev?.value || false;
 
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
     roleId
   );
-
-  // Use the custom message if provided, otherwise construct the default message
-  let responseMessage;
-  const roleTag = `<@&${roleId}>`;
-  const userList = usersWithMatchingRole.join(", ");
-  if (usersWithMatchingRole.length === 0) {
-    responseMessage =
-      msgToBeSent || `Sorry no user found under <@&${roleId}> role.`;
-  } else if (usersWithMatchingRole.length === 1) {
-    responseMessage = `The user with ${roleTag} roles is: ${userList}`;
-  } else {
-    responseMessage = `The users with ${roleTag} roles are: ${userList}`;
-  }
-
+  const payload = {
+    channelId: transformedArgument.channelId,
+    roleId: roleId,
+    message: msgToBeSent,
+    usersWithMatchingRole,
+  };
   if (!dev || usersWithMatchingRole.length === 0) {
-    return discordTextResponse(responseMessage);
+    const responseData = checkDisplayType({
+      usersWithMatchingRole,
+      msgToBeSent,
+      roleId,
+    });
+    return discordTextResponse(responseData);
   } else {
-    ctx.waitUntil(
-      mentionEachUserInMessage({
-        message: responseMessage,
-        userIds: usersWithMatchingRole,
-        channelId: transformedArgument.channelId,
-        env,
-      })
-    );
-
-    return discordTextResponse(
-      `Found ${usersWithMatchingRole.length} users with matched role, mentioning them shortly...`
-    );
+    let responseMessage = "";
+    if (usersWithMatchingRole.length === 1) {
+      responseMessage = `The user with <@&${roleId}> role is: ${payload.usersWithMatchingRole}`;
+    } else {
+      responseMessage = `The users with <@&${roleId}> role are: ${payload.usersWithMatchingRole} `;
+    }
+    return discordTextResponse(responseMessage);
   }
 }
