@@ -19,7 +19,7 @@ describe("Test mention each function", () => {
     expect(response).toBeInstanceOf(Promise);
   });
 
-  it("should run without displayMessageObj argument in dev mode", async () => {
+  it("should run without displayMessageObj argument", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",
       DISCORD_GUILD_ID: "123",
@@ -28,11 +28,6 @@ describe("Test mention each function", () => {
     const response = mentionEachUser(
       {
         ...onlyRoleToBeTagged,
-        dev: {
-          name: "dev",
-          type: 4,
-          value: true,
-        },
       },
       env,
       ctx
