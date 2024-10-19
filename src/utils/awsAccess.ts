@@ -5,11 +5,11 @@ import config from "../../config/config";
 import { discordTextResponse } from "./discordResponse";
 import { DISCORD_BASE_URL, AWS_IAM_SIGNIN_URL } from "../constants/urls";
 
-async function processAWSAccessRequest(
+export async function processAWSAccessRequest(
   discordUserId: string,
   awsGroupId: string,
   env: env,
-  TraceId: uuidv4,
+  TraceId: string,
   channelId: number
 ) {
   const authToken = await jwt.sign(
@@ -60,10 +60,6 @@ async function processAWSAccessRequest(
       });
     }
   } catch (err) {
-    console.log(
-      `[TraceId: ${TraceId}] Failed to grant AWS Access, error - `,
-      err
-    );
     return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
       method: "POST",
       headers: {
