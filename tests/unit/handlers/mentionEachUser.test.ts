@@ -19,15 +19,21 @@ describe("Test mention each function", () => {
     expect(response).toBeInstanceOf(Promise);
   });
 
-  it("should run without displayMessageObj argument", async () => {
+  it("should run without displayMessageObj argument in dev mode", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
+    const roleId = "1118201414078976192";
     const response = mentionEachUser(
       {
         ...onlyRoleToBeTagged,
+        dev: {
+          name: "dev",
+          type: 4,
+          value: true,
+        },
       },
       env,
       ctx
@@ -37,7 +43,7 @@ describe("Test mention each function", () => {
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Sorry no user found under this role."
+      `Sorry no user found with <@&${roleId}> role.`
     );
   });
 
@@ -47,14 +53,14 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-
+    const roleId = "1118201414078976192";
     const response = mentionEachUser(onlyRoleToBeTagged, env, ctx);
     expect(response).toBeInstanceOf(Promise);
     const textMessage: { data: { content: string } } = await response.then(
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Sorry no user found under this role."
+      `Sorry no user found with <@&${roleId}> role.`
     );
   });
 
@@ -102,11 +108,16 @@ describe("Test mention each function", () => {
     expect(response).toBe(expectedResponse);
   });
 
-  it("should return default string ", () => {
-    const usersWithMatchingRole = [] as string[];
+  it("should return default string", () => {
+    const roleId = "1118201414078976192";
+    const usersWithMatchingRole: string[] = [];
     const msgToBeSent = "hello";
-    const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
-    const expectedResponse = `Sorry no user found under this role.`;
+    const response = checkDisplayType({
+      usersWithMatchingRole,
+      msgToBeSent,
+      roleId,
+    });
+    const expectedResponse = `Sorry no user found with <@&${roleId}> role.`;
     expect(response).toBe(expectedResponse);
   });
 
@@ -120,5 +131,39 @@ describe("Test mention each function", () => {
     const returnString = msgToBeSent ? msgToBeSent : "";
     const expectedResponse = `${returnString} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
+  });
+
+  describe("checkDisplayType", () => {
+    it("should handle message with no matching users", () => {
+      const usersWithMatchingRole: string[] = [];
+      const roleId = "1118201414078976192";
+      const msgToBeSent = "No users found:";
+      const response = checkDisplayType({
+        usersWithMatchingRole,
+        msgToBeSent,
+        roleId,
+      });
+      expect(response).toBe(`Sorry no user found with <@&${roleId}> role.`);
+    });
+  });
+  it("should handle case when only one user found", () => {
+    const roleId = "860900892193456149";
+    const optionsArray = [
+      {
+        roles: [
+          "890520255934377985",
+          "860900892193456149",
+          "845302148878565406",
+        ],
+        user: {
+          id: "282859044593598464",
+        },
+      },
+    ];
+    const response = filterUserByRoles(optionsArray, roleId);
+    const message = `The user with <@&${roleId}> role is: ${response}`;
+    expect(message).toBe(
+      `The user with <@&${roleId}> role is: <@${optionsArray[0].user.id}>`
+    );
   });
 });

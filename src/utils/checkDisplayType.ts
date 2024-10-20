@@ -4,14 +4,16 @@
 export function checkDisplayType({
   usersWithMatchingRole,
   msgToBeSent,
+  roleId,
 }: {
   msgToBeSent?: string;
   usersWithMatchingRole: string[];
+  roleId?: string;
 }) {
   if (usersWithMatchingRole.length > 0) {
     const returnString = msgToBeSent ? msgToBeSent : "";
     return `${returnString} ${usersWithMatchingRole}`;
   } else {
-    return `Sorry no user found under this role.`;
+    return `Sorry no user found with <@&${roleId ?? "undefined"}> role.`;
   }
 }
