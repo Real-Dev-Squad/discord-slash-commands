@@ -10,3 +10,8 @@ export type MentionEachUserOptions = {
   type: number;
   value: string;
 };
+export type DevFlag = {
+  name: string;
+  type: number;
+  value: boolean;
+};
