@@ -6,6 +6,7 @@ import { env } from "../typeDefinitions/default.types";
 import {
   UserArray,
   MentionEachUserOptions,
+  DevFlag,
 } from "../typeDefinitions/filterUsersByRole";
 import { mentionEachUserInMessage } from "../utils/guildRole";
 import { checkDisplayType } from "../utils/checkDisplayType";
@@ -15,6 +16,7 @@ export async function mentionEachUser(
     roleToBeTaggedObj: MentionEachUserOptions;
     displayMessageObj?: MentionEachUserOptions;
     channelId: number;
+    dev?: DevFlag;
   },
   env: env,
   ctx: ExecutionContext
@@ -22,12 +24,12 @@ export async function mentionEachUser(
   const getMembersInServerResponse = await getMembersInServer(env);
   const roleId = transformedArgument.roleToBeTaggedObj.value;
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
+  const dev = transformedArgument?.dev?.value || false;
 
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
     roleId
   );
-
   const payload = {
     channelId: transformedArgument.channelId,
     roleId: roleId,
@@ -35,23 +37,20 @@ export async function mentionEachUser(
     usersWithMatchingRole,
   };
 
-  if (usersWithMatchingRole.length === 0) {
+  if (!dev || usersWithMatchingRole.length === 0) {
     const responseData = checkDisplayType({
       usersWithMatchingRole,
       msgToBeSent,
+      roleId,
     });
     return discordTextResponse(responseData);
   } else {
-    ctx.waitUntil(
-      mentionEachUserInMessage({
-        message: payload.message,
-        userIds: payload.usersWithMatchingRole,
-        channelId: payload.channelId,
-        env,
-      })
-    );
-    return discordTextResponse(
-      `Found ${usersWithMatchingRole.length} users with matched role, mentioning them shortly...`
-    );
+    let responseMessage = "";
+    if (usersWithMatchingRole.length === 1) {
+      responseMessage = `The user with <@&${roleId}> role is: ${payload.usersWithMatchingRole}`;
+    } else {
+      responseMessage = `The users with <@&${roleId}> role are: ${payload.usersWithMatchingRole} `;
+    }
+    return discordTextResponse(responseMessage);
   }
 }

@@ -44,6 +44,12 @@ export const MENTION_EACH = {
       type: 3,
       require: false,
     },
+    {
+      name: "dev",
+      description: "want to tag them individually?",
+      type: 5,
+      require: false,
+    },
   ],
 };
 
