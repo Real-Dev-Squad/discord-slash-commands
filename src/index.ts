@@ -13,6 +13,7 @@ import {
   getGuildRoleByRoleNameHandler,
   getGuildRolesHandler,
   getGuildRolesPostHandler,
+  deleteGuildRoleHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
@@ -33,6 +34,8 @@ router.get("/", async () => {
 });
 
 router.patch("/guild/member", changeNickname);
+
+router.delete("/guildroles/:roleId", deleteGuildRoleHandler);
 
 router.put("/roles/create", createGuildRoleHandler);
 

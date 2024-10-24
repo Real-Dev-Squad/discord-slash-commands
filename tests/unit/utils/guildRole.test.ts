@@ -7,6 +7,7 @@ import {
   getGuildRoles,
   getGuildRoleByName,
   mentionEachUserInMessage,
+  deleteGuildRole,
 } from "../../../src/utils/guildRole";
 import {
   dummyAddRoleBody,
@@ -16,6 +17,13 @@ import {
   rolesMock,
 } from "../../fixtures/fixture";
 import { DiscordMessageResponse } from "../../../src/typeDefinitions/discordMessage.types";
+
+describe("deleteGuildRole", () => {
+  it("should return undefined", async () => {
+    const response = await deleteGuildRole({}, "100");
+    expect(response).toEqual(undefined);
+  });
+});
 
 describe("createGuildRole", () => {
   it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {

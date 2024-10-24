@@ -23,6 +23,14 @@ import { GuildRole, Role } from "../typeDefinitions/role.types";
 import createDiscordHeaders from "./createDiscordHeaders";
 import { sleep } from "./sleep";
 
+export async function deleteGuildRole(
+  env: env,
+  roleId: string,
+  reason?: string
+) {
+  return undefined;
+}
+
 export async function createGuildRole(
   body: createNewRole,
   env: env,

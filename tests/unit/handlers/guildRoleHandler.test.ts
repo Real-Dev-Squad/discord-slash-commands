@@ -1,4 +1,5 @@
 import {
+  deleteGuildRoleHandler,
   getGuildRoleByRoleNameHandler,
   getGuildRolesHandler,
   getGuildRolesPostHandler,
@@ -345,5 +346,19 @@ describe("getGuildRolesPostHandler", () => {
     );
     const jsonResponse: { error: string } = await response.json();
     expect(jsonResponse).toEqual(responseConstants.INTERNAL_SERVER_ERROR);
+  });
+});
+
+describe("deleteGuildRoleHandler", () => {
+  it("should return undefined", async () => {
+    const mockRequest = generateDummyRequestObject({
+      url: "/guildroles",
+      params: {
+        roleId: "101",
+      },
+      method: "DELETE",
+    });
+    const response = await deleteGuildRoleHandler(mockRequest, guildEnv);
+    expect(response).toEqual(undefined);
   });
 });
