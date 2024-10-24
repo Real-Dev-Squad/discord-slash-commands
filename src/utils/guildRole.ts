@@ -34,10 +34,15 @@ export async function deleteGuildRole(
     reason: reason,
   });
   try {
-    return await fetch(deleteGuildRoleUrl, {
+    const response = await fetch(deleteGuildRoleUrl, {
       method: "DELETE",
       headers,
     });
+    if (response.ok) {
+      return ROLE_REMOVED;
+    } else {
+      return INTERNAL_SERVER_ERROR;
+    }
   } catch (err) {
     return INTERNAL_SERVER_ERROR;
   }
