@@ -8,6 +8,7 @@ import {
   removeGuildRole,
   getGuildRoleByName,
   getGuildRoles,
+  deleteGuildRole,
 } from "../utils/guildRole";
 import {
   createNewRole,
@@ -21,6 +22,10 @@ import { batchDiscordRequests } from "../utils/batchDiscordRequests";
 import { DISCORD_BASE_URL } from "../constants/urls";
 import { GROUP_ROLE_ADD } from "../constants/requestsActions";
 import createDiscordHeaders from "../utils/createDiscordHeaders";
+
+export async function deleteGuildRoleHandler(request: IRequest, env: env) {
+  return await deleteGuildRole(env, "101");
+}
 
 export async function createGuildRoleHandler(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
