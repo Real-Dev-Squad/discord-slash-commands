@@ -17,11 +17,60 @@ import {
   rolesMock,
 } from "../../fixtures/fixture";
 import { DiscordMessageResponse } from "../../../src/typeDefinitions/discordMessage.types";
+import { DISCORD_BASE_URL } from "../../../src/constants/urls";
 
 describe("deleteGuildRole", () => {
-  it("should return undefined", async () => {
-    const response = await deleteGuildRole({}, "100");
-    expect(response).toEqual(undefined);
+  const roleId = "1A32BEX04";
+  const deleteGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${guildEnv.DISCORD_GUILD_ID}/roles/${roleId}`;
+  const mockRequestInit = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bot ${guildEnv.DISCORD_TOKEN}`,
+      "X-Audit-Log-Reason": "This is reason for this action",
+    },
+  };
+
+  it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation((inp) => Promise.resolve(new JSONResponse(inp)));
+
+    await deleteGuildRole(guildEnv, roleId, "This is reason for this action");
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      deleteGuildRoleUrl,
+      mockRequestInit
+    );
+  });
+
+  it("should return an empty response with 204 status", async () => {
+    const mockResponse = new Response(null, {
+      status: 204,
+    });
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(mockResponse));
+    const response = (await deleteGuildRole(guildEnv, roleId)) as Response;
+    expect(response).toEqual(mockResponse);
+    expect(response.status).toEqual(mockResponse.status);
+    expect(global.fetch).toHaveBeenCalledWith(
+      deleteGuildRoleUrl,
+      mockRequestInit
+    );
+  });
+
+  it("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
+    const mockErrorResponse = new JSONResponse(response.INTERNAL_SERVER_ERROR);
+    jest
+      .spyOn(global, "fetch")
+      .mockImplementation(() => Promise.resolve(mockErrorResponse));
+    const result = await deleteGuildRole(guildEnv, roleId);
+    expect(result).toEqual(mockErrorResponse);
+    expect(global.fetch).toHaveBeenCalledWith(
+      deleteGuildRoleUrl,
+      mockRequestInit
+    );
   });
 });
 

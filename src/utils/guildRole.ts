@@ -28,7 +28,19 @@ export async function deleteGuildRole(
   roleId: string,
   reason?: string
 ) {
-  return undefined;
+  const deleteGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles/${roleId}`;
+  const headers: HeadersInit = createDiscordHeaders({
+    token: env.DISCORD_TOKEN,
+    reason: reason,
+  });
+  try {
+    return await fetch(deleteGuildRoleUrl, {
+      method: "DELETE",
+      headers,
+    });
+  } catch (err) {
+    return INTERNAL_SERVER_ERROR;
+  }
 }
 
 export async function createGuildRole(
