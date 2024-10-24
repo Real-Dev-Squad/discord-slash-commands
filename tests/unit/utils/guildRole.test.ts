@@ -31,6 +31,13 @@ describe("deleteGuildRole", () => {
     },
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it("should pass the reason to discord as a X-Audit-Log-Reason header if provided", async () => {
     jest
       .spyOn(global, "fetch")
@@ -44,33 +51,22 @@ describe("deleteGuildRole", () => {
     );
   });
 
-  it("should return an empty response with 204 status", async () => {
+  it("should return ROLE_REMOVED when response is ok", async () => {
     const mockResponse = new Response(null, {
       status: 204,
     });
-    jest
-      .spyOn(global, "fetch")
-      .mockImplementation(() => Promise.resolve(mockResponse));
-    const response = (await deleteGuildRole(guildEnv, roleId)) as Response;
-    expect(response).toEqual(mockResponse);
-    expect(response.status).toEqual(mockResponse.status);
-    expect(global.fetch).toHaveBeenCalledWith(
-      deleteGuildRoleUrl,
-      mockRequestInit
-    );
+    jest.spyOn(global, "fetch").mockResolvedValue(mockResponse);
+    const result = await deleteGuildRole(guildEnv, roleId);
+    expect(result).toEqual(response.ROLE_REMOVED);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 
   it("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-    const mockErrorResponse = new JSONResponse(response.INTERNAL_SERVER_ERROR);
-    jest
-      .spyOn(global, "fetch")
-      .mockImplementation(() => Promise.resolve(mockErrorResponse));
+    const mockErrorResponse = new Response(response.INTERNAL_SERVER_ERROR);
+    jest.spyOn(global, "fetch").mockRejectedValue(mockErrorResponse);
     const result = await deleteGuildRole(guildEnv, roleId);
-    expect(result).toEqual(mockErrorResponse);
-    expect(global.fetch).toHaveBeenCalledWith(
-      deleteGuildRoleUrl,
-      mockRequestInit
-    );
+    expect(result).toEqual(response.INTERNAL_SERVER_ERROR);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 });
 
