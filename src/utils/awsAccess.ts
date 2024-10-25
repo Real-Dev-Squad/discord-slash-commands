@@ -1,15 +1,26 @@
 import jwt from "@tsndr/cloudflare-worker-jwt";
-import { v4 as uuidv4 } from "uuid";
 import { env } from "../typeDefinitions/default.types";
 import config from "../../config/config";
 import { discordTextResponse } from "./discordResponse";
 import { DISCORD_BASE_URL, AWS_IAM_SIGNIN_URL } from "../constants/urls";
 
+function sendDiscordMessage(content: string, channelId: number, env: env) {
+  return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bot ${env.DISCORD_TOKEN}`,
+    },
+    body: JSON.stringify({
+      content: `${content}`,
+    }),
+  });
+}
+
 export async function processAWSAccessRequest(
   discordUserId: string,
   awsGroupId: string,
   env: env,
-  TraceId: string,
   channelId: number
 ) {
   const authToken = await jwt.sign(
@@ -25,7 +36,7 @@ export async function processAWSAccessRequest(
       userId: discordUserId,
     };
 
-    const url = `${base_url}/aws-access/`;
+    const url = `${base_url}/aws-access`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -37,39 +48,17 @@ export async function processAWSAccessRequest(
     });
 
     if (!response.ok) {
-      return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bot ${env.DISCORD_TOKEN}`,
-        },
-        body: JSON.stringify({
-          content: `<@${discordUserId}> Error occurred while granting AWS access: ${response.status} ${response.statusText}`,
-        }),
-      });
+      const responseText = await response.text();
+      const errorData = JSON.parse(responseText);
+      const content = `<@${discordUserId}> Error occurred while granting AWS access: ${errorData.error}`;
+      return sendDiscordMessage(content, channelId, env);
     } else {
-      return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bot ${env.DISCORD_TOKEN}`,
-        },
-        body: JSON.stringify({
-          content: `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`,
-        }),
-      });
+      const content = `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`;
+      return sendDiscordMessage(content, channelId, env);
     }
   } catch (err) {
-    return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bot ${env.DISCORD_TOKEN}`,
-      },
-      body: JSON.stringify({
-        content: `[TraceId: ${TraceId}] <@${discordUserId}> Error occurred while granting AWS access.`,
-      }),
-    });
+    const content = `<@${discordUserId}> Error occurred while granting AWS access.`;
+    return sendDiscordMessage(content, channelId, env);
   }
 }
 
@@ -80,15 +69,14 @@ export async function grantAWSAccess(
   ctx: ExecutionContext,
   channelId: number
 ) {
-  const TraceId = uuidv4();
   // Immediately send a Discord response to acknowledge the command
   const initialResponse = discordTextResponse(
-    `[TraceId: ${TraceId}] <@${discordUserId}> Processing your request to grant AWS access.`
+    `<@${discordUserId}> Processing your request to grant AWS access.`
   );
 
   ctx.waitUntil(
     // Asynchronously call the function to grant AWS access
-    processAWSAccessRequest(discordUserId, awsGroupId, env, TraceId, channelId)
+    processAWSAccessRequest(discordUserId, awsGroupId, env, channelId)
   );
 
   // Return the immediate response within 3 seconds
