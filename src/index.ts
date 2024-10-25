@@ -13,7 +13,6 @@ import {
   getGuildRoleByRoleNameHandler,
   getGuildRolesHandler,
   getGuildRolesPostHandler,
-  deleteGuildRoleHandler,
 } from "./controllers/guildRoleHandler";
 import { getMembersInServerHandler } from "./controllers/getMembersInServer";
 import { changeNickname } from "./controllers/changeNickname";
@@ -24,6 +23,7 @@ import { sendProfileBlockedMessage } from "./controllers/profileHandler";
 import { sendTaskUpdatesHandler } from "./controllers/taskUpdatesHandler";
 
 import config, { loadEnv } from "./../config/config";
+import { deleteGuildRoleHandler } from "./controllers/deleteGuildRoleHandler";
 
 const router = Router();
 
