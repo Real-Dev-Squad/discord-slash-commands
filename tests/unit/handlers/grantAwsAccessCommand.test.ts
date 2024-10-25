@@ -109,6 +109,5 @@ describe("ProcessAWSAccessRequest", () => {
 
     expect(fetchCalls[0]).toContain("/aws-access");
     expect(fetchCalls[1]).toContain("/channels/123456789/messages");
-
   });
 });
