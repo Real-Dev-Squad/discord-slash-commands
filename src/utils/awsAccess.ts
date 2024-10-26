@@ -4,19 +4,6 @@ import config from "../../config/config";
 import { discordTextResponse } from "./discordResponse";
 import { DISCORD_BASE_URL, AWS_IAM_SIGNIN_URL } from "../constants/urls";
 
-function sendDiscordMessage(content: string, channelId: number, env: env) {
-  return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bot ${env.DISCORD_TOKEN}`,
-    },
-    body: JSON.stringify({
-      content: `${content}`,
-    }),
-  });
-}
-
 export async function processAWSAccessRequest(
   discordUserId: string,
   awsGroupId: string,
@@ -47,18 +34,36 @@ export async function processAWSAccessRequest(
       body: JSON.stringify(requestData),
     });
 
+    let content = "";
     if (!response.ok) {
       const responseText = await response.text();
       const errorData = JSON.parse(responseText);
-      const content = `<@${discordUserId}> Error occurred while granting AWS access: ${errorData.error}`;
-      return sendDiscordMessage(content, channelId, env);
+      content = `<@${discordUserId}> Error occurred while granting AWS access: ${errorData.error}`;
     } else {
-      const content = `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`;
-      return sendDiscordMessage(content, channelId, env);
+      content = `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`;
     }
+    return await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${env.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify({
+        content: content,
+      }),
+    });
   } catch (err) {
     const content = `<@${discordUserId}> Error occurred while granting AWS access.`;
-    return sendDiscordMessage(content, channelId, env);
+    return await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bot ${env.DISCORD_TOKEN}`,
+      },
+      body: JSON.stringify({
+        content: content,
+      }),
+    });
   }
 }
 
