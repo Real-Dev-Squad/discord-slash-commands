@@ -27,6 +27,7 @@ export async function mentionEachUser(
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
   const dev = transformedArgument?.dev?.value || false;
   const showroles = transformedArgument?.showroles?.value || false;
+  // optional chaining here only because display message obj is optional argument
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
     roleId
@@ -50,6 +51,7 @@ export async function mentionEachUser(
     }
     return discordTextResponse(responseMessage);
   } else if (!dev || usersWithMatchingRole.length === 0) {
+  if (!dev || usersWithMatchingRole.length === 0) {
     const responseData = checkDisplayType({
       usersWithMatchingRole,
       msgToBeSent,
