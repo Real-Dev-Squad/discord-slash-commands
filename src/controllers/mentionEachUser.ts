@@ -16,6 +16,7 @@ export async function mentionEachUser(
     roleToBeTaggedObj: MentionEachUserOptions;
     displayMessageObj?: MentionEachUserOptions;
     channelId: number;
+    showroles?: DevFlag;
     dev?: DevFlag;
   },
   env: env,
@@ -25,7 +26,7 @@ export async function mentionEachUser(
   const roleId = transformedArgument.roleToBeTaggedObj.value;
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
   const dev = transformedArgument?.dev?.value || false;
-
+  const showroles = transformedArgument?.showroles?.value || false;
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
     roleId
@@ -36,8 +37,19 @@ export async function mentionEachUser(
     message: msgToBeSent,
     usersWithMatchingRole,
   };
-
-  if (!dev || usersWithMatchingRole.length === 0) {
+  if (transformedArgument.showroles?.value === true) {
+    let responseMessage = "";
+    if (usersWithMatchingRole.length === 0) {
+      responseMessage = `Sorry, no user found with <@&${roleId}> role.`;
+    } else if (usersWithMatchingRole.length === 1) {
+      // Mention the single user by ID
+      responseMessage = `The user with <@&${roleId}> role is ${payload.usersWithMatchingRole}.`;
+    } else {
+      // Mention multiple users by their IDs
+      responseMessage = `The users with <@&${roleId}> role are ${payload.usersWithMatchingRole}.`;
+    }
+    return discordTextResponse(responseMessage);
+  } else if (!dev || usersWithMatchingRole.length === 0) {
     const responseData = checkDisplayType({
       usersWithMatchingRole,
       msgToBeSent,
@@ -45,12 +57,17 @@ export async function mentionEachUser(
     });
     return discordTextResponse(responseData);
   } else {
-    let responseMessage = "";
-    if (usersWithMatchingRole.length === 1) {
-      responseMessage = `The user with <@&${roleId}> role is: ${payload.usersWithMatchingRole}`;
-    } else {
-      responseMessage = `The users with <@&${roleId}> role are: ${payload.usersWithMatchingRole} `;
-    }
-    return discordTextResponse(responseMessage);
+    // Regular dev flow to mention users
+    ctx.waitUntil(
+      mentionEachUserInMessage({
+        message: payload.message,
+        userIds: payload.usersWithMatchingRole,
+        channelId: payload.channelId,
+        env,
+      })
+    );
+    return discordTextResponse(
+      `Found ${usersWithMatchingRole.length} users with matched role, mentioning them shortly...`
+    );
   }
 }

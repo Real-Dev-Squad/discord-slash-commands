@@ -50,6 +50,12 @@ export const MENTION_EACH = {
       type: 5,
       require: false,
     },
+    {
+      name: "showroles",
+      description: "want to see extra details?",
+      type: 5,
+      require: false,
+    },
   ],
 };
 
