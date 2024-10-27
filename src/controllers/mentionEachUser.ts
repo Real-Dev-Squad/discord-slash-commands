@@ -16,7 +16,7 @@ export async function mentionEachUser(
     roleToBeTaggedObj: MentionEachUserOptions;
     displayMessageObj?: MentionEachUserOptions;
     channelId: number;
-    showroles?: DevFlag;
+    devtitle?: DevFlag;
     dev?: DevFlag;
   },
   env: env,
@@ -26,7 +26,7 @@ export async function mentionEachUser(
   const roleId = transformedArgument.roleToBeTaggedObj.value;
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
   const dev = transformedArgument?.dev?.value || false;
-  const showroles = transformedArgument?.showroles?.value || false;
+  const devtitle = transformedArgument?.devtitle?.value || false;
   // optional chaining here only because display message obj is optional argument
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
@@ -38,7 +38,8 @@ export async function mentionEachUser(
     message: msgToBeSent,
     usersWithMatchingRole,
   };
-  if (transformedArgument.showroles?.value === true) {
+
+  if (transformedArgument.devtitle?.value === true) {
     let responseMessage = "";
     if (usersWithMatchingRole.length === 0) {
       responseMessage = `Sorry, no user found with <@&${roleId}> role.`;
@@ -50,7 +51,9 @@ export async function mentionEachUser(
       responseMessage = `The users with <@&${roleId}> role are ${payload.usersWithMatchingRole}.`;
     }
     return discordTextResponse(responseMessage);
-  } else if (!dev || usersWithMatchingRole.length === 0) {
+  }
+
+  if (!dev || usersWithMatchingRole.length === 0) {
     const responseData = checkDisplayType({
       usersWithMatchingRole,
       msgToBeSent,
