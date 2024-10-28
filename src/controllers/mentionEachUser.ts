@@ -16,7 +16,7 @@ export async function mentionEachUser(
     roleToBeTaggedObj: MentionEachUserOptions;
     displayMessageObj?: MentionEachUserOptions;
     channelId: number;
-    devtitle?: DevFlag;
+    dev_title?: DevFlag;
     dev?: DevFlag;
   },
   env: env,
@@ -26,7 +26,7 @@ export async function mentionEachUser(
   const roleId = transformedArgument.roleToBeTaggedObj.value;
   const msgToBeSent = transformedArgument?.displayMessageObj?.value;
   const dev = transformedArgument?.dev?.value || false;
-  const devtitle = transformedArgument?.devtitle?.value || false;
+  const devtitle = transformedArgument?.dev_title?.value || false;
   // optional chaining here only because display message obj is optional argument
   const usersWithMatchingRole = filterUserByRoles(
     getMembersInServerResponse as UserArray[],
@@ -39,7 +39,7 @@ export async function mentionEachUser(
     usersWithMatchingRole,
   };
 
-  if (transformedArgument.devtitle?.value === true) {
+  if (transformedArgument.dev_title?.value === true) {
     let responseMessage = "";
     if (usersWithMatchingRole.length === 0) {
       responseMessage = `Sorry, no user found with <@&${roleId}> role.`;
