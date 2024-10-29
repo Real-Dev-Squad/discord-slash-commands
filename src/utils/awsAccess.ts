@@ -42,7 +42,7 @@ export async function processAWSAccessRequest(
     } else {
       content = `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`;
     }
-    return await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export async function processAWSAccessRequest(
     });
   } catch (err) {
     const content = `<@${discordUserId}> Error occurred while granting AWS access.`;
-    return await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
