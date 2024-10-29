@@ -9,7 +9,7 @@ export async function processAWSAccessRequest(
   awsGroupId: string,
   env: env,
   channelId: number
-) {
+) : Promise<void> {
   const authToken = await jwt.sign(
     { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 2 },
     env.BOT_PRIVATE_KEY,
@@ -42,7 +42,7 @@ export async function processAWSAccessRequest(
     } else {
       content = `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`;
     }
-    return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export async function processAWSAccessRequest(
     });
   } catch (err) {
     const content = `<@${discordUserId}> Error occurred while granting AWS access.`;
-    return fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
