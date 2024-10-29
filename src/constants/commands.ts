@@ -48,16 +48,8 @@ export const GRANT_AWS_ACCESS = {
       required: true,
       choices: [
         {
-          name: "S3 read only access",
-          value: process.env.S3_READ_ONLY_ACCESS_AWS_GROUP_ID,
-        },
-        {
-          name: "EC2 deployment access",
-          value: process.env.EC2_DEPLOYMENT_ACCESS_AWS_GROUP_ID,
-        },
-        {
-          name: "DDB read only access",
-          value: process.env.DDB_READ_ONLY_ACCESS_AWS_GROUP_ID,
+          name: "AWS read access",
+          value: process.env.AWS_read_access_group_id,
         },
       ],
     },
