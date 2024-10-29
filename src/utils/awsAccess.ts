@@ -9,7 +9,7 @@ export async function processAWSAccessRequest(
   awsGroupId: string,
   env: env,
   channelId: number
-) : Promise<void> {
+): Promise<void> {
   const authToken = await jwt.sign(
     { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 2 },
     env.BOT_PRIVATE_KEY,
