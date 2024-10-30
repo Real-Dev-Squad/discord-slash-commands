@@ -57,7 +57,6 @@ export async function mentionEachUser(
     const responseData = checkDisplayType({
       usersWithMatchingRole,
       msgToBeSent,
-      roleId,
     });
     return discordTextResponse(responseData);
   } else {
