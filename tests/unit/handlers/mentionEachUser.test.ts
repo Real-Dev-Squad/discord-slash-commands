@@ -1,6 +1,7 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
 import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
+import { testDataWithDevTitle } from "../../../tests/fixtures/fixture";
 import {
   onlyRoleToBeTagged,
   transformedArgument,
@@ -167,35 +168,17 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-    const roleId = "860900892193456149";
 
-    // Create the test data with exactly one user
-    const testData = {
-      channelId: 123,
-      roleToBeTaggedObj: {
-        name: "role",
-        type: 4,
-        value: roleId,
-      },
-      dev_title: {
-        name: "dev_title",
-        type: 4,
-        value: true,
-      },
-    };
-
-    const response = mentionEachUser(testData, env, ctx);
+    const response = mentionEachUser(testDataWithDevTitle, env, ctx);
     expect(response).toBeInstanceOf(Promise);
 
     const textMessage: { data: { content: string } } = await response.then(
       (res) => res.json()
     );
 
-    // Since we can't mock getMembersInServer, both these messages are valid
-    // depending on whether users are found or not
     expect([
-      `The user with <@&${roleId}> role is <@282859044593598464>.`,
-      `Sorry, no user found with <@&${roleId}> role.`,
+      `The user with <@&${testDataWithDevTitle.roleToBeTaggedObj.value}> role is <@282859044593598464>.`,
+      `Sorry, no user found with <@&${testDataWithDevTitle.roleToBeTaggedObj.value}> role.`,
     ]).toContain(textMessage.data.content);
   });
 });
