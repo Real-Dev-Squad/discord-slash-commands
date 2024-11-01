@@ -2,6 +2,7 @@ import { env } from "../typeDefinitions/default.types";
 import jwt from "@tsndr/cloudflare-worker-jwt";
 import { DISCORD_AVATAR_BASE_URL } from "../constants/urls";
 import config from "../../config/config";
+import { generateDiscordAuthToken } from "./authTokenGenerator";
 
 export const sendUserDiscordData = async (
   token: string,
@@ -12,10 +13,11 @@ export const sendUserDiscordData = async (
   discordJoinedAt: string,
   env: env
 ) => {
-  const authToken = await jwt.sign(
-    { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 2 },
+  const authToken = await generateDiscordAuthToken(
+    "Cloudflare Worker",
+    Math.floor(Date.now() / 1000) + 2,
     env.BOT_PRIVATE_KEY,
-    { algorithm: "RS256" }
+    "RS256"
   );
   const data = {
     type: "discord",

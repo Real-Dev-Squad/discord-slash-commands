@@ -3,6 +3,7 @@ import { env } from "../typeDefinitions/default.types";
 import config from "../../config/config";
 import { discordTextResponse } from "./discordResponse";
 import { DISCORD_BASE_URL, AWS_IAM_SIGNIN_URL } from "../constants/urls";
+import { generateDiscordAuthToken } from "./authTokenGenerator";
 
 export async function processAWSAccessRequest(
   discordUserId: string,
@@ -10,22 +11,23 @@ export async function processAWSAccessRequest(
   env: env,
   channelId: number
 ): Promise<void> {
-  const authToken = await jwt.sign(
-    { name: "Cloudflare Worker", exp: Math.floor(Date.now() / 1000) + 2 },
+  const authToken = await generateDiscordAuthToken(
+    "Cloudflare Worker",
+    Math.floor(Date.now() / 1000) + 2,
     env.BOT_PRIVATE_KEY,
-    { algorithm: "RS256" }
+    "RS256"
   );
+  const discordReplyUrl = `${DISCORD_BASE_URL}/channels/${channelId}/messages`;
+  const base_url = config(env).RDS_BASE_API_URL;
+  const grantAWSAccessAPIUrl = `${base_url}/aws-access`;
 
   try {
-    const base_url = config(env).RDS_BASE_API_URL;
     const requestData = {
       groupId: awsGroupId,
       userId: discordUserId,
     };
 
-    const url = `${base_url}/aws-access`;
-
-    const response = await fetch(url, {
+    const response = await fetch(grantAWSAccessAPIUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +44,7 @@ export async function processAWSAccessRequest(
     } else {
       content = `AWS access granted successfully <@${discordUserId}>! Please head over to AWS - ${AWS_IAM_SIGNIN_URL}.`;
     }
-    await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    await fetch(discordReplyUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +56,7 @@ export async function processAWSAccessRequest(
     });
   } catch (err) {
     const content = `<@${discordUserId}> Error occurred while granting AWS access.`;
-    await fetch(`${DISCORD_BASE_URL}/channels/${channelId}/messages`, {
+    await fetch(discordReplyUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
