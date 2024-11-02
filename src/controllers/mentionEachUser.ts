@@ -44,10 +44,8 @@ export async function mentionEachUser(
     if (usersWithMatchingRole.length === 0) {
       responseMessage = `Sorry, no user found with <@&${roleId}> role.`;
     } else if (usersWithMatchingRole.length === 1) {
-      // Mention the single user by ID
       responseMessage = `The user with <@&${roleId}> role is ${payload.usersWithMatchingRole}.`;
     } else {
-      // Mention multiple users by their IDs
       responseMessage = `The users with <@&${roleId}> role are ${payload.usersWithMatchingRole}.`;
     }
     return discordTextResponse(responseMessage);
@@ -60,7 +58,6 @@ export async function mentionEachUser(
     });
     return discordTextResponse(responseData);
   } else {
-    // Regular dev flow to mention users
     ctx.waitUntil(
       mentionEachUserInMessage({
         message: payload.message,
