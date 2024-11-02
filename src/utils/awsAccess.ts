@@ -27,6 +27,13 @@ export async function processAWSAccessRequest(
       userId: discordUserId,
     };
 
+    /**
+     * Grant AWS access is the API in website backend,
+     * which takes the discordId and AWS groupId, it fetches the
+     * user based on the discordId, checks if the user is part of AWS account
+     * if not creates a new user and adds user to the AWS group.
+     */
+
     const response = await fetch(grantAWSAccessAPIUrl, {
       method: "POST",
       headers: {
