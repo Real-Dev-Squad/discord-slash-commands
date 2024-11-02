@@ -15,7 +15,8 @@
     "format-fix": "prettier --write .",
     "fix": "npm run lint-fix && npm run format-fix",
     "ngrok": "ngrok http 8787",
-    "register": "ts-node-esm src/register.ts"
+    "register": "ts-node-esm src/register.ts",
+    "env-var-check": "ts-node-esm config/envVarCheck.ts"
   },
   "keywords": [],
   "author": "",

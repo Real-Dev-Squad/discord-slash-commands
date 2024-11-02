@@ -22,7 +22,7 @@ import { generateInviteLink } from "./controllers/generateDiscordInvite";
 import { sendProfileBlockedMessage } from "./controllers/profileHandler";
 import { sendTaskUpdatesHandler } from "./controllers/taskUpdatesHandler";
 
-import config from "./../config/config";
+import config, { loadEnv } from "./../config/config";
 
 const router = Router();
 
@@ -107,10 +107,12 @@ export default {
         return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
       }
     }
-    return router.handle(request, env, ctx);
+    const envLoadedFromWorker: env = loadEnv(env, true);
+    return router.handle(request, envLoadedFromWorker, ctx);
   },
 
   async scheduled(req: Request, env: env, ctx: ExecutionContext) {
-    ctx.waitUntil(send(env));
+    const envLoadedFromWorker: env = loadEnv(env, true);
+    ctx.waitUntil(send(envLoadedFromWorker));
   },
 };
