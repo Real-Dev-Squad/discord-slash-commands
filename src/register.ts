@@ -57,10 +57,10 @@ async function registerGuildCommands(
   }
 }
 
-const envLoadedFromProcess = loadEnv({}, false);
+const env = loadEnv({}, false);
 
 registerGuildCommands(
-  envLoadedFromProcess.DISCORD_TOKEN,
-  envLoadedFromProcess.DISCORD_APPLICATION_ID,
-  envLoadedFromProcess.DISCORD_GUILD_ID
+  env.DISCORD_TOKEN,
+  env.DISCORD_APPLICATION_ID,
+  env.DISCORD_GUILD_ID
 );
