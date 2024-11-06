@@ -8,9 +8,7 @@ import { loadEnv } from "./config";
  */
 export function validateEnv() {
   const env: env = loadEnv({}, false);
-  const missingEnvVariables = Object.keys(env).filter(
-    (key) => env[key] == ""
-  );
+  const missingEnvVariables = Object.keys(env).filter((key) => env[key] == "");
 
   if (missingEnvVariables.length > 0) {
     throw new Error(
