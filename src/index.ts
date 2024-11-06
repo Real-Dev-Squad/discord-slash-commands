@@ -107,12 +107,12 @@ export default {
         return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
       }
     }
-    const envLoadedFromWorker: env = loadEnv(env, true);
-    return router.handle(request, envLoadedFromWorker, ctx);
+    const env: env = loadEnv(env, true);
+    return router.handle(request, env, ctx);
   },
 
   async scheduled(req: Request, env: env, ctx: ExecutionContext) {
-    const envLoadedFromWorker: env = loadEnv(env, true);
-    ctx.waitUntil(send(envLoadedFromWorker));
+    const env: env = loadEnv(env, true);
+    ctx.waitUntil(send(env));
   },
 };
