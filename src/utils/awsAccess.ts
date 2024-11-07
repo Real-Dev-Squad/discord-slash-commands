@@ -19,7 +19,7 @@ export async function processAWSAccessRequest(
   );
   const discordReplyUrl = `${DISCORD_BASE_URL}/channels/${channelId}/messages`;
   const base_url = config(env).RDS_BASE_API_URL;
-  const grantAWSAccessAPIUrl = `${base_url}/aws-access`;
+  const grantAWSAccessAPIUrl = `${base_url}/aws-access?dev=true`;
 
   try {
     const requestData = {
