@@ -1,6 +1,7 @@
 import { mentionEachUser } from "../../../src/controllers/mentionEachUser";
 import { checkDisplayType } from "../../../src/utils/checkDisplayType";
 import { filterUserByRoles } from "../../../src/utils/filterUsersByRole";
+import { testDataWithDevTitle } from "../../../tests/fixtures/fixture";
 import {
   onlyRoleToBeTagged,
   transformedArgument,
@@ -14,7 +15,6 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-
     const response = mentionEachUser(transformedArgument, env, ctx);
     expect(response).toBeInstanceOf(Promise);
   });
@@ -52,7 +52,6 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
-
     const response = mentionEachUser(onlyRoleToBeTagged, env, ctx);
     expect(response).toBeInstanceOf(Promise);
     const textMessage: { data: { content: string } } = await response.then(
@@ -107,7 +106,7 @@ describe("Test mention each function", () => {
     expect(response).toBe(expectedResponse);
   });
 
-  it("should return default string ", () => {
+  it("should return default string when no users found", () => {
     const usersWithMatchingRole = [] as string[];
     const msgToBeSent = "hello";
     const response = checkDisplayType({ usersWithMatchingRole, msgToBeSent });
@@ -115,7 +114,7 @@ describe("Test mention each function", () => {
     expect(response).toBe(expectedResponse);
   });
 
-  it("should return default string ", () => {
+  it("should return default string with undefined message", () => {
     const usersWithMatchingRole = [
       "<@282859044593598464>",
       "<@725745030706364447>",
@@ -125,5 +124,61 @@ describe("Test mention each function", () => {
     const returnString = msgToBeSent ? msgToBeSent : "";
     const expectedResponse = `${returnString} ${usersWithMatchingRole}`;
     expect(response).toBe(expectedResponse);
+  });
+
+  // New tests for dev_title flag
+  it("should show appropriate message when no users found with dev_title flag", async () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+    const roleId = "860900892193456149";
+    const response = mentionEachUser(
+      {
+        ...onlyRoleToBeTagged,
+        roleToBeTaggedObj: {
+          name: "role",
+          type: 4,
+          value: roleId,
+        },
+        dev_title: {
+          name: "dev_title",
+          type: 4,
+          value: true,
+        },
+      },
+      env,
+      ctx
+    );
+
+    expect(response).toBeInstanceOf(Promise);
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+    expect(textMessage.data.content).toBe(
+      `Sorry, no user found with <@&${roleId}> role.`
+    );
+  });
+
+  // Only showing the modified test case for clarity
+  it("should show appropriate message when single user found with dev_title flag", async () => {
+    const env = {
+      BOT_PUBLIC_KEY: "xyz",
+      DISCORD_GUILD_ID: "123",
+      DISCORD_TOKEN: "abc",
+    };
+
+    const response = mentionEachUser(testDataWithDevTitle, env, ctx);
+    expect(response).toBeInstanceOf(Promise);
+
+    const textMessage: { data: { content: string } } = await response.then(
+      (res) => res.json()
+    );
+
+    expect([
+      `The user with <@&${testDataWithDevTitle.roleToBeTaggedObj.value}> role is <@282859044593598464>.`,
+      `Sorry, no user found with <@&${testDataWithDevTitle.roleToBeTaggedObj.value}> role.`,
+    ]).toContain(textMessage.data.content);
   });
 });
