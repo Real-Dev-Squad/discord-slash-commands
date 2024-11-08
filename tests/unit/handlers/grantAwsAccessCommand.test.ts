@@ -59,7 +59,7 @@ describe("ProcessAWSAccessRequest", () => {
     const fetchCalls: string[] = [];
     fetchSpy.mockImplementation((url, options) => {
       fetchCalls.push(`Fetch call to: ${url}`);
-      if (url.includes("/aws-access")) {
+      if (url.includes("/aws/groups/access")) {
         return Promise.resolve({ ok: true } as Response);
       } else if (url.includes("/channels/123456789/messages")) {
         return Promise.resolve({ ok: true } as Response);
@@ -77,7 +77,7 @@ describe("ProcessAWSAccessRequest", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     expect(fetchCalls).toHaveLength(2);
 
-    expect(fetchCalls[0]).toContain("/aws-access");
+    expect(fetchCalls[0]).toContain("/aws/groups/access");
     expect(fetchCalls[1]).toContain("/channels/123456789/messages");
   });
 
@@ -85,7 +85,7 @@ describe("ProcessAWSAccessRequest", () => {
     const fetchCalls: string[] = [];
     fetchSpy.mockImplementation((url, options) => {
       fetchCalls.push(`Fetch call to: ${url}`);
-      if (url.includes("/aws-access")) {
+      if (url.includes("/aws/groups/access")) {
         return Promise.resolve({
           ok: false,
           status: 500,
@@ -107,7 +107,7 @@ describe("ProcessAWSAccessRequest", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     expect(fetchCalls).toHaveLength(2);
 
-    expect(fetchCalls[0]).toContain("/aws-access");
+    expect(fetchCalls[0]).toContain("/aws/groups/access");
     expect(fetchCalls[1]).toContain("/channels/123456789/messages");
   });
 });
