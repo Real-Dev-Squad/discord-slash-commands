@@ -14,7 +14,7 @@ describe("deleteGuildRoleHandler", () => {
   const roleId = "1A32BEX04";
   it("should return NOT_FOUND when dev is false", async () => {
     const mockRequest = generateDummyRequestObject({
-      url: "/guildroles",
+      url: "/roles",
       params: {
         roleId: roleId,
       },
@@ -29,7 +29,7 @@ describe("deleteGuildRoleHandler", () => {
   });
   it("should return BAD_REQUEST when roleId is not valid", async () => {
     const mockRequest = generateDummyRequestObject({
-      url: "/guildroles",
+      url: "/roles",
       params: {
         roleId: "",
       },
@@ -45,7 +45,7 @@ describe("deleteGuildRoleHandler", () => {
   });
   it("should return BAD_SIGNATURE when authorization header is not provided", async () => {
     const mockRequest = generateDummyRequestObject({
-      url: "/guildroles",
+      url: "/roles",
       params: {
         roleId: roleId,
       },
@@ -61,7 +61,7 @@ describe("deleteGuildRoleHandler", () => {
   it("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
     const mockResponse = responseConstants.INTERNAL_SERVER_ERROR;
     const mockRequest = generateDummyRequestObject({
-      url: "/guildroles",
+      url: "/roles",
       params: {
         roleId: roleId,
       },
@@ -81,7 +81,7 @@ describe("deleteGuildRoleHandler", () => {
   it("should return INTERNAL_SERVER_ERROR when token is not verified", async () => {
     const mockResponse = responseConstants.INTERNAL_SERVER_ERROR;
     const mockRequest = generateDummyRequestObject({
-      url: "/guildroles",
+      url: "/roles",
       method: "DELETE",
       params: {
         roleId: roleId,
@@ -103,7 +103,7 @@ describe("deleteGuildRoleHandler", () => {
       status: 204,
     });
     const mockRequest = generateDummyRequestObject({
-      url: "/guildroles",
+      url: "/roles",
       method: "DELETE",
       params: {
         roleId: roleId,

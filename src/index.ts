@@ -35,7 +35,7 @@ router.get("/", async () => {
 
 router.patch("/guild/member", changeNickname);
 
-router.delete("/guildroles/:roleId", deleteGuildRoleHandler);
+router.delete("/roles/:roleId", deleteGuildRoleHandler);
 
 router.put("/roles/create", createGuildRoleHandler);
 
