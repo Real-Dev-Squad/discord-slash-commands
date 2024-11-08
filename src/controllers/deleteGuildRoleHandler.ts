@@ -10,7 +10,7 @@ export async function deleteGuildRoleHandler(request: IRequest, env: env) {
   const reason = request.headers.get("X-Audit-Log-Reason");
   const roleId = decodeURI(request.params?.roleId ?? "");
   const { dev } = request.query;
-  const devFlag = dev === "true" ? true : false;
+  const devFlag = dev === "true";
 
   if (!devFlag) {
     return new JSONResponse(response.NOT_FOUND, { status: 404 });
