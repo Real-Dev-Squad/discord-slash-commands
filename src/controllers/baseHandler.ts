@@ -75,6 +75,9 @@ export async function baseHandler(
         displayMessageObj: data.find((item) => item.name === "message"),
         channelId: message.channel_id,
         dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
+        dev_title: data.find(
+          (item) => item.name === "dev_title"
+        ) as unknown as DevFlag,
       };
       return await mentionEachUser(transformedArgument, env, ctx);
     }

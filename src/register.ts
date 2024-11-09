@@ -14,6 +14,7 @@ import {
 import { config } from "dotenv";
 import { DISCORD_BASE_URL } from "./constants/urls";
 import { registerCommands } from "./utils/registerCommands";
+import { loadEnv } from "../config/config";
 
 config();
 
@@ -56,8 +57,10 @@ async function registerGuildCommands(
   }
 }
 
+const env = loadEnv({}, false);
+
 registerGuildCommands(
-  process.env.DISCORD_TOKEN,
-  process.env.DISCORD_APPLICATION_ID,
-  process.env.DISCORD_GUILD_ID
+  env.DISCORD_TOKEN,
+  env.DISCORD_APPLICATION_ID,
+  env.DISCORD_GUILD_ID
 );
