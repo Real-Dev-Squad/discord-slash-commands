@@ -37,18 +37,18 @@ describe("deleteGuildRole", () => {
   });
 
   it("should return ROLE_REMOVED when response is ok", async () => {
-    const mockResponse = new Response(null, {
+    const expectedResponse = new Response(null, {
       status: 204,
     });
-    jest.spyOn(global, "fetch").mockResolvedValue(mockResponse);
+    jest.spyOn(global, "fetch").mockResolvedValue(expectedResponse);
     const result = await deleteGuildRole(guildEnv, roleId);
     expect(result).toEqual(response.ROLE_REMOVED);
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 
   it("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-    const mockErrorResponse = new Response(response.INTERNAL_SERVER_ERROR);
-    jest.spyOn(global, "fetch").mockRejectedValue(mockErrorResponse);
+    const expectedErrorResponse = new Response(response.INTERNAL_SERVER_ERROR);
+    jest.spyOn(global, "fetch").mockRejectedValue(expectedErrorResponse);
     const result = await deleteGuildRole(guildEnv, roleId);
     expect(result).toEqual(response.INTERNAL_SERVER_ERROR);
     expect(global.fetch).toHaveBeenCalledTimes(1);

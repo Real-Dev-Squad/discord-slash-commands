@@ -59,7 +59,7 @@ describe("deleteGuildRoleHandler", () => {
     expect(jsonResponse).toEqual(responseConstants.BAD_SIGNATURE);
   });
   it("should return INTERNAL_SERVER_ERROR when response is not ok", async () => {
-    const mockResponse = responseConstants.INTERNAL_SERVER_ERROR;
+    const expectedResponse = responseConstants.INTERNAL_SERVER_ERROR;
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
       params: {
@@ -73,13 +73,13 @@ describe("deleteGuildRoleHandler", () => {
     });
     jest
       .spyOn(deleteGuildRoleUtils, "deleteGuildRole")
-      .mockResolvedValue(mockResponse);
+      .mockResolvedValue(expectedResponse);
     const response = await deleteGuildRoleHandler(mockRequest, guildEnv);
     const jsonResponse = await response.json();
-    expect(jsonResponse).toEqual(mockResponse);
+    expect(jsonResponse).toEqual(expectedResponse);
   });
   it("should return INTERNAL_SERVER_ERROR when token is not verified", async () => {
-    const mockResponse = responseConstants.INTERNAL_SERVER_ERROR;
+    const expectedResponse = responseConstants.INTERNAL_SERVER_ERROR;
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
       method: "DELETE",
@@ -93,13 +93,13 @@ describe("deleteGuildRoleHandler", () => {
     });
     jest
       .spyOn(verifyTokenUtils, "verifyNodejsBackendAuthToken")
-      .mockRejectedValue(mockResponse);
+      .mockRejectedValue(expectedResponse);
     const response = await deleteGuildRoleHandler(mockRequest, guildEnv);
     const jsonResponse = await response.json();
-    expect(jsonResponse).toEqual(mockResponse);
+    expect(jsonResponse).toEqual(expectedResponse);
   });
   it("should return ok response", async () => {
-    const mockResponse = new Response(null, {
+    const expectedResponse = new Response(null, {
       status: 204,
     });
     const mockRequest = generateDummyRequestObject({
@@ -122,7 +122,7 @@ describe("deleteGuildRoleHandler", () => {
     const response = await deleteGuildRoleHandler(mockRequest, guildEnv);
     expect(verifyTokenSpy).toHaveBeenCalledTimes(1);
     expect(deleteGuildRoleSpy).toHaveBeenCalledTimes(1);
-    expect(response).toEqual(mockResponse);
-    expect(response.status).toEqual(mockResponse.status);
+    expect(response).toEqual(expectedResponse);
+    expect(response.status).toEqual(expectedResponse.status);
   });
 });
