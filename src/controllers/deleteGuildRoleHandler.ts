@@ -12,13 +12,14 @@ export async function deleteGuildRoleHandler(request: IRequest, env: env) {
   const { dev } = request.query;
   const devFlag = dev === "true";
 
-  if (!devFlag) {
-    return new JSONResponse(response.NOT_FOUND, { status: 404 });
-  }
-
   if (!authHeader) {
     return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
   }
+
+  if (!devFlag) {
+    return new JSONResponse(response.NOT_IMPLEMENTED, { status: 501 });
+  }
+
   if (!roleId) {
     return new JSONResponse(response.BAD_REQUEST, { status: 400 });
   }

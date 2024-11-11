@@ -12,7 +12,7 @@ describe("deleteGuildRoleHandler", () => {
     jest.clearAllMocks();
   });
   const roleId = "1A32BEX04";
-  it("should return NOT_FOUND when dev is false", async () => {
+  it("should return NOT_IMPLEMENTED when dev is false", async () => {
     const mockRequest = generateDummyRequestObject({
       url: "/roles",
       params: {
@@ -22,10 +22,11 @@ describe("deleteGuildRoleHandler", () => {
         dev: "false",
       },
       method: "DELETE",
+      headers: { Authorization: "Bearer testtoken" },
     });
     const response = await deleteGuildRoleHandler(mockRequest, guildEnv);
     const jsonResponse = await response.json();
-    expect(jsonResponse).toEqual(responseConstants.NOT_FOUND);
+    expect(jsonResponse).toEqual(responseConstants.NOT_IMPLEMENTED);
   });
   it("should return BAD_REQUEST when roleId is not valid", async () => {
     const mockRequest = generateDummyRequestObject({
