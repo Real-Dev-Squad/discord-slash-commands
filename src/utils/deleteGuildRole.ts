@@ -24,6 +24,7 @@ export async function deleteGuildRole(
       return INTERNAL_SERVER_ERROR;
     }
   } catch (err) {
+    console.error("An error occurred while deleting discord role:", err);
     return INTERNAL_SERVER_ERROR;
   }
 }

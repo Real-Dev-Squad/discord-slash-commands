@@ -35,6 +35,7 @@ export async function deleteGuildRoleHandler(request: IRequest, env: env) {
       });
     }
   } catch (err) {
+    console.error("An error occurred while deleting discord role:", err);
     return new JSONResponse(response.INTERNAL_SERVER_ERROR, {
       status: 500,
     });
