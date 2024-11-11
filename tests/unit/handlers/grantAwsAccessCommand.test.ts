@@ -4,7 +4,6 @@ import {
 } from "../../../src/utils/awsAccess";
 import { discordTextResponse } from "../../../src/utils/discordResponse";
 import jwt from "@tsndr/cloudflare-worker-jwt";
-import { AWS_IAM_SIGNIN_URL } from "../../../src/constants/urls";
 
 jest.mock("node-fetch");
 jest.mock("@tsndr/cloudflare-worker-jwt");
