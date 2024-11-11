@@ -1,7 +1,3 @@
-import { config } from "dotenv";
-
-config();
-
 export const HELLO = {
   name: "hello",
   description: "Replies with hello in the channel",
@@ -49,7 +45,7 @@ export const GRANT_AWS_ACCESS = {
       choices: [
         {
           name: "AWS read access",
-          value: process.env.AWS_read_access_group_id,
+          value: process.env.AWS_READ_ACCESS_GROUP_ID,
         },
       ],
     },

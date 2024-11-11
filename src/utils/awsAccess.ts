@@ -83,7 +83,7 @@ export async function grantAWSAccess(
   ctx: ExecutionContext,
   channelId: number
 ) {
-  // Immediately send a Discord response to acknowledge the command
+  // Immediately send a Discord response to acknowledge the command, as the cloudfare workers have a limit of response time equals to 3s
   const initialResponse = discordTextResponse(
     `<@${discordUserId}> Processing your request to grant AWS access.`
   );
