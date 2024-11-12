@@ -23,6 +23,7 @@ import { sendProfileBlockedMessage } from "./controllers/profileHandler";
 import { sendTaskUpdatesHandler } from "./controllers/taskUpdatesHandler";
 
 import config, { loadEnv } from "./../config/config";
+import { deleteGuildRoleHandler } from "./controllers/deleteGuildRoleHandler";
 
 const router = Router();
 
@@ -33,6 +34,8 @@ router.get("/", async () => {
 });
 
 router.patch("/guild/member", changeNickname);
+
+router.delete("/roles/:roleId", deleteGuildRoleHandler);
 
 router.put("/roles/create", createGuildRoleHandler);
 
