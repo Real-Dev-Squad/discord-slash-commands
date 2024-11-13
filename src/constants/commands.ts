@@ -1,3 +1,7 @@
+import { config } from "dotenv";
+
+config();
+
 export const HELLO = {
   name: "hello",
   description: "Replies with hello in the channel",
@@ -53,7 +57,7 @@ export const GRANT_AWS_ACCESS = {
       name: "dev",
       description: "Feature flag",
       type: 5,
-      require: false,
+      required: false,
     },
   ],
 };
