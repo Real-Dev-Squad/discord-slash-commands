@@ -91,6 +91,7 @@ export async function baseHandler(
         userDetails: data[0],
         awsGroupDetails: data[1],
         channelId: message.channel_id,
+        dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
       };
 
       return await grantAWSAccessCommand(transformedArgument, env, ctx);
