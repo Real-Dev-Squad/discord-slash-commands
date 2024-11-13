@@ -57,7 +57,7 @@ export const GRANT_AWS_ACCESS = {
       name: "dev",
       description: "Feature flag",
       type: 5,
-      required: false,
+      required: true,
     },
   ],
 };
