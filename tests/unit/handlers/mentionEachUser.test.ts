@@ -25,6 +25,7 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
+    const roleId = "1118201414078976192";
     const response = mentionEachUser(
       {
         ...onlyRoleToBeTagged,
@@ -42,7 +43,7 @@ describe("Test mention each function", () => {
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Sorry no user found under this role."
+      `Sorry, no user found with <@&${roleId}> role.`
     );
   });
 
@@ -52,13 +53,14 @@ describe("Test mention each function", () => {
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
+    const roleId = "1118201414078976192";
     const response = mentionEachUser(onlyRoleToBeTagged, env, ctx);
     expect(response).toBeInstanceOf(Promise);
     const textMessage: { data: { content: string } } = await response.then(
       (res) => res.json()
     );
     expect(textMessage.data.content).toBe(
-      "Sorry no user found under this role."
+      `Sorry, no user found with <@&${roleId}> role.`
     );
   });
 
@@ -126,8 +128,7 @@ describe("Test mention each function", () => {
     expect(response).toBe(expectedResponse);
   });
 
-  // New tests for dev_title flag
-  it("should show appropriate message when no users found with dev_title flag", async () => {
+  it("should show appropriate message when no users found", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",
       DISCORD_GUILD_ID: "123",
@@ -141,11 +142,6 @@ describe("Test mention each function", () => {
           name: "role",
           type: 4,
           value: roleId,
-        },
-        dev_title: {
-          name: "dev_title",
-          type: 4,
-          value: true,
         },
       },
       env,
@@ -161,15 +157,23 @@ describe("Test mention each function", () => {
     );
   });
 
-  // Only showing the modified test case for clarity
-  it("should show appropriate message when single user found with dev_title flag", async () => {
+  it("should show appropriate message when single user found", async () => {
     const env = {
       BOT_PUBLIC_KEY: "xyz",
       DISCORD_GUILD_ID: "123",
       DISCORD_TOKEN: "abc",
     };
 
-    const response = mentionEachUser(testDataWithDevTitle, env, ctx);
+    const testData = {
+      ...onlyRoleToBeTagged,
+      roleToBeTaggedObj: {
+        name: "role",
+        type: 4,
+        value: "860900892193456149",
+      },
+    };
+
+    const response = mentionEachUser(testData, env, ctx);
     expect(response).toBeInstanceOf(Promise);
 
     const textMessage: { data: { content: string } } = await response.then(
@@ -177,8 +181,8 @@ describe("Test mention each function", () => {
     );
 
     expect([
-      `The user with <@&${testDataWithDevTitle.roleToBeTaggedObj.value}> role is <@282859044593598464>.`,
-      `Sorry, no user found with <@&${testDataWithDevTitle.roleToBeTaggedObj.value}> role.`,
+      `The user with <@&${testData.roleToBeTaggedObj.value}> role is <@282859044593598464>.`,
+      `Sorry, no user found with <@&${testData.roleToBeTaggedObj.value}> role.`,
     ]).toContain(textMessage.data.content);
   });
 });

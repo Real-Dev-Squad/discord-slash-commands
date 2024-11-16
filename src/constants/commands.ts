@@ -50,12 +50,6 @@ export const MENTION_EACH = {
       type: 5,
       require: false,
     },
-    {
-      name: "dev_title",
-      description: "want to see extra details?",
-      type: 5,
-      require: false,
-    },
   ],
 };
 
