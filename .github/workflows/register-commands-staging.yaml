@@ -25,6 +25,7 @@ jobs:
           RDS_SERVERLESS_PUBLIC_KEY: ${{secrets.RDS_SERVERLESS_PUBLIC_KEY}}
           CRON_JOBS_PUBLIC_KEY: ${{secrets.CRON_JOBS_PUBLIC_KEY}}
           IDENTITY_SERVICE_PUBLIC_KEY: ${{secrets.IDENTITY_SERVICE_PUBLIC_KEY}}
+          AWS_READ_ACCESS_GROUP_ID: ${{secrets.AWS_READ_ACCESS_GROUP_ID}}
 
   Register-Commands:
     needs: [Environment-Variables-Check]
@@ -62,6 +63,7 @@ jobs:
             RDS_SERVERLESS_PUBLIC_KEY
             CRON_JOBS_PUBLIC_KEY
             IDENTITY_SERVICE_PUBLIC_KEY
+            AWS_READ_ACCESS_GROUP_ID
         env:
           CURRENT_ENVIRONMENT: staging
           CLOUDFLARE_API_TOKEN: ${{secrets.CLOUDFLARE_API_TOKEN}}
@@ -72,3 +74,4 @@ jobs:
           RDS_SERVERLESS_PUBLIC_KEY: ${{secrets.RDS_SERVERLESS_PUBLIC_KEY}}
           CRON_JOBS_PUBLIC_KEY: ${{secrets.CRON_JOBS_PUBLIC_KEY}}
           IDENTITY_SERVICE_PUBLIC_KEY: ${{secrets.IDENTITY_SERVICE_PUBLIC_KEY}}
+          AWS_READ_ACCESS_GROUP_ID: ${{secrets.AWS_READ_ACCESS_GROUP_ID}}
