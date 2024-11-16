@@ -42,6 +42,7 @@ jobs:
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
           DISCORD_APPLICATION_ID: ${{secrets.DISCORD_APPLICATION_ID}}
           DISCORD_GUILD_ID: ${{secrets.DISCORD_GUILD_ID}}
+          AWS_READ_ACCESS_GROUP_ID: ${{secrets.AWS_READ_ACCESS_GROUP_ID}}
   Deploy-to-Cloudflare:
     needs: [Register-Commands]
     runs-on: ubuntu-latest
