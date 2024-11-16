@@ -29,6 +29,7 @@ import {
   USER,
   REMOVE,
   GROUP_INVITE,
+  GRANT_AWS_ACCESS,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -44,6 +45,7 @@ import {
 import { DevFlag } from "../typeDefinitions/filterUsersByRole";
 import { kickEachUser } from "./kickEachUser";
 import { groupInvite } from "./groupInvite";
+import { grantAWSAccessCommand } from "./grantAWSAccessCommand";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -80,6 +82,19 @@ export async function baseHandler(
         ) as unknown as DevFlag,
       };
       return await mentionEachUser(transformedArgument, env, ctx);
+    }
+
+    case getCommandName(GRANT_AWS_ACCESS): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      const transformedArgument = {
+        member: message.member,
+        userDetails: data[0],
+        awsGroupDetails: data[1],
+        channelId: message.channel_id,
+        dev: data.find((item) => item.name === "dev") as unknown as DevFlag,
+      };
+
+      return await grantAWSAccessCommand(transformedArgument, env, ctx);
     }
 
     case getCommandName(REMOVE): {
