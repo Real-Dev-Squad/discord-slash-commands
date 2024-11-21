@@ -1,3 +1,7 @@
+import { config } from "dotenv";
+
+config();
+
 export const HELLO = {
   name: "hello",
   description: "Replies with hello in the channel",
@@ -23,6 +27,36 @@ export const GROUP_INVITE = {
       name: "role",
       description: "Role you want to invite to the user",
       type: 8,
+      required: true,
+    },
+  ],
+};
+export const GRANT_AWS_ACCESS = {
+  name: "grant-aws-access",
+  description: "This command is to grant AWS access to the discord users.",
+  options: [
+    {
+      name: "user-name",
+      description: "User to be granted the AWS access",
+      type: 6, //user Id to be grant the access
+      required: true,
+    },
+    {
+      name: "aws-group-name",
+      description: "AWS group name",
+      type: 3,
+      required: true,
+      choices: [
+        {
+          name: "AWS read access",
+          value: process.env.AWS_READ_ACCESS_GROUP_ID,
+        },
+      ],
+    },
+    {
+      name: "dev",
+      description: "Feature flag",
+      type: 5,
       required: true,
     },
   ],

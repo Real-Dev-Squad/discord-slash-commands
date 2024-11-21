@@ -56,6 +56,9 @@ export function loadEnv(env: env, fromWorkerEnv: boolean): env {
     IDENTITY_SERVICE_PUBLIC_KEY: fromWorkerEnv
       ? env.IDENTITY_SERVICE_PUBLIC_KEY
       : process.env.IDENTITY_SERVICE_PUBLIC_KEY || "",
+    AWS_READ_ACCESS_GROUP_ID: fromWorkerEnv
+      ? env.AWS_READ_ACCESS_GROUP_ID
+      : process.env.AWS_READ_ACCESS_GROUP_ID || "",
   };
   return Env;
 }
