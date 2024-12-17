@@ -30,6 +30,7 @@ import {
   REMOVE,
   GROUP_INVITE,
   GRANT_AWS_ACCESS,
+  ONBOARDING_EXTENSION,
 } from "../constants/commands";
 import { updateNickName } from "../utils/updateNickname";
 import { discordEphemeralResponse } from "../utils/discordEphemeralResponse";
@@ -46,6 +47,7 @@ import { DevFlag } from "../typeDefinitions/filterUsersByRole";
 import { kickEachUser } from "./kickEachUser";
 import { groupInvite } from "./groupInvite";
 import { grantAWSAccessCommand } from "./grantAWSAccessCommand";
+import { onboardingExtensionCommand } from "./onboardingExtensionCommand";
 
 export async function baseHandler(
   message: discordMessageRequest,
@@ -187,6 +189,21 @@ export async function baseHandler(
 
       return await groupInvite(data[0].value, data[1].value, env);
     }
+
+    case getCommandName(ONBOARDING_EXTENSION): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      const transformedArgument = {
+        numberOfDaysObj: data[0],
+        reasonObj: data[1],
+        userIdObj: data.find((item) => item.name === "username"),
+        channelId: message.channel_id,
+        memberObj: message.member,
+        devObj: data.find((item) => item.name === "dev") as unknown as DevFlag,
+      };
+
+      return await onboardingExtensionCommand(transformedArgument, env, ctx);
+    }
+
     default: {
       return commandNotFound();
     }
