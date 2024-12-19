@@ -217,3 +217,34 @@ export const NOTIFY_ONBOARDING = {
     },
   ],
 };
+
+export const ONBOARDING_EXTENSION = {
+  name: "onboarding-extension",
+  description: "This command helps to create an onboarding extension request.",
+  options: [
+    {
+      name: "username",
+      description: "Username of onboarding user",
+      type: 6,
+      required: true,
+    },
+    {
+      name: "number-of-days",
+      description: "Number of days required for the extension request",
+      type: 4,
+      required: true,
+    },
+    {
+      name: "reason",
+      description: "Reason for the extension request",
+      type: 3,
+      required: true,
+    },
+    {
+      name: "dev",
+      description: "Feature flag",
+      type: 5,
+      required: true,
+    },
+  ],
+};

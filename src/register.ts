@@ -11,6 +11,7 @@ import {
   REMOVE,
   GROUP_INVITE,
   GRANT_AWS_ACCESS,
+  ONBOARDING_EXTENSION,
 } from "./constants/commands";
 import { config } from "dotenv";
 import { DISCORD_BASE_URL } from "./constants/urls";
@@ -44,6 +45,7 @@ async function registerGuildCommands(
     REMOVE,
     GROUP_INVITE,
     GRANT_AWS_ACCESS,
+    ONBOARDING_EXTENSION,
   ];
 
   try {
