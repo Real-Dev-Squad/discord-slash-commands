@@ -57,6 +57,7 @@ DISCORD_TOKEN: The token generated for your bot while creating a discord applica
 DISCORD_PUBLIC_KEY: Public key of your Discord bot helps to verify the bot and apply interaction url
 DISCORD_APPLICATION_ID: The application id of your bot.
 DISCORD_GUILD_ID: Id of the guild where you want to install the slash commands.
+AWS_READ_ACCESS_GROUP_ID: This we can have a random string for now, this is required to run the `/grant-aws-command` which can help to grant AWS access from discord. We pass two values the `username` and `aws-group-name`
 ```
 
 To add more commands you need to modify following files:
