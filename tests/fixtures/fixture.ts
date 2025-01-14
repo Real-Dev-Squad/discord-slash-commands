@@ -383,3 +383,21 @@ export const testDataWithDevTitle = {
     value: true,
   },
 };
+
+export const transformedArgsForOnboardingExtension = {
+  memberObj: {
+    user: {
+      id: 134672111,
+      username: "username",
+      discriminator: "<discriminator>",
+      avatar: "<avatar>",
+    },
+    nick: "<nick>",
+    joined_at: "<joined_at>",
+  },
+  userIdObj: { name: "userId", type: 6, value: "1545562672", options: [] },
+  numberOfDaysObj: { value: "20", name: "numberOfDays", type: 3, options: [] },
+  reasonObj: { value: "reason", name: "reason", type: 3, options: [] },
+  channelId: 6754321,
+  devObj: { value: false, name: "dev", type: 5 },
+};
