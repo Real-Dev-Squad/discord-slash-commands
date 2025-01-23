@@ -5,7 +5,7 @@ import { env } from "../typeDefinitions/default.types";
 import JSONResponse from "../utils/JsonResponse";
 import { verifyNodejsBackendAuthToken } from "../utils/verifyAuthToken";
 import { updateRole } from "../typeDefinitions/discordMessage.types";
-import { updateGuildRole } from "../utils/editGroupRole";
+import { editGuildRole } from "../utils/editGroupRole";
 
 export async function editGuildRoleHandler(request: IRequest, env: env) {
   const authHeader = request.headers.get("Authorization");
@@ -15,7 +15,6 @@ export async function editGuildRoleHandler(request: IRequest, env: env) {
   const devFlag = dev === "true";
 
   if (!authHeader) {
-    console.log("authheader did it");
     return new JSONResponse(response.BAD_SIGNATURE, { status: 401 });
   }
 
@@ -28,8 +27,8 @@ export async function editGuildRoleHandler(request: IRequest, env: env) {
   try {
     await verifyNodejsBackendAuthToken(authHeader, env);
     const body: updateRole = await request.json();
+    const result = await editGuildRole(body.rolename, roleId, env, reason);
 
-    const result = await updateGuildRole(body.rolename, roleId, env, reason);
     if (result === response.ROLE_UPDATED) {
       return new Response(null, { status: 204 });
     } else {

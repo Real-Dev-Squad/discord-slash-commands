@@ -4,13 +4,13 @@ import { env } from "../typeDefinitions/default.types";
 
 import createDiscordHeaders from "./createDiscordHeaders";
 
-export async function updateGuildRole(
+export async function editGuildRole(
   rolename: string,
   roleid: string,
   env: env,
   reason?: string
 ) {
-  const updateGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles/${roleid}`;
+  const editGuildRoleUrl = `${DISCORD_BASE_URL}/guilds/${env.DISCORD_GUILD_ID}/roles/${roleid}`;
 
   const headers: HeadersInit = createDiscordHeaders({
     reason,
@@ -21,7 +21,7 @@ export async function updateGuildRole(
     mentionable: true,
   };
   try {
-    const response = await fetch(updateGuildRoleUrl, {
+    const response = await fetch(editGuildRoleUrl, {
       method: "PATCH",
       headers,
       body: JSON.stringify(data),

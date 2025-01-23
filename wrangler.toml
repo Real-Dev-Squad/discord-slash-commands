@@ -2,6 +2,3 @@ name = "discord-slash-commands"
 main = "src/index.ts"
 compatibility_date = "2023-01-13"
 node_compat = true
-[vars]
-[triggers]
-crons = ["0 */12 * * *"]
