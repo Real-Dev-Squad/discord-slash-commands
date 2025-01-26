@@ -85,3 +85,5 @@ export const AUTHENTICATION_ERROR = "Invalid Authentication token";
 export const TASK_UPDATE_SENT_MESSAGE =
   "Task update sent on Discord's tracking-updates channel.";
 export const NOT_IMPLEMENTED = "Feature not implemented";
+export const UNAUTHORIZED_TO_CREATE_ONBOARDING_EXTENSION_REQUEST =
+  "Only super user and onboarding user are authorized to create an onboarding extension request";

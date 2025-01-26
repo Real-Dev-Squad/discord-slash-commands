@@ -7,6 +7,7 @@ export type UserType = {
     archived: boolean;
     in_discord: boolean;
     member?: boolean;
+    super_user?: boolean;
   };
   created_at?: number;
   yoe?: number;
