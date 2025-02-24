@@ -20,7 +20,7 @@ describe("createOnboaringExtension", () => {
   };
   const discordReplyUrl = `${DISCORD_BASE_URL}/channels/${args.channelId}/messages`;
   const base_url = config(env).RDS_BASE_API_URL;
-  const createOnboardingExtensionUrl = `${base_url}/requests?dev=true`;
+  const createOnboardingExtensionUrl = `${base_url}/requests`;
   let fetchSpy: jest.SpyInstance;
   let authToken: string;
 
