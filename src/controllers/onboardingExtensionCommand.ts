@@ -22,12 +22,7 @@ export async function onboardingExtensionCommand(
   env: env,
   ctx: ExecutionContext
 ) {
-  const dev = transformedArgument.devObj?.value || false;
   const discordId = transformedArgument.memberObj.user.id.toString();
-
-  if (!dev) {
-    return discordTextResponse(`<@${discordId}> Feature not implemented`);
-  }
 
   const args: CreateOnboardingExtensionArgs = {
     channelId: transformedArgument.channelId,
