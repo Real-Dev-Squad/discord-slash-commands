@@ -240,11 +240,5 @@ export const ONBOARDING_EXTENSION = {
       type: 6,
       required: false,
     },
-    {
-      name: "dev",
-      description: "Feature flag",
-      type: 5,
-      required: false,
-    },
   ],
 };

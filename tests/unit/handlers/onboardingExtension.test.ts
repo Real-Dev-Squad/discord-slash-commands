@@ -17,20 +17,6 @@ describe("onboardingExtensionCommand", () => {
   const discordId =
     transformedArgsForOnboardingExtension.memberObj.user.id.toString();
 
-  it("should return Feature not implemented", async () => {
-    const expectedRes = await onboardingExtensionCommand(
-      transformedArgsForOnboardingExtension,
-      guildEnv,
-      ctx
-    );
-    const jsonResponse = await expectedRes.json();
-    const mockResponse = discordTextResponse(
-      `<@${discordId}> Feature not implemented`
-    );
-    const mockJsonResponse = await mockResponse.json();
-    expect(jsonResponse).toStrictEqual(mockJsonResponse);
-  });
-
   it("should return initial response", async () => {
     transformedArgsForOnboardingExtension.devObj.value = true;
     const expectedRes = await onboardingExtensionCommand(

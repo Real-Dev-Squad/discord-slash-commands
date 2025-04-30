@@ -40,7 +40,7 @@ export const createOnboardingExtension = async (
 
   const userDiscordId = args.userId ? args.userId : args.discordId;
   const base_url = config(env).RDS_BASE_API_URL;
-  const createOnboardingExtensionUrl = `${base_url}/requests?dev=true`;
+  const createOnboardingExtensionUrl = `${base_url}/requests`;
 
   const requestBody = {
     userId: userDiscordId,
