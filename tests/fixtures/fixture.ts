@@ -121,6 +121,7 @@ export const ctx = {
   /* eslint-disable @typescript-eslint/no-empty-function */
   waitUntil: (promise: void | Promise<void>): void => {},
   passThroughOnException: (): void => {},
+  props: {},
 };
 export const generateDummyRequestObject = ({
   url,

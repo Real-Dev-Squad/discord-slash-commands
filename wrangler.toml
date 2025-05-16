@@ -1,7 +1,7 @@
 name = "discord-slash-commands"
 main = "src/index.ts"
-compatibility_date = "2023-01-13"
-node_compat = true
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-09-23"
 [vars]
 [triggers]
 crons = ["0 */12 * * *"]
