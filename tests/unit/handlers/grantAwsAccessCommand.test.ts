@@ -22,6 +22,7 @@ const channelId = 123456789;
 const ctx = {
   waitUntil: jest.fn(),
   passThroughOnException: jest.fn(),
+  props: {},
 };
 let fetchSpy: jest.SpyInstance;
 
