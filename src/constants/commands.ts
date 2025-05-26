@@ -14,7 +14,7 @@ export const VERIFY = {
   options: [
     {
       name: "dev",
-      description: "want to verify from main site?",
+      description: "Use new website for verification.",
       type: 5,
       required: false,
     },

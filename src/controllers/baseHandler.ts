@@ -62,9 +62,14 @@ export async function baseHandler(
     }
     case getCommandName(VERIFY): {
       const data = message.data?.options as Array<messageRequestDataOptions>;
-      const dev = data.find(
-        (item) => item.name === "dev"
-      ) as unknown as DevFlag;
+      const devOption = data?.find((item) => item.name === "dev");
+      const dev = devOption
+        ? ({
+            name: devOption.name,
+            type: devOption.type,
+            value: Boolean(devOption.value),
+          } as DevFlag)
+        : undefined;
       return await verifyCommand(
         message.member.user.id,
         message.member.user.avatar,
