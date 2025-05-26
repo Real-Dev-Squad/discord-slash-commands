@@ -10,6 +10,7 @@ import {
   env,
   mockDateNow,
 } from "../../fixtures/fixture";
+import { DevFlag } from "../../../src/typeDefinitions/verify.types";
 
 describe("verifyCommand", () => {
   beforeEach(() => {
@@ -22,6 +23,68 @@ describe("verifyCommand", () => {
 
   afterEach(() => {
     jest.spyOn(Date, "now").mockRestore();
+  });
+
+  test("should return message with verification site url when dev is false", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: jest.fn().mockResolvedValueOnce(discordUserData),
+    } as unknown as Response);
+
+    const { verifyCommand } = await import(
+      "../../../src/controllers/verifyCommand"
+    );
+
+    const result = await verifyCommand(
+      1,
+      "userAvatarHash",
+      "userName",
+      "discriminator",
+      "2021-07-25T19:25:16.172000+00:00",
+      env,
+      {
+        value: false,
+        type: 5,
+        name: "dev",
+      } as DevFlag
+    );
+
+    const resultText = await result.text();
+    const resultData = JSON.parse(resultText);
+
+    const verificationSiteURL = config(env).VERIFICATION_SITE_URL;
+    const message = `${VERIFICATION_STRING}\n${verificationSiteURL}/discord?token=${UNIQUE_TOKEN}\n${VERIFICATION_SUBSTRING}`;
+    expect(resultData.data.content).toEqual(message);
+  });
+
+  test("should return message with verification site url when dev is true", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: jest.fn().mockResolvedValueOnce(discordUserData),
+    } as unknown as Response);
+
+    const { verifyCommand } = await import(
+      "../../../src/controllers/verifyCommand"
+    );
+
+    const result = await verifyCommand(
+      1,
+      "userAvatarHash",
+      "userName",
+      "discriminator",
+      "2021-07-25T19:25:16.172000+00:00",
+      env,
+      { value: true, type: 5, name: "dev" } as DevFlag
+    );
+
+    const resultText = await result.text();
+    const resultData = JSON.parse(resultText);
+
+    const verificationSiteURL = config(env).MAIN_SITE_URL;
+    const message = `${VERIFICATION_STRING}\n${verificationSiteURL}/discord?dev=true&token=${UNIQUE_TOKEN}\n${VERIFICATION_SUBSTRING}`;
+    expect(resultData.data.content).toEqual(message);
   });
 
   test("should return JSON response when response is ok", async () => {

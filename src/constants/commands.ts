@@ -11,6 +11,14 @@ export const VERIFY = {
   name: "verify",
   description:
     "Generate a link with user specific token to link with RDS backend.",
+  options: [
+    {
+      name: "dev",
+      description: "Use new website for verification.",
+      type: 5,
+      required: false,
+    },
+  ],
 };
 
 export const GROUP_INVITE = {
