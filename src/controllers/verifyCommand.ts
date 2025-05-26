@@ -29,11 +29,10 @@ export async function verifyCommand(
     discordJoinedAt,
     env
   );
-
   if (response?.status === 201 || response?.status === 200) {
     let verificationSiteURL = "";
     let message = "";
-    if (dev) {
+    if (dev?.value) {
       verificationSiteURL = config(env).MAIN_SITE_URL;
       message = `${VERIFICATION_STRING}\n${verificationSiteURL}/discord?dev=true&token=${token}\n${VERIFICATION_SUBSTRING}`;
     } else {
