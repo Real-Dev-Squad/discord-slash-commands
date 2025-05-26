@@ -54,7 +54,7 @@ jobs:
         with:
           apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
           accountId: ${{secrets.CLOUDFLARE_ACCOUNT_ID}}
-          wranglerVersion: '3.57.0'
+          wranglerVersion: "3.57.0"
           secrets: |
             DISCORD_PUBLIC_KEY
             DISCORD_TOKEN

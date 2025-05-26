@@ -13,6 +13,7 @@ export interface variables {
   TRACKING_CHANNEL_URL: string;
   PROFILE_SERVICE_HELP_GROUP_ID: string;
   RDS_STATUS_SITE_URL: string;
+  MAIN_SITE_URL: string;
 }
 
 export interface discordCommand {
