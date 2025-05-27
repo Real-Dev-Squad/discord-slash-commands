@@ -61,13 +61,23 @@ export async function baseHandler(
       return helloCommand(message.member.user.id);
     }
     case getCommandName(VERIFY): {
+      const data = message.data?.options as Array<messageRequestDataOptions>;
+      const devOption = data?.find((item) => item.name === "dev");
+      const dev = devOption
+        ? ({
+            name: devOption.name,
+            type: devOption.type,
+            value: Boolean(devOption.value),
+          } as DevFlag)
+        : undefined;
       return await verifyCommand(
         message.member.user.id,
         message.member.user.avatar,
         message.member.user.username,
         message.member.user.discriminator,
         message.member.joined_at,
-        env
+        env,
+        dev
       );
     }
     case getCommandName(MENTION_EACH): {

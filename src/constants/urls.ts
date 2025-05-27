@@ -27,3 +27,7 @@ export const RDS_STAGING_STATUS_SITE_URL =
 export const RDS_DASHBOARD_SITE_URL = "https://dashboard.realdevsquad.com";
 export const RDS_STAGING_DASHBOARD_SITE_URL =
   "https://staging-dashboard.realdevsquad.com";
+
+export const RDS_MAIN_SITE_URL = "https://realdevsquad.com";
+export const RDS_STAGING_MAIN_SITE_URL = "https://staging-www.realdevsquad.com";
+export const RDS_DEVELOPMENT_MAIN_SITE_URL = "http://localhost:4200";
