@@ -1,4 +1,4 @@
-# Discord Slash Command
+# Discord Slash Commands
 
 This is a discord bot for RealDevSquad discord server capable of using slash commands.
 
